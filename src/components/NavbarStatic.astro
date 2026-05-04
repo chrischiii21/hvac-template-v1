@@ -7,26 +7,35 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
 <input type="checkbox" id="nb-mobile-toggle" class="nb-mobile-toggle-input" aria-hidden="true" />
 
 <header class="nb-header">
-  <!-- ── Row 1: Dark top bar (desktop only) ── -->
-  <div class="nb-top">
-    <div class="container mx-auto px-6 md:px-12 lg:px-16">
-      <div class="nb-top-inner">
-        <a href="/" class="nb-logo" aria-label={`${siteConfig.business.name} - Home`}>
-          <img src={siteConfig.logo.src} alt={siteConfig.logo.alt} class="nb-logo-img" width="44" height="44" decoding="async" loading="eager" />
-          <span class="nb-logo-name">{siteConfig.business.name}</span>
-        </a>
-        <nav class="nb-utility" aria-label="Utility navigation">
+  <div class="nb-container">
+    <div class="nb-glass-card">
+      
+      <!-- ── Row 1: Utility & Actions (Desktop) ── -->
+      <div class="nb-top-row">
+        <div class="nb-quick-actions">
+          {quickActions.map((action) => (
+            <a href={action.href} class="nb-action-highlight">
+              {action.icon === "settings" ? (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+              ) : (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+              )}
+              {action.title}
+            </a>
+          ))}
+        </div>
+
+        <nav class="nb-utility-nav" aria-label="Utility navigation">
           {utilityNavItems.map((item) => (
             item.children ? (
-              <div class="nb-util-dropdown">
+              <div class="nb-dropdown-wrapper">
                 <a href={item.href} class="nb-util-link">
                   {item.title}
                   <svg class="nb-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
                 </a>
-                <div class="nb-util-panel">
-                  <div class="nb-util-panel-bar"></div>
+                <div class="nb-dropdown-panel">
                   {item.children.map((child) => (
-                    <a href={child.href} class="nb-util-child">{child.title}</a>
+                    <a href={child.href} class="nb-dropdown-item">{child.title}</a>
                   ))}
                 </div>
               </div>
@@ -36,15 +45,18 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
           ))}
         </nav>
       </div>
-    </div>
-  </div>
 
-  <!-- ── Row 2: Service bar ── -->
-  <div class="nb-bar">
-    <div class="container mx-auto px-6 md:px-12 lg:px-16">
-      <div class="nb-bar-inner">
+      <!-- ── Row 2: Main Navigation ── -->
+      <div class="nb-main-row">
+        <!-- Logo -->
+        <a href="/" class="nb-logo" aria-label={`${siteConfig.business.name} - Home`}>
+          <div class="nb-logo-icon-wrapper">
+            <img src={siteConfig.logo.src} alt={siteConfig.logo.alt} class="nb-logo-img" width="44" height="44" decoding="async" loading="eager" />
+          </div>
+          <span class="nb-logo-name">{siteConfig.business.name}</span>
+        </a>
 
-        <!-- Desktop service nav with CSS mega menus -->
+        <!-- Desktop Main Nav -->
         <nav class="nb-service-nav" aria-label="Service navigation">
           {mainNavItems.map((item) => (
             <div class="nb-nav-item">
@@ -53,10 +65,11 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
                 <svg class="nb-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
               </a>
               <span class="nb-nav-underline" aria-hidden="true"></span>
-              <div class="nb-mega" role="region" aria-label={`${item.title} submenu`}>
-                <div class="nb-mega-bar"></div>
+              
+              <!-- Mega Menu -->
+              <div class="nb-mega-menu" role="region" aria-label={`${item.title} submenu`}>
                 <div class="nb-mega-inner">
-                  <div class="nb-mega-links">
+                  <div class="nb-mega-grid">
                     {item.categories.flatMap((cat) => cat.items).map((service) => (
                       <a href={service.href} class="nb-mega-link">
                         <span class="nb-mega-dot" aria-hidden="true"></span>
@@ -66,8 +79,8 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
                   </div>
                   <div class="nb-mega-footer">
                     <a href={item.href} class="nb-mega-view-all">
-                      View all {item.title.toLowerCase()}
-                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                      Explore All {item.title}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
                   </div>
                 </div>
@@ -76,554 +89,615 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
           ))}
         </nav>
 
-        <!-- Desktop quick actions + phone -->
-        <div class="nb-actions">
-          {quickActions.map((action) => (
-            <a href={action.href} class="nb-action-btn">
-              {action.icon === "settings" ? (
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-              ) : (
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-              )}
-              {action.title}
-            </a>
-          ))}
-          <a href={`tel:${siteConfig.contact.phone}`} class="nb-phone-btn">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-            {siteConfig.contact.phoneFormatted}
+        <!-- Phone & Mobile Toggle -->
+        <div class="nb-main-actions">
+          <a href={`tel:${siteConfig.contact.phone}`} class="nb-phone-btn cta-pulse">
+            <div class="nb-phone-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <div class="nb-phone-text">
+              <span class="nb-phone-label">Call Now</span>
+              <span class="nb-phone-number">{siteConfig.contact.phoneFormatted}</span>
+            </div>
           </a>
-        </div>
 
-        <!-- Mobile: logo + hamburger label (CSS toggle, no JS) -->
-        <a href="/" class="nb-mobile-logo" aria-label={`${siteConfig.business.name} - Home`}>
-          <img src={siteConfig.logo.src} alt={siteConfig.logo.alt} class="h-9 w-9 object-contain" width="36" height="36" decoding="async" loading="eager" />
-          <span class="nb-mobile-name">{siteConfig.business.name}</span>
-        </a>
-        <label for="nb-mobile-toggle" class="nb-hamburger" aria-label="Open menu" role="button" tabindex="0">
-          <svg class="nb-ham-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-          <svg class="nb-close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </label>
+          <label for="nb-mobile-toggle" class="nb-hamburger" aria-label="Open menu" role="button" tabindex="0">
+            <div class="nb-ham-box">
+              <span class="nb-ham-line top"></span>
+              <span class="nb-ham-line middle"></span>
+              <span class="nb-ham-line bottom"></span>
+            </div>
+          </label>
+        </div>
       </div>
     </div>
   </div>
 </header>
 
-<!-- Mobile drawer — pure CSS, no JS, no React -->
+<!-- Mobile drawer — pure CSS, no JS -->
 <div class="nb-mobile-drawer" id="mobile-nav" role="dialog" aria-label="Mobile navigation">
   <!-- Backdrop -->
   <label for="nb-mobile-toggle" class="nb-backdrop" aria-hidden="true"></label>
 
   <!-- Drawer panel -->
   <div class="nb-drawer-panel">
-    <!-- Phone CTA -->
-    <a href={`tel:${siteConfig.contact.phone}`} class="nb-drawer-phone">
-      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-      {siteConfig.contact.phoneFormatted}
-    </a>
+    <!-- Drawer Header -->
+    <div class="nb-drawer-header">
+      <div class="nb-drawer-logo">
+        <img src={siteConfig.logo.src} alt={siteConfig.logo.alt} width="32" height="32" />
+        <span>{siteConfig.business.name}</span>
+      </div>
+      <label for="nb-mobile-toggle" class="nb-drawer-close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </label>
+    </div>
 
-    <!-- Utility links -->
-    <div class="nb-drawer-section nb-drawer-section--muted">
-      {utilityNavItems.map((item) => (
-        item.children ? (
+    <div class="nb-drawer-content">
+      <!-- Services -->
+      <div class="nb-drawer-section">
+        <p class="nb-drawer-label">Our Services</p>
+        {mainNavItems.map((service) => (
           <details class="nb-drawer-details">
             <summary class="nb-drawer-summary">
-              {item.title}
+              {service.title}
               <svg class="nb-drawer-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
             </summary>
             <div class="nb-drawer-children">
-              {item.children.map((child) => (
-                <a href={child.href} class="nb-drawer-child">{child.title}</a>
+              {service.categories.flatMap((cat) => cat.items).map((link) => (
+                <a href={link.href} class="nb-drawer-child">{link.title}</a>
               ))}
             </div>
           </details>
-        ) : (
-          <a href={item.href} class="nb-drawer-link">{item.title}</a>
-        )
-      ))}
-    </div>
+        ))}
+      </div>
 
-    <!-- Services -->
-    <div class="nb-drawer-section nb-drawer-section--white">
-      <p class="nb-drawer-section-label">Services</p>
-      {mainNavItems.map((service) => (
-        <details class="nb-drawer-details">
-          <summary class="nb-drawer-summary">
-            {service.title}
-            <svg class="nb-drawer-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          </summary>
-          <div class="nb-drawer-children">
-            {service.categories.flatMap((cat) => cat.items).map((link) => (
-              <a href={link.href} class="nb-drawer-child">{link.title}</a>
-            ))}
-          </div>
-        </details>
-      ))}
-    </div>
-
-    <!-- Quick actions -->
-    <div class="nb-drawer-actions">
-      {quickActions.map((action, i) => (
-        <a href={action.href} class={`nb-drawer-action ${i > 0 ? "nb-drawer-action--border" : ""}`}>
-          {action.icon === "settings" ? (
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+      <!-- Utility links -->
+      <div class="nb-drawer-section nb-drawer-section--alt">
+        <p class="nb-drawer-label">Company</p>
+        {utilityNavItems.map((item) => (
+          item.children ? (
+            <details class="nb-drawer-details">
+              <summary class="nb-drawer-summary">
+                {item.title}
+                <svg class="nb-drawer-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+              </summary>
+              <div class="nb-drawer-children">
+                {item.children.map((child) => (
+                  <a href={child.href} class="nb-drawer-child">{child.title}</a>
+                ))}
+              </div>
+            </details>
           ) : (
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-          )}
-          {action.title}
-        </a>
-      ))}
+            <a href={item.href} class="nb-drawer-link">{item.title}</a>
+          )
+        ))}
+      </div>
+
+      <!-- Quick actions -->
+      <div class="nb-drawer-actions">
+        {quickActions.map((action) => (
+          <a href={action.href} class="nb-drawer-action-btn">
+            {action.title}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Phone CTA Fixed Bottom -->
+    <div class="nb-drawer-footer">
+      <a href={`tel:${siteConfig.contact.phone}`} class="nb-drawer-phone-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        Call Us Now
+      </a>
     </div>
   </div>
 </div>
 
 <style>
-  /* ── Toggle input (hidden, drives CSS state) ── */
-  .nb-mobile-toggle-input {
-    position: fixed;
-    opacity: 0;
-    pointer-events: none;
-    width: 0; height: 0;
+  /* ── Core Variables & Setup ── */
+  :root {
+    --nav-height: 84px;
+    --nav-glass-bg: rgba(255, 255, 255, 0.85);
+    --nav-glass-border: rgba(255, 255, 255, 0.5);
+    --nav-glass-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+    --nav-text: var(--brand-primary);
+    --nav-text-muted: color-mix(in srgb, var(--brand-primary) 60%, transparent);
   }
 
-  /* ── Header ── */
+  .dark {
+    --nav-glass-bg: rgba(14, 12, 26, 0.85);
+    --nav-glass-border: rgba(255, 255, 255, 0.08);
+    --nav-glass-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+    --nav-text: #f1f0f9;
+    --nav-text-muted: color-mix(in srgb, #f1f0f9 60%, transparent);
+  }
+
+  .nb-mobile-toggle-input {
+    position: fixed; opacity: 0; pointer-events: none;
+  }
+
+  /* ── Header Container ── */
   .nb-header {
     position: sticky;
     top: 0;
     z-index: 100;
     width: 100%;
+    padding-top: 1rem;
+    pointer-events: none; /* Let clicks pass through margins */
   }
 
-  /* ── Top bar (desktop only) ── */
-  .nb-top {
-    display: none;
-    background: var(--brand-primary);
-    border-bottom: 3px solid var(--brand-highlight);
+  .nb-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    pointer-events: auto;
   }
-  @media (min-width: 1024px) { .nb-top { display: block; } }
 
-  .nb-top-inner {
+  /* ── Floating Glass Card ── */
+  .nb-glass-card {
+    background: var(--nav-glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--nav-glass-border);
+    border-radius: 1.25rem;
+    box-shadow: var(--nav-glass-shadow);
     display: flex;
-    height: 68px;
+    flex-direction: column;
+    overflow: visible;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  /* ── Top Row (Desktop Only) ── */
+  .nb-top-row {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1.5rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--nav-text) 8%, transparent);
+  }
+  @media (min-width: 1024px) { .nb-top-row { display: flex; } }
+
+  .nb-quick-actions, .nb-utility-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .nb-action-highlight {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    color: var(--brand-secondary);
+    background: color-mix(in srgb, var(--brand-highlight) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--brand-highlight) 30%, transparent);
+    padding: 0.375rem 0.875rem;
+    border-radius: 2rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .dark .nb-action-highlight {
+    color: var(--brand-highlight);
+    background: color-mix(in srgb, var(--brand-highlight) 10%, transparent);
+  }
+  .nb-action-highlight svg { width: 14px; height: 14px; }
+  .nb-action-highlight:hover { 
+    background: var(--brand-highlight); 
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px -4px color-mix(in srgb, var(--brand-highlight) 60%, transparent);
+    border-color: var(--brand-highlight);
+  }
+
+  .nb-util-link {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--nav-text-muted);
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nb-chevron { width: 14px; height: 14px; }
+  .nb-util-link:hover { color: var(--brand-highlight); }
+
+  /* Dropdowns in Top Row */
+  .nb-dropdown-wrapper { position: relative; }
+  .nb-dropdown-panel {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    opacity: 0;
+    visibility: hidden;
+    background: var(--nav-glass-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--nav-glass-border);
+    border-radius: 0.75rem;
+    padding: 0.5rem;
+    min-width: 180px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    z-index: 110;
+  }
+  .nb-dropdown-wrapper:hover .nb-dropdown-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+  .nb-dropdown-item {
+    display: block;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--nav-text);
+    text-decoration: none;
+    border-radius: 0.375rem;
+    transition: all 0.2s;
+  }
+  .nb-dropdown-item:hover {
+    background: color-mix(in srgb, var(--brand-highlight) 15%, transparent);
+    color: var(--brand-highlight);
+  }
+
+  /* ── Main Row ── */
+  .nb-main-row {
+    display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 70px;
+    padding: 0 1rem;
   }
+  @media (min-width: 1024px) {
+    .nb-main-row { padding: 0 1.5rem; height: 80px; }
+  }
+
+  /* Logo */
   .nb-logo {
     display: flex;
     align-items: center;
-    gap: 0.875rem;
-    flex-shrink: 0;
+    gap: 0.75rem;
     text-decoration: none;
+    flex-shrink: 0;
+  }
+  .nb-logo-icon-wrapper {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--brand-secondary);
+    border-radius: 0.5rem;
+    padding: 0.25rem;
   }
   .nb-logo-img {
-    height: 44px; width: 44px;
+    width: 100%; height: 100%;
     object-fit: contain;
     filter: brightness(0) invert(1);
   }
   .nb-logo-name {
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #fff;
-  }
-  .nb-utility {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-  }
-  .nb-util-link {
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.7);
-    text-decoration: none;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    transition: color 0.2s;
-  }
-  .nb-util-link:hover { color: var(--brand-highlight); }
-  .nb-chevron { width: 0.625rem; height: 0.625rem; flex-shrink: 0; }
-  .nb-util-dropdown { position: relative; }
-  .nb-util-panel {
+    font-size: 1.125rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--nav-text);
+    background: linear-gradient(135deg, var(--brand-secondary), var(--brand-highlight));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     display: none;
-    position: absolute;
-    top: calc(100% + 0.75rem);
-    right: 0;
-    background: var(--brand-primary);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-    padding: 0.5rem 0;
-    min-width: 220px;
-    z-index: 95;
   }
-  .nb-util-panel-bar {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--brand-highlight);
-  }
-  .nb-util-dropdown:hover .nb-util-panel { display: block; }
-  .nb-util-child {
-    display: block;
-    padding: 0.75rem 1.25rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.6);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s, background 0.2s;
-  }
-  .nb-util-child:hover { color: var(--brand-highlight); background: rgba(255,255,255,0.05); }
+  @media (min-width: 640px) { .nb-logo-name { display: block; } }
 
-  /* ── Service bar ── */
-  .nb-bar {
-    background: var(--brand-tertiary);
-    border-bottom: 1px solid color-mix(in srgb, var(--brand-highlight) 20%, transparent);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  }
-  .nb-bar-inner {
-    display: flex;
-    height: 58px;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  /* Desktop service nav — hidden on mobile */
+  /* Desktop Main Nav */
   .nb-service-nav {
     display: none;
-    height: 58px;
+    height: 100%;
+    align-items: center;
+    gap: 0.5rem;
   }
   @media (min-width: 1024px) { .nb-service-nav { display: flex; } }
 
   .nb-nav-item {
-    position: relative;
     height: 100%;
     display: flex;
     align-items: center;
+    position: static; /* Mega menu positioning */
   }
   .nb-nav-link {
     display: flex;
     align-items: center;
-    gap: 0.375rem;
-    padding: 0 0.75rem;
-    height: 100%;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-weight: 600;
-    color: var(--brand-secondary);
+    gap: 0.25rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--nav-text);
     text-decoration: none;
-    white-space: nowrap;
-    transition: color 0.2s;
+    border-radius: 2rem;
+    transition: all 0.2s;
   }
-  .nb-nav-link:hover, .nb-nav-item:hover .nb-nav-link { color: var(--brand-primary); }
-  .nb-nav-underline {
-    position: absolute;
-    bottom: 0; left: 0.75rem; right: 0.75rem;
-    height: 3px;
-    background: var(--brand-highlight);
-    transform: scaleX(0);
-    transition: transform 0.2s;
+  .nb-nav-item:hover .nb-nav-link {
+    background: color-mix(in srgb, var(--brand-highlight) 10%, transparent);
+    color: var(--brand-highlight);
   }
-  .nb-nav-item:hover .nb-nav-underline { transform: scaleX(1); }
 
-  /* Mega menu — CSS hover, no JS */
-  .nb-mega {
-    display: none;
-    position: fixed;
-    left: 0; right: 0;
-    top: 126px;
+  /* Mega Menu (Floating Card) */
+  .nb-mega-menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 1.5rem; right: 1.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 90;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    pointer-events: none;
   }
-  .nb-nav-item:hover .nb-mega { display: block; }
-  .nb-mega-bar { height: 3px; background: var(--brand-highlight); }
-  .nb-mega-inner { background: #fff; padding: 2rem 2.5rem; }
-  .nb-mega-links {
+  .nb-nav-item:hover .nb-mega-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  
+  .nb-mega-inner {
+    background: var(--nav-glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--nav-glass-border);
+    border-radius: 1.25rem;
+    box-shadow: 0 20px 50px -10px rgba(0,0,0,0.15);
+    padding: 2rem;
+    overflow: hidden;
+  }
+
+  .nb-mega-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.25rem 2rem;
-    margin-bottom: 1.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem 2rem;
+    margin-bottom: 2rem;
   }
+
   .nb-mega-link {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.5rem 0;
     font-size: 0.875rem;
-    color: var(--brand-secondary);
+    font-weight: 600;
+    color: var(--nav-text);
     text-decoration: none;
-    transition: color 0.2s;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
   }
-  .nb-mega-link:hover { color: var(--brand-primary); }
   .nb-mega-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--brand-secondary) 30%, transparent);
-    flex-shrink: 0;
-    transition: background 0.2s;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--nav-text-muted);
+    transition: all 0.2s;
   }
-  .nb-mega-link:hover .nb-mega-dot { background: var(--brand-highlight); }
+  .nb-mega-link:hover {
+    background: color-mix(in srgb, var(--brand-highlight) 10%, transparent);
+    color: var(--brand-highlight);
+  }
+  .nb-mega-link:hover .nb-mega-dot {
+    background: var(--brand-highlight);
+    transform: scale(1.5);
+  }
+
   .nb-mega-footer {
-    padding-top: 1rem;
-    border-top: 1px solid color-mix(in srgb, var(--brand-highlight) 15%, transparent);
+    display: flex;
+    justify-content: center;
+    padding-top: 1.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--nav-text) 10%, transparent);
   }
   .nb-mega-view-all {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: 0.875rem;
     font-weight: 700;
     color: var(--brand-secondary);
     text-decoration: none;
     transition: color 0.2s;
   }
+  .nb-mega-view-all svg { width: 16px; height: 16px; transition: transform 0.2s; }
   .nb-mega-view-all:hover { color: var(--brand-highlight); }
+  .nb-mega-view-all:hover svg { transform: translateX(4px); }
 
-  /* Desktop actions — hidden on mobile */
-  .nb-actions {
-    display: none;
-    align-items: center;
-    gap: 0.625rem;
-    margin-left: auto;
-    flex-shrink: 0;
-  }
-  @media (min-width: 1024px) { .nb-actions { display: flex; } }
-
-  .nb-action-btn {
+  /* Main Actions (Phone & Ham) */
+  .nb-main-actions {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    background: #fff;
-    border: 1px solid color-mix(in srgb, var(--brand-secondary) 20%, transparent);
-    color: var(--brand-secondary);
-    padding: 0.625rem 1.25rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 600;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: all 0.2s;
+    gap: 1rem;
   }
-  .nb-action-btn:hover {
-    border-color: var(--brand-highlight);
-    background: color-mix(in srgb, var(--brand-highlight) 10%, transparent);
-    color: var(--brand-primary);
-  }
+
+  /* Premium Phone CTA */
   .nb-phone-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--brand-primary);
-    color: #fff;
-    padding: 0.625rem 1.5rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 700;
-    text-decoration: none;
-    white-space: nowrap;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    transition: background 0.2s;
-  }
-  .nb-phone-btn:hover { background: var(--brand-secondary); }
-  .nb-phone-btn svg { color: var(--brand-highlight); }
-
-  /* ── Mobile logo + hamburger ── */
-  .nb-mobile-logo {
-    display: flex;
+    display: none;
     align-items: center;
     gap: 0.75rem;
-    flex-shrink: 0;
+    background: var(--brand-secondary);
+    color: #fff;
+    padding: 0.375rem 1rem 0.375rem 0.375rem;
+    border-radius: 2rem;
     text-decoration: none;
+    transition: all 0.3s;
+    border: 1px solid transparent;
   }
-  @media (min-width: 1024px) { .nb-mobile-logo { display: none; } }
-
-  .nb-mobile-name {
-    display: none;
-    font-size: 0.875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--brand-primary);
+  @media (min-width: 1024px) { .nb-phone-btn { display: flex; } }
+  
+  .nb-phone-btn:hover {
+    background: #fff;
+    color: var(--brand-secondary);
+    border-color: var(--brand-secondary);
+    transform: translateY(-2px);
   }
-  @media (min-width: 768px) { .nb-mobile-name { display: block; } }
+  
+  .nb-phone-icon {
+    width: 36px; height: 36px;
+    background: #fff;
+    color: var(--brand-secondary);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+  }
+  .nb-phone-icon svg { width: 18px; height: 18px; }
+  .nb-phone-btn:hover .nb-phone-icon {
+    background: var(--brand-secondary);
+    color: #fff;
+  }
 
+  .nb-phone-text {
+    display: flex; flex-direction: column;
+    line-height: 1.2;
+  }
+  .nb-phone-label { font-size: 0.625rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.9; }
+  .nb-phone-number { font-size: 1rem; font-weight: 800; }
+
+  /* Hamburger Toggle */
   .nb-hamburger {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: auto;
-    padding: 0.5rem;
+    width: 44px; height: 44px;
+    background: color-mix(in srgb, var(--nav-text) 5%, transparent);
+    border-radius: 0.75rem;
     cursor: pointer;
-    color: var(--brand-primary);
-    transition: color 0.2s;
-    flex-shrink: 0;
+    transition: all 0.2s;
   }
   @media (min-width: 1024px) { .nb-hamburger { display: none; } }
-  .nb-hamburger:hover { color: var(--brand-highlight); }
-  .nb-ham-icon, .nb-close-icon { width: 1.5rem; height: 1.5rem; }
-  .nb-close-icon { display: none; }
-  /* Show X when open */
-  .nb-mobile-toggle-input:checked ~ header .nb-close-icon { display: block; }
-  .nb-mobile-toggle-input:checked ~ header .nb-ham-icon { display: none; }
+  .nb-hamburger:hover { background: color-mix(in srgb, var(--brand-highlight) 15%, transparent); }
+  
+  .nb-ham-box { width: 20px; height: 14px; position: relative; }
+  .nb-ham-line {
+    position: absolute; left: 0; width: 100%; height: 2px;
+    background: var(--nav-text); border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .nb-ham-line.top { top: 0; }
+  .nb-ham-line.middle { top: 6px; }
+  .nb-ham-line.bottom { top: 12px; }
 
-  /* ── Mobile drawer ── */
+  /* ── Mobile Drawer Refined ── */
   .nb-mobile-drawer {
-    position: fixed;
-    inset: 0;
-    z-index: 200;
-    pointer-events: none;
-    visibility: hidden;
+    position: fixed; inset: 0; z-index: 200;
+    pointer-events: none; visibility: hidden;
   }
   .nb-mobile-toggle-input:checked ~ .nb-mobile-drawer {
-    pointer-events: auto;
-    visibility: visible;
+    pointer-events: auto; visibility: visible;
   }
 
   .nb-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.3s;
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+    opacity: 0; transition: opacity 0.3s; cursor: pointer;
   }
   .nb-mobile-toggle-input:checked ~ .nb-mobile-drawer .nb-backdrop { opacity: 1; }
 
   .nb-drawer-panel {
-    position: absolute;
-    top: 0; right: 0; bottom: 0;
-    width: min(400px, 100vw);
-    background: #fff;
-    overflow-y: auto;
+    position: absolute; top: 0; right: 0; bottom: 0;
+    width: min(360px, 100vw);
+    background: var(--background);
+    display: flex; flex-direction: column;
     transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: -10px 0 40px rgba(0,0,0,0.2);
   }
-  .nb-mobile-toggle-input:checked ~ .nb-mobile-drawer .nb-drawer-panel {
-    transform: translateX(0);
+  .nb-mobile-toggle-input:checked ~ .nb-mobile-drawer .nb-drawer-panel { transform: translateX(0); }
+
+  .nb-drawer-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .nb-drawer-logo {
+    display: flex; align-items: center; gap: 0.75rem;
+    font-weight: 800; font-size: 1rem; color: var(--foreground);
+  }
+  .nb-drawer-logo img { border-radius: 0.375rem; background: var(--brand-secondary); padding: 0.2rem; filter: brightness(0) invert(1); }
+  
+  .nb-drawer-close {
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--muted); border-radius: 50%;
+    color: var(--foreground); cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nb-drawer-close svg { width: 18px; height: 18px; }
+  .nb-drawer-close:hover { background: var(--destructive); color: #fff; transform: rotate(90deg); }
+
+  .nb-drawer-content {
+    flex: 1; overflow-y: auto;
+    padding-bottom: 2rem;
   }
 
-  .nb-drawer-phone {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    background: var(--brand-primary);
-    color: #fff;
-    padding: 1rem;
-    font-weight: 700;
-    font-size: 1.125rem;
-    text-decoration: none;
-    transition: background 0.2s;
-    flex-shrink: 0;
-  }
-  .nb-drawer-phone svg { color: var(--brand-highlight); }
-  .nb-drawer-phone:hover { background: var(--brand-secondary); }
-
-  .nb-drawer-section { padding: 1rem; }
-  .nb-drawer-section--muted { background: color-mix(in srgb, var(--brand-tertiary) 50%, transparent); }
-  .nb-drawer-section--white { background: #fff; border-top: 1px solid var(--brand-tertiary); }
-
-  .nb-drawer-section-label {
-    font-size: 0.625rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--brand-highlight);
-    border-bottom: 2px solid var(--brand-highlight);
-    padding-bottom: 0.25rem;
-    display: inline-block;
-    margin-bottom: 0.5rem;
+  .nb-drawer-section { padding: 1.5rem; }
+  .nb-drawer-section--alt { background: var(--muted); }
+  
+  .nb-drawer-label {
+    font-size: 0.75rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--brand-secondary);
+    margin-bottom: 1rem;
   }
 
-  .nb-drawer-link {
-    display: block;
-    padding: 0.75rem 0;
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 600;
-    color: var(--brand-primary);
-    text-decoration: none;
-    border-bottom: 1px solid color-mix(in srgb, var(--brand-highlight) 10%, transparent);
-    transition: color 0.2s;
-  }
-  .nb-drawer-link:last-child { border-bottom: none; }
-  .nb-drawer-link:hover { color: var(--brand-highlight); }
-
-  /* Details/summary accordion — CSS only */
-  .nb-drawer-details {
-    border-bottom: 1px solid color-mix(in srgb, var(--brand-highlight) 10%, transparent);
-  }
+  .nb-drawer-details { border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent); }
   .nb-drawer-details:last-child { border-bottom: none; }
-  .nb-drawer-summary {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.75rem 0;
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-weight: 600;
-    color: var(--brand-primary);
-    cursor: pointer;
-    list-style: none;
-    transition: color 0.2s;
+  
+  .nb-drawer-summary, .nb-drawer-link {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 0; font-size: 1rem; font-weight: 700;
+    color: var(--foreground); text-decoration: none;
+    cursor: pointer; list-style: none; transition: color 0.2s;
   }
   .nb-drawer-summary::-webkit-details-marker { display: none; }
-  .nb-drawer-summary:hover { color: var(--brand-highlight); }
-  .nb-drawer-chevron {
-    width: 1rem; height: 1rem;
-    flex-shrink: 0;
-    transition: transform 0.2s;
-    color: var(--brand-secondary);
-  }
-  .nb-drawer-details[open] .nb-drawer-chevron { transform: rotate(180deg); }
+  .nb-drawer-summary:hover, .nb-drawer-link:hover { color: var(--brand-highlight); }
+  
+  .nb-drawer-chevron { width: 1.25rem; height: 1.25rem; color: var(--brand-secondary); transition: transform 0.3s; }
+  .nb-drawer-details[open] .nb-drawer-chevron { transform: rotate(180deg); color: var(--brand-highlight); }
 
-  .nb-drawer-children { padding: 0 0 0.75rem 1rem; }
+  .nb-drawer-children { padding: 0 0 1rem 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
   .nb-drawer-child {
-    display: block;
-    padding: 0.375rem 0;
-    font-size: 0.6875rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--brand-secondary);
-    text-decoration: none;
-    transition: color 0.2s;
+    font-size: 0.875rem; font-weight: 600; color: var(--muted-foreground);
+    text-decoration: none; transition: color 0.2s;
   }
   .nb-drawer-child:hover { color: var(--brand-highlight); }
 
   .nb-drawer-actions {
-    display: flex;
-    border-top: 1px solid var(--brand-tertiary);
-    margin-top: auto;
-    flex-shrink: 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    padding: 1.5rem;
   }
-  .nb-drawer-action {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 1rem;
-    background: color-mix(in srgb, var(--brand-tertiary) 60%, transparent);
-    color: var(--brand-primary);
-    font-size: 0.6875rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background 0.2s;
+  .nb-drawer-action-btn {
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    padding: 0.875rem 0.5rem; font-size: 0.75rem; font-weight: 800; text-transform: uppercase;
+    background: color-mix(in srgb, var(--brand-highlight) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--brand-highlight) 30%, transparent);
+    border-radius: 0.5rem;
+    color: var(--brand-secondary); text-decoration: none; transition: all 0.3s;
+    box-shadow: 0 4px 12px -2px color-mix(in srgb, var(--brand-highlight) 30%, transparent);
   }
-  .nb-drawer-action:hover { background: var(--brand-tertiary); }
-  .nb-drawer-action--border { border-left: 1px solid color-mix(in srgb, var(--brand-highlight) 15%, transparent); }
-  .nb-drawer-action svg { color: var(--brand-secondary); }
+  .dark .nb-drawer-action-btn {
+    color: var(--brand-highlight);
+  }
+  .nb-drawer-action-btn:hover { 
+    background: var(--brand-highlight); 
+    color: #fff; 
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -4px color-mix(in srgb, var(--brand-highlight) 50%, transparent);
+  }
+
+  .nb-drawer-footer {
+    padding: 1.5rem; border-top: 1px solid var(--border);
+    background: var(--background);
+  }
+  .nb-drawer-phone-btn {
+    display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+    width: 100%; padding: 1rem; border-radius: 0.75rem;
+    background: var(--brand-secondary); color: #fff;
+    font-size: 1.125rem; font-weight: 800; text-decoration: none;
+    transition: background 0.2s; box-shadow: 0 10px 20px -5px color-mix(in srgb, var(--brand-secondary) 40%, transparent);
+  }
+  .nb-drawer-phone-btn svg { width: 24px; height: 24px; }
+  .nb-drawer-phone-btn:hover { background: var(--brand-highlight); }
 </style>
