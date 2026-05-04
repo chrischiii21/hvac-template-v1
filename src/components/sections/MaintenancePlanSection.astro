@@ -1,0 +1,276 @@
+---
+interface IncludedItem {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  includedItems: IncludedItem[];
+  benefits: string[];
+  buttonText?: string;
+  buttonHref?: string;
+  eyebrow?: string;
+}
+
+const { title, description, includedItems, benefits, buttonText = "VIEW PLANS", buttonHref = "/maintenance-plans", eyebrow } = Astro.props;
+---
+
+<section class="mp-section relative overflow-hidden">
+  <!-- Background -->
+  <div class="absolute inset-0 z-0">
+    <img src="https://ucarecdn.com/315825d3-5856-474f-8ac1-f793441976f7/-/preview/1000x666/" alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+    <div class="absolute inset-0 bg-brand-primary/90"></div>
+  </div>
+
+  <!-- Geometric slope accent on right -->
+  <div class="mp-slope">
+    <svg class="h-full w-full" viewBox="0 0 200 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="60,0 200,0 200,800 0,800" fill="white" opacity="0.03" />
+      <polygon points="100,0 200,0 200,800 40,800" fill="white" opacity="0.02" />
+    </svg>
+  </div>
+
+  <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10 py-20 md:py-28">
+    <!-- Header -->
+    <div class="mp-header" data-animate="fade-scale">
+      {eyebrow && (
+        <div class="mp-eyebrow">
+          <span class="mp-eyebrow-text">{eyebrow}</span>
+        </div>
+      )}
+      <h2 class="mp-title">{title}</h2>
+      <div class="mp-divider"></div>
+      <p class="mp-desc" set:html={description} />
+    </div>
+
+    <!-- Cards grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12" data-animate-stagger>
+      {includedItems.map((item, index) => {
+        const icons = [
+          `<path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+           <circle cx="12" cy="12" r="3"/>`,
+          `<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>`,
+          `<path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/>`,
+          `<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>`
+        ];
+
+        return (
+          <div class="mp-card group">
+            <span class="mp-card-accent"></span>
+            <div class="mp-card-inner">
+              <div class="mp-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <Fragment set:html={icons[index]} />
+                </svg>
+              </div>
+              <h3 class="mp-card-title">{item.title}</h3>
+              <p class="mp-card-desc" set:html={item.description} />
+              <a href={buttonHref} class="mp-card-link" aria-label={`View details about ${item.title}`}>
+                View Details
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+    <!-- CTA -->
+    <div class="text-center" data-animate="fade-up">
+      <a href={buttonHref} class="mp-btn">
+        {buttonText}
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mp-section {
+    background: var(--brand-primary);
+  }
+
+  .mp-slope {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* ─── Header ─── */
+  .mp-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .mp-eyebrow {
+    margin-bottom: 1.25rem;
+  }
+  .mp-eyebrow-text {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--brand-highlight);
+    display: inline-block;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid var(--brand-highlight);
+  }
+
+  .mp-title {
+    font-size: 2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  @media (min-width: 768px) {
+    .mp-title { font-size: 2.25rem; }
+  }
+
+  .mp-divider {
+    width: 3rem;
+    height: 3px;
+    background: var(--brand-highlight);
+    margin: 0 auto 1.25rem;
+  }
+
+  .mp-desc {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* ─── Cards ─── */
+  .mp-card {
+    position: relative;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+    transition: all 0.35s ease;
+  }
+  .mp-card:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: var(--brand-highlight);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+  }
+
+  .mp-card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--brand-highlight);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+  .mp-card:hover .mp-card-accent {
+    transform: scaleX(1);
+  }
+
+  .mp-card-inner {
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 260px;
+  }
+
+  .mp-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--brand-highlight);
+    margin-bottom: 1.25rem;
+    transition: all 0.3s ease;
+  }
+  .mp-card:hover .mp-icon {
+    background: var(--brand-highlight);
+    border-color: var(--brand-highlight);
+    color: var(--brand-primary);
+  }
+
+  .mp-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #fff;
+    margin-bottom: 0.6rem;
+    line-height: 1.25;
+  }
+
+  .mp-card-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: auto;
+    padding-bottom: 1.5rem;
+  }
+
+  .mp-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .mp-card-link:hover,
+  .mp-card:hover .mp-card-link {
+    color: var(--brand-highlight);
+  }
+  .mp-card-link svg {
+    transition: transform 0.3s ease;
+  }
+  .mp-card:hover .mp-card-link svg {
+    transform: translateX(4px);
+  }
+
+  /* ─── CTA ─── */
+  .mp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.8rem 2rem;
+    background: var(--brand-highlight);
+    color: var(--brand-primary);
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.3s ease;
+  }
+  .mp-btn:hover {
+    filter: brightness(1.08);
+    transform: translateX(4px);
+  }
+  .mp-btn svg {
+    transition: transform 0.3s ease;
+  }
+  .mp-btn:hover svg {
+    transform: translateX(4px);
+  }
+</style>

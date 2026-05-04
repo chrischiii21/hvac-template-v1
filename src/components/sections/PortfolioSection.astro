@@ -1,0 +1,272 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  badge?: string;
+  title: string;
+  images?: string[];
+  columns?: number;
+}
+
+const { badge = "Portfolio", title, images = [], columns = 4 } = Astro.props;
+
+const topRow = images.slice(0, 4);
+const bottomRow = images.slice(4);
+---
+
+<section class="pf-section">
+  <div class="container mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-28">
+    <!-- Header -->
+    <div class="pf-header" data-animate="fade-scale">
+      <div class="pf-eyebrow">
+        <span class="pf-eyebrow-text">{badge}</span>
+      </div>
+      <h2 class="pf-title">{title}</h2>
+      <div class="pf-divider"></div>
+    </div>
+
+    {images.length > 0 ? (
+      <div class="pf-gallery">
+        <!-- Top row -->
+        <div class="pf-row pf-row--top" data-animate-stagger>
+          {topRow.map((img, i) => (
+            <div class="pf-item group">
+              <Image src={img} alt={`${title} - project ${i + 1}`} class="pf-img" width={400} height={300} format="webp" quality={65} loading="lazy" decoding="async" />
+              {/* Geometric hover overlay */}
+              <div class="pf-hover">
+                <div class="pf-hover-slope">
+                  <svg viewBox="0 0 400 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="0,180 400,100 400,300 0,300" fill="var(--brand-primary)" opacity="0.9" />
+                    <polygon points="0,210 400,130 400,300 0,300" fill="var(--brand-primary)" opacity="0.6" />
+                  </svg>
+                </div>
+                <div class="pf-hover-content">
+                  <span class="pf-hover-accent"></span>
+                  <span class="pf-hover-label">Project {i + 1}</span>
+                </div>
+              </div>
+              {/* Top highlight strip */}
+              <span class="pf-item-strip"></span>
+            </div>
+          ))}
+        </div>
+
+        <!-- Bottom row -->
+        {bottomRow.length > 0 && (
+          <div class="pf-row pf-row--bottom" style={`--pf-bottom-count: ${bottomRow.length}`} data-animate-stagger>
+            {bottomRow.map((img, i) => (
+              <div class="pf-item group">
+                <Image src={img} alt={`${title} - project ${topRow.length + i + 1}`} class="pf-img" width={400} height={300} format="webp" quality={65} loading="lazy" decoding="async" />
+                <div class="pf-hover">
+                  <div class="pf-hover-slope">
+                    <svg viewBox="0 0 400 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                      <polygon points="0,180 400,100 400,300 0,300" fill="var(--brand-primary)" opacity="0.9" />
+                      <polygon points="0,210 400,130 400,300 0,300" fill="var(--brand-primary)" opacity="0.6" />
+                    </svg>
+                  </div>
+                  <div class="pf-hover-content">
+                    <span class="pf-hover-accent"></span>
+                    <span class="pf-hover-label">Project {topRow.length + i + 1}</span>
+                  </div>
+                </div>
+                <span class="pf-item-strip"></span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    ) : (
+      <div class="pf-row pf-row--top" data-animate-stagger>
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div class="pf-item pf-item--placeholder">
+            <span>Project {i + 1}</span>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .pf-section {
+    background: var(--background);
+  }
+
+  /* ─── Header ─── */
+  .pf-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .pf-eyebrow {
+    margin-bottom: 1.25rem;
+  }
+  .pf-eyebrow-text {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--brand-highlight);
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: var(--brand-primary);
+  }
+
+  .pf-title {
+    font-size: 2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    color: var(--brand-primary);
+    margin-bottom: 1rem;
+  }
+  @media (min-width: 768px) {
+    .pf-title { font-size: 2.25rem; }
+  }
+
+  .pf-divider {
+    width: 3rem;
+    height: 3px;
+    background: var(--brand-highlight);
+    margin: 0 auto;
+  }
+
+  /* ─── Gallery ─── */
+  .pf-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .pf-row {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .pf-row--top {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .pf-row--bottom {
+    grid-template-columns: repeat(var(--pf-bottom-count, 4), 1fr);
+  }
+
+  /* ─── Items ─── */
+  .pf-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    cursor: pointer;
+  }
+
+  .pf-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+  .pf-item:hover .pf-img {
+    transform: scale(1.06);
+  }
+
+  /* Top highlight strip */
+  .pf-item-strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--brand-highlight);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+    z-index: 3;
+  }
+  .pf-item:hover .pf-item-strip {
+    transform: scaleX(1);
+  }
+
+  /* Geometric hover overlay */
+  .pf-hover {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    z-index: 2;
+  }
+  .pf-item:hover .pf-hover {
+    opacity: 1;
+  }
+
+  .pf-hover-slope {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .pf-hover-slope svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .pf-hover-content {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    transform: translateY(8px);
+    transition: transform 0.35s ease;
+  }
+  .pf-item:hover .pf-hover-content {
+    transform: translateY(0);
+  }
+
+  .pf-hover-accent {
+    width: 3px;
+    height: 18px;
+    background: var(--brand-highlight);
+  }
+
+  .pf-hover-label {
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* Placeholder */
+  .pf-item--placeholder {
+    background: var(--brand-tertiary);
+    border: 1px solid rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 1024px) {
+    .pf-row--top {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .pf-row--bottom {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .pf-row--top,
+    .pf-row--bottom {
+      grid-template-columns: 1fr;
+    }
+    .pf-item {
+      aspect-ratio: 16 / 10;
+    }
+  }
+</style>

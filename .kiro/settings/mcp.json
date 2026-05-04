@@ -1,0 +1,33 @@
+{
+  "mcpServers": {
+    "Astro docs": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.docs.astro.build/mcp"
+      ],
+      "autoApprove": [
+        "search_astro_docs"
+      ]
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": [
+        "shadcn@latest",
+        "mcp"
+      ],
+      "autoApprove": []
+    },
+    "bun": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-bun@latest"
+      ],
+      "autoApprove": [
+        "run-bun-eval"
+      ]
+    }
+  }
+}

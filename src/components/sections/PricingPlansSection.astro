@@ -1,0 +1,288 @@
+---
+import { getLocationText } from "@/config/site"
+
+interface Plan {
+  ribbon: string;
+  ribbonColor?: "great" | "better" | "best";
+  title: string;
+  price: string;
+  period?: string;
+  features: string[];
+}
+
+interface Props {
+  title: string;
+  description: string;
+  plans: Plan[];
+}
+
+const { title: rawTitle, description: rawDescription, plans } = Astro.props;
+
+const title = getLocationText(rawTitle);
+const description = getLocationText(rawDescription);
+
+const bestIndex = plans.findIndex(p => p.ribbonColor === "best");
+---
+
+<section class="pp-section">
+  <div class="container mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-28">
+
+    <!-- Header -->
+    <div class="pp-header" data-animate="fade-up">
+      <div class="pp-eyebrow">
+        <span class="pp-eyebrow-text">Plans</span>
+      </div>
+      <h2 class="pp-title">{title}</h2>
+      <div class="pp-divider"></div>
+      <p class="pp-desc" set:html={description} />
+    </div>
+
+    <!-- Plans grid -->
+    <div class="pp-grid" data-animate-stagger>
+      {plans.map((plan, i) => (
+        <div class:list={["pp-card group", { "pp-card--featured": i === bestIndex }]}>
+          <span class="pp-card-accent"></span>
+
+          {/* Ribbon */}
+          <div class="pp-ribbon">
+            <span class="pp-ribbon-text">{plan.ribbon}</span>
+          </div>
+
+          <div class="pp-card-inner">
+            <h3 class="pp-plan-title">{plan.title}</h3>
+
+            {/* Price */}
+            <div class="pp-price-block">
+              <span class="pp-price">{plan.price}</span>
+              {plan.period && <span class="pp-period">{plan.period}</span>}
+            </div>
+
+            <div class="pp-sep"></div>
+
+            {/* Features */}
+            <ul class="pp-features">
+              {plan.features.map((feature) => (
+                <li class="pp-feature">
+                  <span class="pp-feature-dot"></span>
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pp-section {
+    background: var(--background);
+  }
+
+  /* ─── Header ─── */
+  .pp-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .pp-eyebrow {
+    margin-bottom: 1.25rem;
+  }
+  .pp-eyebrow-text {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--brand-highlight);
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: var(--brand-primary);
+  }
+  .pp-title {
+    font-size: 2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    color: var(--brand-primary);
+    margin-bottom: 1rem;
+  }
+  @media (min-width: 768px) {
+    .pp-title { font-size: 2.25rem; }
+  }
+  .pp-divider {
+    width: 3rem;
+    height: 3px;
+    background: var(--brand-highlight);
+    margin: 0 auto 1.25rem;
+  }
+  .pp-desc {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--brand-secondary);
+  }
+
+  /* ─── Grid ─── */
+  .pp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 64rem;
+    margin: 0 auto;
+    align-items: end;
+  }
+
+  /* Featured card lift */
+  @media (min-width: 768px) {
+    .pp-grid > .pp-card--featured {
+      transform: translateY(-1rem);
+    }
+    .pp-grid > .pp-card--featured:hover {
+      transform: translateY(calc(-1rem - 4px));
+    }
+  }
+
+  /* ─── Card ─── */
+  .pp-card {
+    position: relative;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: all 0.35s ease;
+  }
+  .pp-card:hover {
+    border-color: var(--brand-highlight);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Featured card */
+  .pp-card--featured {
+    border-color: var(--brand-highlight);
+    box-shadow: 0 0 0 1px var(--brand-highlight);
+  }
+  .pp-card--featured:hover {
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--brand-highlight);
+  }
+
+  .pp-card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--brand-highlight);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+  .pp-card:hover .pp-card-accent {
+    transform: scaleX(1);
+  }
+  .pp-card--featured .pp-card-accent {
+    transform: scaleX(1);
+  }
+
+  /* ─── Ribbon ─── */
+  .pp-ribbon {
+    padding: 0.6rem 1.5rem;
+    background: var(--brand-tertiary);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  .pp-ribbon-text {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--brand-secondary);
+  }
+
+  .pp-card--featured .pp-ribbon {
+    background: var(--brand-primary);
+  }
+  .pp-card--featured .pp-ribbon-text {
+    color: var(--brand-highlight);
+  }
+
+  /* ─── Card Inner ─── */
+  .pp-card-inner {
+    padding: 1.75rem 1.5rem 2rem;
+  }
+
+  .pp-plan-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--brand-primary);
+    margin-bottom: 1rem;
+  }
+
+  /* ─── Price ─── */
+  .pp-price-block {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .pp-price {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 2.75rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--brand-primary);
+  }
+  .pp-card--featured .pp-price {
+    color: var(--brand-highlight);
+  }
+  .pp-period {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--brand-secondary);
+  }
+
+  /* ─── Separator ─── */
+  .pp-sep {
+    width: 2rem;
+    height: 2px;
+    background: var(--brand-highlight);
+    margin-bottom: 1.25rem;
+  }
+
+  /* ─── Features ─── */
+  .pp-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .pp-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--brand-secondary);
+    font-weight: 500;
+  }
+  .pp-feature-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--brand-highlight);
+    flex-shrink: 0;
+    margin-top: 0.4rem;
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 768px) {
+    .pp-grid {
+      grid-template-columns: 1fr;
+      max-width: 24rem;
+    }
+  }
+</style>

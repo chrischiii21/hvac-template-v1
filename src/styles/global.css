@@ -1,0 +1,456 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* Inter is loaded via <link> in BaseLayout.astro */
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+  
+  /* Theme colors using brand palette */
+  --background: var(--brand-quaternary);
+  --foreground: var(--brand-primary);
+  --card: #fefefe;
+  --card-foreground: var(--brand-primary);
+  --popover: #fefefe;
+  --popover-foreground: var(--brand-primary);
+  --primary: var(--brand-primary);
+  --primary-foreground: #fefefe;
+  --secondary: var(--brand-secondary);
+  --secondary-foreground: #fefefe;
+  --muted: var(--brand-tertiary);
+  --muted-foreground: #4a4a6a;
+  --accent: var(--brand-secondary);
+  --accent-foreground: #fefefe;
+  --destructive: #ef4444;
+  --border: color-mix(in srgb, var(--brand-secondary) 25%, var(--brand-tertiary));
+  --input: color-mix(in srgb, var(--brand-secondary) 25%, var(--brand-tertiary));
+  --ring: var(--brand-secondary);
+  --chart-1: var(--brand-primary);
+  --chart-2: var(--brand-secondary);
+  --chart-3: color-mix(in srgb, var(--brand-secondary) 60%, white);
+  --chart-4: var(--brand-tertiary);
+  --chart-5: var(--brand-quaternary);
+  --sidebar: var(--brand-quaternary);
+  --sidebar-foreground: var(--brand-primary);
+  --sidebar-primary: var(--brand-primary);
+  --sidebar-primary-foreground: var(--brand-quaternary);
+  --sidebar-accent: var(--brand-tertiary);
+  --sidebar-accent-foreground: var(--brand-primary);
+  --sidebar-border: color-mix(in srgb, var(--brand-secondary) 25%, var(--brand-tertiary));
+  --sidebar-ring: var(--brand-secondary);
+}
+
+.dark {
+  /* Dark theme using brand palette */
+  --background: #0e0c1a;
+  --foreground: #f1f0f9;
+  --card: #1a1730;
+  --card-foreground: #f1f0f9;
+  --popover: #1a1730;
+  --popover-foreground: #f1f0f9;
+  --primary: #f1f0f9;
+  --primary-foreground: var(--brand-primary);
+  --secondary: color-mix(in srgb, var(--brand-secondary) 70%, white);
+  --secondary-foreground: #fefefe;
+  --muted: #1a1730;
+  --muted-foreground: #b8aee0;
+  --accent: color-mix(in srgb, var(--brand-secondary) 70%, white);
+  --accent-foreground: #fefefe;
+  --destructive: #f87171;
+  --border: color-mix(in srgb, var(--brand-secondary) 20%, transparent);
+  --input: color-mix(in srgb, var(--brand-secondary) 20%, transparent);
+  --ring: color-mix(in srgb, var(--brand-secondary) 70%, white);
+  --chart-1: #f1f0f9;
+  --chart-2: color-mix(in srgb, var(--brand-secondary) 70%, white);
+  --chart-3: color-mix(in srgb, var(--brand-secondary) 50%, white);
+  --chart-4: var(--brand-secondary);
+  --chart-5: #0e0c1a;
+  --sidebar: #1a1730;
+  --sidebar-foreground: #f1f0f9;
+  --sidebar-primary: color-mix(in srgb, var(--brand-secondary) 60%, white);
+  --sidebar-primary-foreground: #fefefe;
+  --sidebar-accent: #1a1730;
+  --sidebar-accent-foreground: #f1f0f9;
+  --sidebar-border: color-mix(in srgb, var(--brand-secondary) 20%, transparent);
+  --sidebar-ring: color-mix(in srgb, var(--brand-secondary) 70%, white);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground text-xl;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-display: swap;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeSpeed;
+  }
+  /* Faster taps on mobile */
+  a, button {
+    touch-action: manipulation;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  h1 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    @apply text-5xl md:text-6xl;
+  }
+  h2 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    @apply text-3xl md:text-4xl;
+  }
+  h3 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    @apply text-2xl md:text-3xl;
+  }
+  h4, h5, h6 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    @apply text-xl md:text-2xl;
+  }
+  .container {
+    @apply max-w-7xl;
+  }
+  
+  /* Bold Extended font utility */
+  .font-bold-extended {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+  }
+  
+  /* Performance optimizations */
+  img {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 300px;
+  }
+}
+
+/* Brand color utilities with opacity support */
+@layer utilities {
+  /* Background colors */
+  .bg-brand-primary {
+    background-color: var(--brand-primary);
+  }
+  .bg-brand-secondary {
+    background-color: var(--brand-secondary);
+  }
+  .bg-brand-tertiary {
+    background-color: var(--brand-tertiary);
+  }
+  .bg-brand-quaternary {
+    background-color: var(--brand-quaternary);
+  }
+
+  /* Text colors */
+  .text-brand-primary {
+    color: var(--brand-primary);
+  }
+  .text-brand-secondary {
+    color: var(--brand-secondary);
+  }
+  .text-brand-tertiary {
+    color: var(--brand-tertiary);
+  }
+  .text-brand-quaternary {
+    color: var(--brand-quaternary);
+  }
+
+  /* Border colors */
+  .border-brand-primary {
+    border-color: var(--brand-primary);
+  }
+  .border-brand-secondary {
+    border-color: var(--brand-secondary);
+  }
+  .border-brand-tertiary {
+    border-color: var(--brand-tertiary);
+  }
+  .border-brand-quaternary {
+    border-color: var(--brand-quaternary);
+  }
+
+  /* Stroke colors */
+  .stroke-brand-secondary {
+    stroke: var(--brand-secondary);
+  }
+  .stroke-white {
+    stroke: #fff;
+  }
+  .group:hover .group-hover\:stroke-white {
+    stroke: #fff;
+  }
+  .group:hover .group-hover\:stroke-brand-secondary {
+    stroke: var(--brand-secondary);
+  }
+  .group:hover .group-hover\:stroke-brand-tertiary {
+    stroke: var(--brand-tertiary);
+  }
+
+  /* Secondary accent (darkish blue) */
+  .bg-brand-accent-secondary {
+    background-color: var(--brand-accent-secondary);
+  }
+  .text-brand-accent-secondary {
+    color: var(--brand-accent-secondary);
+  }
+  .border-brand-accent-secondary {
+    border-color: var(--brand-accent-secondary);
+  }
+
+  /* Highlight accent (warm yellow) */
+  .bg-brand-highlight {
+    background-color: var(--brand-highlight);
+  }
+  .text-brand-highlight {
+    color: var(--brand-highlight);
+  }
+  .border-brand-highlight {
+    border-color: var(--brand-highlight);
+  }
+  .stroke-brand-highlight {
+    stroke: var(--brand-highlight);
+  }
+  .group:hover .group-hover\:stroke-brand-highlight {
+    stroke: var(--brand-highlight);
+  }
+  .group:hover .group-hover\:bg-brand-highlight {
+    background-color: var(--brand-highlight);
+  }
+  .group:hover .group-hover\:text-brand-highlight {
+    color: var(--brand-highlight);
+  }
+
+  /* Opacity variants for backgrounds - common values */
+  .bg-brand-primary\/10 { background-color: color-mix(in srgb, var(--brand-primary) 10%, transparent); }
+  .bg-brand-primary\/20 { background-color: color-mix(in srgb, var(--brand-primary) 20%, transparent); }
+  .bg-brand-primary\/30 { background-color: color-mix(in srgb, var(--brand-primary) 30%, transparent); }
+  .bg-brand-primary\/40 { background-color: color-mix(in srgb, var(--brand-primary) 40%, transparent); }
+  .bg-brand-primary\/50 { background-color: color-mix(in srgb, var(--brand-primary) 50%, transparent); }
+  .bg-brand-primary\/60 { background-color: color-mix(in srgb, var(--brand-primary) 60%, transparent); }
+  .bg-brand-primary\/70 { background-color: color-mix(in srgb, var(--brand-primary) 70%, transparent); }
+  .bg-brand-primary\/80 { background-color: color-mix(in srgb, var(--brand-primary) 80%, transparent); }
+  .bg-brand-primary\/90 { background-color: color-mix(in srgb, var(--brand-primary) 90%, transparent); }
+
+  .bg-brand-secondary\/10 { background-color: color-mix(in srgb, var(--brand-secondary) 10%, transparent); }
+  .bg-brand-secondary\/20 { background-color: color-mix(in srgb, var(--brand-secondary) 20%, transparent); }
+  .bg-brand-secondary\/30 { background-color: color-mix(in srgb, var(--brand-secondary) 30%, transparent); }
+  .bg-brand-secondary\/40 { background-color: color-mix(in srgb, var(--brand-secondary) 40%, transparent); }
+  .bg-brand-secondary\/50 { background-color: color-mix(in srgb, var(--brand-secondary) 50%, transparent); }
+  .bg-brand-secondary\/60 { background-color: color-mix(in srgb, var(--brand-secondary) 60%, transparent); }
+  .bg-brand-secondary\/70 { background-color: color-mix(in srgb, var(--brand-secondary) 70%, transparent); }
+  .bg-brand-secondary\/80 { background-color: color-mix(in srgb, var(--brand-secondary) 80%, transparent); }
+  .bg-brand-secondary\/90 { background-color: color-mix(in srgb, var(--brand-secondary) 90%, transparent); }
+
+  .bg-brand-tertiary\/10 { background-color: color-mix(in srgb, var(--brand-tertiary) 10%, transparent); }
+  .bg-brand-tertiary\/20 { background-color: color-mix(in srgb, var(--brand-tertiary) 20%, transparent); }
+  .bg-brand-tertiary\/30 { background-color: color-mix(in srgb, var(--brand-tertiary) 30%, transparent); }
+  .bg-brand-tertiary\/40 { background-color: color-mix(in srgb, var(--brand-tertiary) 40%, transparent); }
+  .bg-brand-tertiary\/50 { background-color: color-mix(in srgb, var(--brand-tertiary) 50%, transparent); }
+  .bg-brand-tertiary\/60 { background-color: color-mix(in srgb, var(--brand-tertiary) 60%, transparent); }
+  .bg-brand-tertiary\/70 { background-color: color-mix(in srgb, var(--brand-tertiary) 70%, transparent); }
+  .bg-brand-tertiary\/80 { background-color: color-mix(in srgb, var(--brand-tertiary) 80%, transparent); }
+  .bg-brand-tertiary\/90 { background-color: color-mix(in srgb, var(--brand-tertiary) 90%, transparent); }
+
+  .bg-brand-quaternary\/10 { background-color: color-mix(in srgb, var(--brand-quaternary) 10%, transparent); }
+  .bg-brand-quaternary\/20 { background-color: color-mix(in srgb, var(--brand-quaternary) 20%, transparent); }
+  .bg-brand-quaternary\/30 { background-color: color-mix(in srgb, var(--brand-quaternary) 30%, transparent); }
+  .bg-brand-quaternary\/40 { background-color: color-mix(in srgb, var(--brand-quaternary) 40%, transparent); }
+  .bg-brand-quaternary\/50 { background-color: color-mix(in srgb, var(--brand-quaternary) 50%, transparent); }
+  .bg-brand-quaternary\/60 { background-color: color-mix(in srgb, var(--brand-quaternary) 60%, transparent); }
+  .bg-brand-quaternary\/70 { background-color: color-mix(in srgb, var(--brand-quaternary) 70%, transparent); }
+  .bg-brand-quaternary\/80 { background-color: color-mix(in srgb, var(--brand-quaternary) 80%, transparent); }
+  .bg-brand-quaternary\/90 { background-color: color-mix(in srgb, var(--brand-quaternary) 90%, transparent); }
+
+  .bg-brand-accent-secondary\/10 { background-color: color-mix(in srgb, var(--brand-accent-secondary) 10%, transparent); }
+  .bg-brand-accent-secondary\/20 { background-color: color-mix(in srgb, var(--brand-accent-secondary) 20%, transparent); }
+  .bg-brand-accent-secondary\/30 { background-color: color-mix(in srgb, var(--brand-accent-secondary) 30%, transparent); }
+  .bg-brand-accent-secondary\/40 { background-color: color-mix(in srgb, var(--brand-accent-secondary) 40%, transparent); }
+  .bg-brand-accent-secondary\/50 { background-color: color-mix(in srgb, var(--brand-accent-secondary) 50%, transparent); }
+  .bg-brand-accent-secondary\/60 { background-color: color-mix(in srgb, var(--brand-accent-secondary) 60%, transparent); }
+  .bg-brand-accent-secondary\/70 { background-color: color-mix(in srgb, var(--brand-accent-secondary) 70%, transparent); }
+  .bg-brand-accent-secondary\/80 { background-color: color-mix(in srgb, var(--brand-accent-secondary) 80%, transparent); }
+  .bg-brand-accent-secondary\/90 { background-color: color-mix(in srgb, var(--brand-accent-secondary) 90%, transparent); }
+
+  .bg-brand-highlight\/10 { background-color: color-mix(in srgb, var(--brand-highlight) 10%, transparent); }
+  .bg-brand-highlight\/20 { background-color: color-mix(in srgb, var(--brand-highlight) 20%, transparent); }
+  .bg-brand-highlight\/30 { background-color: color-mix(in srgb, var(--brand-highlight) 30%, transparent); }
+  .bg-brand-highlight\/40 { background-color: color-mix(in srgb, var(--brand-highlight) 40%, transparent); }
+  .bg-brand-highlight\/50 { background-color: color-mix(in srgb, var(--brand-highlight) 50%, transparent); }
+  .bg-brand-highlight\/60 { background-color: color-mix(in srgb, var(--brand-highlight) 60%, transparent); }
+  .bg-brand-highlight\/70 { background-color: color-mix(in srgb, var(--brand-highlight) 70%, transparent); }
+  .bg-brand-highlight\/80 { background-color: color-mix(in srgb, var(--brand-highlight) 80%, transparent); }
+  .bg-brand-highlight\/90 { background-color: color-mix(in srgb, var(--brand-highlight) 90%, transparent); }
+}
+
+/* Scroll animations */
+@layer utilities {
+  [data-animate] {
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  [data-animate="fade-up"] {
+    transform: translateY(32px);
+  }
+
+  [data-animate="fade-down"] {
+    transform: translateY(-32px);
+  }
+
+  [data-animate="fade-left"] {
+    transform: translateX(32px);
+  }
+
+  [data-animate="fade-right"] {
+    transform: translateX(-32px);
+  }
+
+  [data-animate="zoom-in"] {
+    transform: scale(0.92);
+  }
+
+  [data-animate="fade-scale"] {
+    transform: scale(0.95) translateY(16px);
+  }
+
+  [data-animate].is-visible {
+    opacity: 1;
+    transform: translate(0) scale(1);
+  }
+
+  /* Staggered children — smooth cascade */
+  [data-animate-stagger] > * {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  [data-animate-stagger].is-visible > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  [data-animate-stagger].is-visible > *:nth-child(1) { transition-delay: 0ms; }
+  [data-animate-stagger].is-visible > *:nth-child(2) { transition-delay: 100ms; }
+  [data-animate-stagger].is-visible > *:nth-child(3) { transition-delay: 200ms; }
+  [data-animate-stagger].is-visible > *:nth-child(4) { transition-delay: 300ms; }
+  [data-animate-stagger].is-visible > *:nth-child(5) { transition-delay: 400ms; }
+  [data-animate-stagger].is-visible > *:nth-child(6) { transition-delay: 500ms; }
+  [data-animate-stagger].is-visible > *:nth-child(7) { transition-delay: 600ms; }
+  [data-animate-stagger].is-visible > *:nth-child(8) { transition-delay: 700ms; }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    [data-animate],
+    [data-animate-stagger] > * {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
+
+  /* Mobile: shorter distances, faster timing */
+  @media (max-width: 768px) {
+    [data-animate] {
+      transition-duration: 0.5s;
+    }
+    [data-animate="fade-up"] { transform: translateY(20px); }
+    [data-animate="fade-down"] { transform: translateY(-20px); }
+    [data-animate="fade-left"] { transform: translateX(20px); }
+    [data-animate="fade-right"] { transform: translateX(-20px); }
+    [data-animate="fade-scale"] { transform: scale(0.97) translateY(12px); }
+
+    [data-animate-stagger] > * {
+      transform: translateY(16px);
+      transition-duration: 0.4s;
+    }
+    [data-animate-stagger].is-visible > *:nth-child(1) { transition-delay: 0ms; }
+    [data-animate-stagger].is-visible > *:nth-child(2) { transition-delay: 80ms; }
+    [data-animate-stagger].is-visible > *:nth-child(3) { transition-delay: 160ms; }
+    [data-animate-stagger].is-visible > *:nth-child(4) { transition-delay: 240ms; }
+    [data-animate-stagger].is-visible > *:nth-child(5) { transition-delay: 320ms; }
+    [data-animate-stagger].is-visible > *:nth-child(6) { transition-delay: 400ms; }
+    [data-animate-stagger].is-visible > *:nth-child(7) { transition-delay: 480ms; }
+    [data-animate-stagger].is-visible > *:nth-child(8) { transition-delay: 560ms; }
+  }
+
+  /* Animation delay helpers */
+  [data-animate-delay="100"] { transition-delay: 100ms; }
+  [data-animate-delay="200"] { transition-delay: 200ms; }
+  [data-animate-delay="300"] { transition-delay: 300ms; }
+  [data-animate-delay="400"] { transition-delay: 400ms; }
+  [data-animate-delay="500"] { transition-delay: 500ms; }
+}
+
+/* CTA button pulse animation */
+@layer utilities {
+  .cta-pulse {
+    animation: ctaPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes ctaPulse {
+    0%, 100% {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+    50% {
+      box-shadow: 0 4px 30px color-mix(in srgb, var(--brand-highlight) 50%, transparent),
+                  0 0 60px color-mix(in srgb, var(--brand-highlight) 20%, transparent);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta-pulse {
+      animation: none !important;
+    }
+  }
+}

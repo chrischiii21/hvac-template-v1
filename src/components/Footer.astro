@@ -1,0 +1,452 @@
+---
+import { siteConfig } from "@/config/site"
+
+const currentYear = new Date().getFullYear()
+
+const quickLinks = [
+  { title: "HOME", href: "/" },
+  { title: "SERVICE AREAS", href: "/service-areas" },
+  { title: "SCHEDULE NOW", href: "/contact" },
+]
+
+const airConditioningServices = [
+  { title: "AC Repair", href: "/air-conditioning/ac-repair" },
+  { title: "AC Tune-Up/ Maintenance", href: "/air-conditioning/ac-tune-up-maintenance" },
+  { title: "AC Installation and Replacement", href: "/air-conditioning/ac-installation-replacement" },
+  { title: "Mini-Split Systems", href: "/air-conditioning/mini-split-systems" },
+  { title: "HVAC Brands", href: "/air-conditioning/hvac-brands" },
+  { title: "HVAC Warranties", href: "/air-conditioning/hvac-warranties" },
+  { title: "Thermostats", href: "/air-conditioning/thermostats" },
+]
+
+const heatingServices = [
+  { title: "Furnace Repair", href: "/heating/furnace-repair" },
+  { title: "Furnace Tune Up/ Maintenance", href: "/heating/furnace-tune-up-maintenance" },
+  { title: "Furnace Installation and Replacement", href: "/heating/furnace-installation-replacement" },
+  { title: "Boilers Installation and Replacement", href: "/heating/boilers-installation-replacement" },
+]
+
+const indoorAirQualityServices = [
+  { title: "Air Filtration Systems", href: "/indoor-air-quality/air-filtration-systems" },
+  { title: "Duct Cleaning and Sealing", href: "/indoor-air-quality/duct-cleaning-sealing" },
+  { title: "Duct Repair and Replacement", href: "/indoor-air-quality/duct-repair-replacement" },
+  { title: "Attic Insulation and Ventilation", href: "/indoor-air-quality/attic-insulation-ventilation" },
+]
+
+const emergencyServices = [
+  { title: "24/7 AC Repairs", href: "/emergency/24-7-ac-repairs" },
+  { title: "24/7 Heating and Cooling Repairs", href: "/emergency/24-7-heating-cooling-repairs" },
+  { title: "24/7 Emergency Repairs", href: "/emergency/24-7-emergency-repairs" },
+]
+---
+
+<footer class="ft-footer">
+  <!-- Highlight bar at top -->
+  <div class="ft-highlight-bar"></div>
+
+  <!-- ─── Top section: Logo + CTA ─── -->
+  <div class="ft-top">
+    <div class="container mx-auto px-6 md:px-12 lg:px-16">
+      <div class="ft-top-inner">
+        <div class="ft-brand">
+          <a href="/" class="ft-logo-link">
+            <img
+              src={siteConfig.logo.src}
+              alt={siteConfig.logo.alt}
+              class="ft-logo-img"
+              width="40"
+              height="40"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="ft-logo-text">{siteConfig.business.name}</span>
+          </a>
+          <p class="ft-tagline">Trusted HVAC experts serving {siteConfig.location.city} and surrounding areas.</p>
+        </div>
+        <div class="ft-top-actions">
+          <a href={`tel:${siteConfig.contact.phone}`} class="ft-phone-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            {siteConfig.contact.phoneFormatted}
+          </a>
+          <a href="/contact" class="ft-schedule-btn">Schedule Service</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Main links grid ─── -->
+  <div class="ft-main">
+    <div class="container mx-auto px-6 md:px-12 lg:px-16">
+      <div class="ft-grid">
+        <!-- Contact + Quick Links -->
+        <div class="ft-col ft-col--contact">
+          <div class="ft-section">
+            <h3 class="ft-heading">Contact Us</h3>
+            <div class="ft-contact-list">
+              <p class="ft-business-name">{siteConfig.business.fullName}</p>
+              <p class="ft-contact-item">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                {siteConfig.location.fullAddress}
+              </p>
+              <p class="ft-contact-item">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                {siteConfig.contact.email}
+              </p>
+              <p class="ft-contact-item">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                {siteConfig.contact.phoneFormatted}
+              </p>
+            </div>
+          </div>
+
+          <div class="ft-section ft-quick-links">
+            <h3 class="ft-heading">Quick Links</h3>
+            <ul class="ft-link-list">
+              {quickLinks.map((link) => (
+                <li><a href={link.href} class="ft-link">{link.title}</a></li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <!-- AC Services -->
+        <div class="ft-col">
+          <h3 class="ft-heading">Air Conditioning Services</h3>
+          <ul class="ft-link-list">
+            {airConditioningServices.map((service) => (
+              <li><a href={service.href} class="ft-link">{service.title}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Heating -->
+        <div class="ft-col">
+          <h3 class="ft-heading">Heating Services</h3>
+          <ul class="ft-link-list">
+            {heatingServices.map((service) => (
+              <li><a href={service.href} class="ft-link">{service.title}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- IAQ -->
+        <div class="ft-col">
+          <h3 class="ft-heading">Indoor Air Quality</h3>
+          <ul class="ft-link-list">
+            {indoorAirQualityServices.map((service) => (
+              <li><a href={service.href} class="ft-link">{service.title}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Emergency -->
+        <div class="ft-col">
+          <h3 class="ft-heading">Emergency Services</h3>
+          <ul class="ft-link-list">
+            {emergencyServices.map((service) => (
+              <li><a href={service.href} class="ft-link">{service.title}</a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Bottom bar ─── -->
+  <div class="ft-bottom">
+    <div class="container mx-auto px-6 md:px-12 lg:px-16">
+      <div class="ft-bottom-inner">
+        <p class="ft-copyright">
+          &copy; {currentYear} {siteConfig.business.name}. All rights reserved.
+        </p>
+        <div class="ft-bottom-links">
+          <a href="/privacy-policy" class="ft-bottom-link">Privacy Policy</a>
+          <a href="/terms" class="ft-bottom-link">Terms of Service</a>
+          <a href="/sitemap.xml" class="ft-bottom-link">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ft-footer {
+    background: var(--brand-primary);
+    color: #fff;
+  }
+
+  /* ─── Highlight bar ─── */
+  .ft-highlight-bar {
+    height: 3px;
+    background: var(--brand-highlight);
+  }
+
+  /* ─── Top section ─── */
+  .ft-top {
+    padding: 2.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .ft-top-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .ft-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .ft-logo-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+
+  .ft-logo-img {
+    height: 36px;
+    width: 36px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+
+  .ft-logo-text {
+    font-size: 0.95rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #fff;
+  }
+
+  .ft-tagline {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.02em;
+  }
+
+  .ft-top-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .ft-phone-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.5rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: all 0.3s ease;
+  }
+  .ft-phone-btn:hover {
+    border-color: var(--brand-highlight);
+    color: var(--brand-highlight);
+  }
+
+  .ft-schedule-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.5rem;
+    background: var(--brand-highlight);
+    color: var(--brand-primary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .ft-schedule-btn:hover {
+    filter: brightness(1.08);
+    transform: translateX(4px);
+  }
+
+  /* ─── Main grid ─── */
+  .ft-main {
+    padding: 3.5rem 0;
+  }
+
+  .ft-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .ft-col--contact {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .ft-section {
+    /* spacing handled by parent gap */
+  }
+
+  /* ─── Headings ─── */
+  .ft-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--brand-highlight);
+    display: inline-block;
+  }
+
+  /* ─── Contact items ─── */
+  .ft-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .ft-business-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+  }
+
+  .ft-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .ft-contact-item svg {
+    color: var(--brand-highlight);
+    margin-top: 2px;
+  }
+
+  /* ─── Link lists ─── */
+  .ft-link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .ft-link {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .ft-link::before {
+    content: '';
+    width: 0;
+    height: 1px;
+    background: var(--brand-highlight);
+    transition: width 0.3s ease;
+  }
+  .ft-link:hover {
+    color: var(--brand-highlight);
+  }
+  .ft-link:hover::before {
+    width: 12px;
+  }
+
+  /* ─── Bottom bar ─── */
+  .ft-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 1.5rem 0;
+  }
+
+  .ft-bottom-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .ft-copyright {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  .ft-bottom-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .ft-bottom-link {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.3);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s ease;
+  }
+  .ft-bottom-link:hover {
+    color: var(--brand-highlight);
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 1024px) {
+    .ft-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+    }
+    .ft-col--contact {
+      grid-column: span 2;
+      flex-direction: row;
+      gap: 3rem;
+    }
+    .ft-col--contact .ft-section,
+    .ft-col--contact .ft-quick-links {
+      flex: 1;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .ft-top-inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .ft-top-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+    .ft-phone-btn,
+    .ft-schedule-btn {
+      width: 100%;
+      justify-content: center;
+    }
+    .ft-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .ft-col--contact {
+      grid-column: span 1;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .ft-bottom-inner {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>

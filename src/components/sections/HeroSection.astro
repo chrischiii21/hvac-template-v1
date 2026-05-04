@@ -1,0 +1,462 @@
+---
+import { Image } from "astro:assets";
+import bg2Img from "/public/images/bg2.jpg";
+import { getLocationText } from "@/config/site"
+
+const defaultHeroImages = [
+  "https://f.hubspotusercontent40.net/hubfs/9492292/AdobeStock_290366802.jpeg",
+  "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=1920&q=80",
+  "https://images.pexels.com/photos/34069/pexels-photo.jpg?auto=compress&w=1920",
+];
+
+// Check if a URL is a remote image we can optimize via Astro
+const isRemoteImage = (url: string) => url.startsWith('http://') || url.startsWith('https://');
+
+interface Props {
+  variant?: "slider" | "subpage";
+  buttonHref?: string;
+  showArrow?: boolean;
+  // Slider-specific props
+  images?: string[];
+  // Subpage-specific props
+  badge?: string;
+  title?: string;
+  subtitle?: string;
+  buttonText?: string;
+  image?: string;
+  imageAlt?: string;
+  trustIndicators?: string[];
+}
+
+const {
+  variant = "slider",
+  buttonHref = "#",
+  showArrow = true,
+  images,
+  badge,
+  title: subpageTitle,
+  subtitle: subpageSubtitle,
+  buttonText: subpageButtonText = "SCHEDULE SERVICE",
+  image: subpageImage,
+  imageAlt = "HVAC service",
+  trustIndicators,
+} = Astro.props;
+
+const heroImages = images && images.length > 0 ? images : defaultHeroImages;
+
+const slides = [
+  {
+    title: "Fast, Reliable, & Affordable Service",
+    subtitle: "Need HVAC Repair or New Installation? We've Got You Covered!",
+    buttonText: "Schedule a Call",
+    statNumber: "$99",
+    statLabel: "Service Call",
+    statDescription: "Expert Repairs & Installation included with every visit.",
+    bgImage: heroImages[0 % heroImages.length],
+  },
+  {
+    title: "Flexible Financing Available",
+    subtitle: "No Interest. No Payments. Until 2026!",
+    buttonText: "Learn More",
+    statNumber: "0%",
+    statLabel: "Interest",
+    statDescription: "With approved financing. Ask us about our flexible plans.",
+    bgImage: heroImages[1 % heroImages.length],
+  },
+  {
+    title: "Limited Time Offer — Don't Miss Out!",
+    subtitle: "Furnace Tune-Up Special! Only $95 with Coupon!",
+    buttonText: "Call Now",
+    statNumber: "1yr",
+    statLabel: "Warranty",
+    statDescription: "Warranty on furnace repair. Expert maintenance for peak efficiency.",
+    bgImage: heroImages[2 % heroImages.length],
+  },
+];
+
+const isSlider = variant === "slider";
+---
+
+{isSlider ? (
+<section class="hero-section relative w-full overflow-hidden">
+  <!-- Background images -->
+  {slides.map((slide, i) => (
+    <div class={`hero-bg absolute inset-0 transition-opacity duration-700 ${i === 0 ? 'opacity-100' : 'opacity-0'}`} data-bg={i}>
+      {isRemoteImage(slide.bgImage) ? (
+        <Image
+          src={slide.bgImage}
+          alt="HVAC background"
+          class="absolute inset-0 w-full h-full object-cover"
+          loading={i === 0 ? "eager" : "lazy"}
+          fetchpriority={i === 0 ? "high" : "auto"}
+          decoding={i === 0 ? "sync" : "async"}
+          width={1440}
+          height={810}
+          widths={[480, 768, 1280, 1440]}
+          sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, (max-width: 1280px) 1280px, 1440px"
+          format="webp"
+          quality={i === 0 ? 65 : 50}
+        />
+      ) : (
+        <img
+          src={slide.bgImage}
+          alt="HVAC background"
+          class="absolute inset-0 w-full h-full object-cover"
+          loading={i === 0 ? "eager" : "lazy"}
+          fetchpriority={i === 0 ? "high" : "auto"}
+          decoding={i === 0 ? "sync" : "async"}
+          width="1440"
+          height="810"
+        />
+      )}
+    </div>
+  ))}
+
+  <!-- Accent bar at top -->
+  <div class="absolute top-0 left-0 w-full h-1 bg-brand-highlight z-[5]"></div>
+
+  <!-- 3-layer diagonal white slope (left-to-right tilt: narrow top, wide bottom) -->
+  <div class="hero-slope absolute inset-0 z-[1]">
+    <svg class="h-full w-full" viewBox="0 0 1440 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Layer 1: solid white -->
+      <polygon points="0,0 480,0 820,800 0,800" fill="white" />
+      <!-- Layer 2: semi-transparent -->
+      <polygon points="480,0 600,0 940,800 820,800" fill="white" opacity="0.55" />
+      <!-- Layer 3: faintest -->
+      <polygon points="600,0 700,0 1040,800 940,800" fill="white" opacity="0.25" />
+    </svg>
+  </div>
+
+  <!-- Content — pinned bottom-left -->
+  <div class="relative z-[2] container mx-auto px-6 md:px-12 lg:px-16 flex items-end min-h-[85vh]">
+    <div class="hero-content max-w-xl pb-14 md:pb-16 lg:pb-20">
+
+      <!-- Slides -->
+      <div class="slides-container relative">
+        {slides.map((slide, i) => (
+          <div
+            class={`hero-slide ${i === 0 ? 'active' : ''}`}
+            data-slide={i}
+          >
+            <!-- Eyebrow with background -->
+            <div class="mb-5">
+              <span class="hero-eyebrow text-xs md:text-sm font-bold tracking-[0.15em] uppercase text-brand-highlight inline-block px-4 py-2 bg-brand-primary border-l-[3px] border-brand-highlight">
+                {slide.statLabel} — {slide.statNumber}
+              </span>
+            </div>
+
+            <!-- Title -->
+            <h1 class="hero-title text-[2.2rem] md:text-5xl lg:text-[3.5rem] font-extrabold leading-[1.05] mb-5 uppercase tracking-tight">
+              {getLocationText(slide.title)}
+            </h1>
+
+            <!-- Subtitle (small, muted, below title) -->
+            <p class="hero-subtitle text-xs md:text-sm leading-relaxed max-w-sm">
+              {slide.subtitle}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <!-- Dots below content -->
+      <div class="flex items-center gap-3 mt-8">
+        {slides.map((_, i) => (
+          <button
+            class={`hero-dot transition-all duration-300 ${i === 0 ? 'active' : ''}`}
+            data-index={i}
+            aria-label={`Slide ${i + 1}`}
+          />
+        ))}
+        <div class="progress-track ml-3 w-16 h-0.5 bg-gray-300 rounded-full overflow-hidden">
+          <div class="progress-fill h-full rounded-full"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+) : (
+<!-- SUBPAGE VARIANT -->
+<section class="hero-section relative w-full overflow-hidden">
+  <!-- Background image -->
+  <div class="absolute inset-0">
+    {subpageImage && isRemoteImage(subpageImage) ? (
+      <Image
+        src={subpageImage}
+        alt={imageAlt}
+        class="absolute inset-0 w-full h-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+        width={1440}
+        height={810}
+        widths={[480, 768, 1280, 1440]}
+        sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, (max-width: 1280px) 1280px, 1440px"
+        format="webp"
+        quality={65}
+      />
+    ) : subpageImage ? (
+      <img
+        src={subpageImage}
+        alt={imageAlt}
+        class="absolute inset-0 w-full h-full object-cover"
+        loading="eager"
+        width="1440"
+        height="810"
+      />
+    ) : (
+      <Image
+        src={bg2Img}
+        alt="HVAC background"
+        widths={[480, 768, 1280, 1440]}
+        sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, (max-width: 1280px) 1280px, 1440px"
+        format="webp"
+        quality={65}
+        class="absolute inset-0 w-full h-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+    )}
+  </div>
+
+  <!-- 3-layer diagonal white slope -->
+  <div class="hero-slope absolute inset-0 z-[1]">
+    <svg class="h-full w-full" viewBox="0 0 1440 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="0,0 580,0 920,800 0,800" fill="white" />
+      <polygon points="580,0 700,0 1040,800 920,800" fill="white" opacity="0.55" />
+      <polygon points="700,0 800,0 1140,800 1040,800" fill="white" opacity="0.25" />
+    </svg>
+  </div>
+
+  <!-- Accent bar at top -->
+  <div class="absolute top-0 left-0 w-full h-1 bg-brand-highlight z-[5]"></div>
+
+  <!-- Content — pinned bottom-left -->
+  <div class="relative z-[2] container mx-auto px-6 md:px-12 lg:px-16 flex items-end min-h-[85vh]">
+    <div class="hero-content max-w-xl pb-14 md:pb-16 lg:pb-20">
+
+      {badge && (
+        <div class="mb-5">
+          <span class="hero-eyebrow text-[11px] md:text-xs font-semibold tracking-[0.18em] uppercase text-brand-highlight inline-block pb-2 border-b-2 border-brand-highlight">
+            {getLocationText(badge)}
+          </span>
+        </div>
+      )}
+
+      <h1 class="hero-title text-[2.2rem] md:text-5xl lg:text-[3.5rem] font-extrabold leading-[1.05] mb-5 uppercase tracking-tight">
+        {subpageTitle && getLocationText(subpageTitle)}
+      </h1>
+
+      {subpageSubtitle && (
+        <p class="hero-subtitle text-xs md:text-sm leading-relaxed max-w-sm">
+          {getLocationText(subpageSubtitle)}
+        </p>
+      )}
+
+      {trustIndicators && trustIndicators.length > 0 && (
+        <div class="flex flex-wrap gap-4 mt-6">
+          {trustIndicators.map((indicator) => (
+            <span class="inline-flex items-center gap-2 text-sm text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-brand-highlight" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 6 9 17l-5-5"/>
+              </svg>
+              {getLocationText(indicator)}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+)}
+
+<style>
+  .hero-section {
+    min-height: 85vh;
+    background: #f5f5f5;
+  }
+
+  /* The slope SVG layer */
+  .hero-slope {
+    pointer-events: none;
+  }
+
+  /* Title & subtitle sit on white slope — dark text */
+  .hero-title {
+    color: #1a1a1a;
+    line-height: 1.05;
+  }
+
+  .hero-subtitle {
+    color: #555;
+  }
+
+  /* CTA button */
+  .hero-cta {
+    background: var(--brand-highlight);
+    color: #1a1a1a;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-cta:hover {
+    filter: brightness(1.08);
+    transform: translateX(4px);
+  }
+
+  /* Slides */
+  .slides-container {
+    position: relative;
+  }
+
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    pointer-events: none;
+  }
+
+  .hero-slide.active {
+    position: relative;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* Navigation dots — on white area, so dark dots */
+  .hero-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .hero-dot:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-dot.active {
+    background: var(--brand-highlight);
+    border-color: var(--brand-highlight);
+    box-shadow: 0 0 6px color-mix(in srgb, var(--brand-highlight) 40%, transparent);
+  }
+
+  /* Progress bar */
+  .progress-fill {
+    background: var(--brand-highlight);
+    width: 0%;
+    transition: width linear;
+  }
+
+  /* Entrance animation */
+  .hero-content {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Scroll indicator bounce */
+  .scroll-hint {
+    animation: subtleBounce 2s ease-in-out infinite;
+  }
+
+  @keyframes subtleBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  @media (max-width: 768px) {
+    .hero-section {
+      min-height: 70vh;
+    }
+
+    /* On mobile, make slope cover more so text is always on white */
+    .hero-slope svg polygon:first-child {
+      points: 0,0 1440,0 1200,800 0,800;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-content {
+      animation: none;
+    }
+    .scroll-hint {
+      animation: none;
+    }
+    .hero-slide {
+      transition: opacity 0.3s ease;
+      transform: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  var HERO_INTERVAL = 5000;
+  var heroTimer;
+
+  function initHeroSlider() {
+    if (heroTimer) {
+      clearInterval(heroTimer);
+      heroTimer = undefined;
+    }
+
+    var slides = document.querySelectorAll('.hero-slide');
+    var dots = document.querySelectorAll('.hero-dot');
+    var bgs = document.querySelectorAll('.hero-bg');
+    var fill = document.querySelector('.progress-fill');
+    if (!slides.length || !dots.length) return;
+
+    var current = 0;
+
+    function goTo(index) {
+      slides[current].classList.remove('active');
+      slides[current].style.position = 'absolute';
+      slides[current].style.width = '100%';
+      dots[current].classList.remove('active');
+      if (bgs[current]) bgs[current].classList.replace('opacity-100', 'opacity-0');
+
+      current = index;
+
+      slides[current].classList.add('active');
+      slides[current].style.position = '';
+      slides[current].style.width = '';
+      dots[current].classList.add('active');
+      if (bgs[current]) bgs[current].classList.replace('opacity-0', 'opacity-100');
+
+      startProgress();
+    }
+
+    function startProgress() {
+      if (fill) {
+        fill.style.transition = 'none';
+        fill.style.width = '0%';
+        requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
+            fill.style.transition = 'width ' + HERO_INTERVAL + 'ms linear';
+            fill.style.width = '100%';
+          });
+        });
+      }
+      if (heroTimer) clearInterval(heroTimer);
+      heroTimer = setInterval(function() { goTo((current + 1) % slides.length); }, HERO_INTERVAL);
+    }
+
+    dots.forEach(function(dot, i) { dot.addEventListener('click', function() { goTo(i); }); });
+    startProgress();
+  }
+
+  initHeroSlider();
+  document.addEventListener('astro:page-load', initHeroSlider);
+</script>

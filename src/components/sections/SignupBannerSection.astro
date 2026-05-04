@@ -1,0 +1,178 @@
+---
+import { siteConfig, getLocationText } from "@/config/site"
+
+interface Props {
+  title: string;
+  description: string;
+  calloutText: string;
+  phone?: string;
+  buttonText?: string;
+  buttonHref?: string;
+}
+
+const {
+  title: rawTitle,
+  description: rawDescription,
+  calloutText: rawCalloutText,
+  phone = siteConfig.contact.phoneFormatted,
+  buttonText = "Sign Up Online",
+  buttonHref = "/contact"
+} = Astro.props;
+
+const title = getLocationText(rawTitle);
+const description = getLocationText(rawDescription);
+const calloutText = getLocationText(rawCalloutText);
+---
+
+<section class="sb-section">
+  <!-- Geometric slope accent -->
+  <div class="sb-slope">
+    <svg class="h-full w-full" viewBox="0 0 200 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="60,0 200,0 200,800 0,800" fill="white" opacity="0.03" />
+      <polygon points="100,0 200,0 200,800 40,800" fill="white" opacity="0.02" />
+    </svg>
+  </div>
+
+  <div class="container mx-auto px-6 md:px-12 lg:px-16 py-16 md:py-20 relative z-10">
+    <div class="sb-inner" data-animate="fade-up">
+
+      <h2 class="sb-title">{title}</h2>
+      <div class="sb-divider"></div>
+      <p class="sb-desc" set:html={description} />
+      <p class="sb-callout">{calloutText}</p>
+
+      <div class="sb-actions">
+        <a href={`tel:${phone.replace(/[^0-9]/g, '')}`} class="sb-btn sb-btn--outline">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+          </svg>
+          Call {phone}
+        </a>
+        <a href={buttonHref} class="sb-btn sb-btn--highlight">
+          {buttonText}
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .sb-section {
+    background: var(--brand-primary);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sb-slope {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .sb-inner {
+    text-align: center;
+    max-width: 40rem;
+    margin: 0 auto;
+  }
+
+  .sb-title {
+    font-size: 2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  @media (min-width: 768px) {
+    .sb-title { font-size: 2.25rem; }
+  }
+
+  .sb-divider {
+    width: 3rem;
+    height: 3px;
+    background: var(--brand-highlight);
+    margin: 0 auto 1.25rem;
+  }
+
+  .sb-desc {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: rgba(255, 255, 255, 0.55);
+    margin-bottom: 1.5rem;
+  }
+
+  .sb-callout {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #fff;
+    margin-bottom: 2rem;
+  }
+
+  /* ─── Buttons ─── */
+  .sb-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .sb-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.8rem 1.75rem;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.3s ease;
+  }
+
+  .sb-btn--outline {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+  .sb-btn--outline:hover {
+    border-color: var(--brand-highlight);
+    color: var(--brand-highlight);
+  }
+
+  .sb-btn--highlight {
+    background: var(--brand-highlight);
+    color: var(--brand-primary);
+  }
+  .sb-btn--highlight:hover {
+    filter: brightness(1.08);
+    transform: translateX(4px);
+  }
+  .sb-btn--highlight svg {
+    transition: transform 0.3s ease;
+  }
+  .sb-btn--highlight:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 480px) {
+    .sb-actions {
+      flex-direction: column;
+    }
+    .sb-btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

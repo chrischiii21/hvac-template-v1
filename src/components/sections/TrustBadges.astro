@@ -1,0 +1,126 @@
+---
+import { Image } from "astro:assets";
+
+interface Badge {
+  name: string;
+  image: string;
+  alt?: string;
+}
+
+interface Props {
+  badges?: Badge[];
+  heading?: string;
+}
+
+const {
+  badges = [
+    { name: "Home Advisor", image: "https://johnh967.sg-host.com/wp-content/uploads/2024/11/Home-Advisor-Logo.webp" },
+    { name: "BBB", image: "https://johnh967.sg-host.com/wp-content/uploads/2024/11/BBB-Logo.webp" },
+    { name: "Google Reviews", image: "https://johnh967.sg-host.com/wp-content/uploads/2024/11/Google-Reviews-Logo.webp" },
+    { name: "Angie's List Award", image: "https://johnh967.sg-host.com/wp-content/uploads/2024/11/Angies-List-Award.webp" },
+    { name: "Licensed", image: "https://johnh967.sg-host.com/wp-content/uploads/2024/11/Licensed.webp" }
+  ],
+  heading = "Achievement Starts with Action."
+} = Astro.props;
+
+const duplicatedBadges = [...badges, ...badges, ...badges];
+---
+
+<section class="trust-section relative overflow-hidden">
+  <!-- Dark background with diagonal accent -->
+  <div class="absolute inset-0 bg-brand-primary"></div>
+  <div class="trust-slope absolute inset-0 pointer-events-none">
+    <svg class="h-full w-full" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="0,0 200,0 350,200 0,200" fill="white" opacity="0.04" />
+      <polygon points="200,0 280,0 430,200 350,200" fill="white" opacity="0.02" />
+    </svg>
+  </div>
+
+  <div class="relative z-[1] container mx-auto px-6 md:px-12 lg:px-16 py-6 md:py-8">
+    <div class="flex flex-col md:flex-row items-center gap-6 md:gap-10">
+
+      <!-- Left: heading with accent -->
+      <div class="flex items-center gap-4 flex-shrink-0" data-animate="fade-right">
+        <div class="h-10 w-[3px] bg-brand-highlight"></div>
+        <div>
+          <p class="text-[10px] tracking-[0.2em] uppercase text-brand-highlight font-semibold mb-0.5">Trusted By Thousands</p>
+          <h2 class="text-sm md:text-base font-bold text-white uppercase tracking-[0.08em]">{heading}</h2>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="hidden md:block w-px h-10 bg-white/10 flex-shrink-0"></div>
+
+      <!-- Right: scrolling badges -->
+      <div class="carousel-container flex-1 max-w-4xl" data-animate="fade-left">
+        <div class="carousel-track">
+          {duplicatedBadges.map((badge) => (
+            <div class="carousel-item">
+              <Image
+                src={badge.image}
+                alt={badge.alt || badge.name}
+                class="h-10 md:h-12 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
+                width={156}
+                height={70}
+                format="webp"
+                quality={70}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust-section {
+    position: relative;
+  }
+
+  .carousel-container {
+    overflow: hidden;
+    position: relative;
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  .carousel-track {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    width: max-content;
+    animation: scroll 18s linear infinite;
+    will-change: transform;
+  }
+
+  .carousel-item {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    100% {
+      transform: translate3d(calc(-100% / 3), 0, 0);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .carousel-track {
+      gap: 4rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-track {
+      animation: none;
+    }
+  }
+</style>

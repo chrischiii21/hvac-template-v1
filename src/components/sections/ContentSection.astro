@@ -1,0 +1,349 @@
+---
+import { Image } from "astro:assets";
+import { getLocationText } from "@/config/site"
+
+interface Props {
+  badge?: string;
+  title: string;
+  description: string;
+  features?: string[];
+  buttonText?: string;
+  buttonHref?: string;
+  imagePosition?: "left" | "right";
+  images?: string[];
+  imageAlts?: string[];
+}
+
+const {
+  badge,
+  title: rawTitle,
+  description: rawDescription,
+  features: rawFeatures = [],
+  buttonText,
+  buttonHref,
+  imagePosition = "left",
+  images = [],
+  imageAlts = [],
+} = Astro.props;
+
+const title = getLocationText(rawTitle);
+const description = getLocationText(rawDescription);
+const features = rawFeatures.map(getLocationText);
+
+const mainImage = images[0] || "";
+const isRight = imagePosition === "right";
+---
+
+<section class="cs-wrapper">
+  <div class:list={["cs-section", { "cs-section--flipped": isRight }]}>
+  <!-- Full-bleed image side -->
+  <div class="cs-image-side" data-animate={isRight ? "fade-left" : "fade-right"}>
+    {mainImage ? (
+      <Image
+        src={mainImage}
+        alt={imageAlts[0] || title}
+        class="cs-image"
+        loading="lazy"
+        width={960}
+        height={720}
+        format="webp"
+        quality={75}
+        decoding="async"
+      />
+    ) : (
+      <div class="cs-image cs-image--placeholder">
+        <span>Image</span>
+      </div>
+    )}
+
+    <!-- Diagonal slope cutting into image -->
+    <div class="cs-slope">
+      <svg viewBox="0 0 120 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="40,0 120,0 120,800 0,800" fill="var(--background)" />
+        <polygon points="20,0 40,0 0,800 0,570" fill="var(--background)" opacity="0.55" />
+        <polygon points="5,0 20,0 0,570 0,400" fill="var(--background)" opacity="0.25" />
+      </svg>
+    </div>
+
+    <!-- Highlight accent strip -->
+    <div class="cs-accent-strip"></div>
+  </div>
+
+  <!-- Text side -->
+  <div class="cs-text-side" data-animate={isRight ? "fade-right" : "fade-left"} data-animate-delay="200">
+    <div class="cs-text-inner">
+      {badge && (
+        <div class="cs-eyebrow">
+          <span class="cs-eyebrow-text">{badge}</span>
+        </div>
+      )}
+
+      <h2 class="cs-title">{title}</h2>
+
+      <div class="cs-divider"></div>
+
+      <p class="cs-desc" set:html={description} />
+
+      {features.length > 0 && (
+        <div class="cs-features" data-animate-stagger>
+          {features.map((feature) => (
+            <div class="cs-feature">
+              <span class="cs-feature-dot"></span>
+              <span class="cs-feature-text" set:html={feature} />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {buttonText && buttonHref && (
+        <a href={buttonHref} class="cs-btn">
+          {buttonText}
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+      )}
+    </div>
+  </div>
+  </div>
+</section>
+
+<style>
+  .cs-wrapper {
+    background: var(--background);
+    overflow: hidden;
+  }
+
+  /* ─── Layout ─── */
+  .cs-section {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    min-height: auto;
+    overflow: hidden;
+    max-width: 100%;
+  }
+
+  .cs-section--flipped {
+    direction: rtl;
+  }
+  .cs-section--flipped > * {
+    direction: ltr;
+  }
+
+  /* ─── Image side: full bleed ─── */
+  .cs-image-side {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cs-image {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+    min-height: 100%;
+  }
+
+  .cs-image--placeholder {
+    background: var(--brand-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+  }
+
+  /* 3-layer diagonal slope on the inner edge */
+  .cs-slope {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 120px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .cs-slope svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .cs-section--flipped .cs-slope {
+    right: auto;
+    left: 0;
+    transform: scaleX(-1);
+  }
+
+  /* Vertical highlight strip on the image edge */
+  .cs-accent-strip {
+    position: absolute;
+    top: 15%;
+    right: 85px;
+    width: 3px;
+    height: 35%;
+    background: var(--brand-highlight);
+    z-index: 3;
+    opacity: 0.8;
+  }
+
+  .cs-section--flipped .cs-accent-strip {
+    right: auto;
+    left: 85px;
+  }
+
+  /* ─── Text side ─── */
+  .cs-text-side {
+    display: flex;
+    align-items: center;
+    padding: 2.5rem 2rem 2.5rem 2.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .cs-text-side {
+      padding: 3.5rem 4rem 3.5rem 3.5rem;
+    }
+  }
+
+  .cs-text-inner {
+    max-width: 560px;
+  }
+
+  /* Eyebrow */
+  .cs-eyebrow {
+    margin-bottom: 1.25rem;
+  }
+  .cs-eyebrow-text {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--brand-highlight);
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: var(--brand-primary);
+  }
+
+  /* Title */
+  .cs-title {
+    font-size: 2rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    color: var(--brand-primary);
+    margin-bottom: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .cs-title { font-size: 2.25rem; }
+  }
+  @media (min-width: 1280px) {
+    .cs-title { font-size: 2.5rem; }
+  }
+
+  /* Divider */
+  .cs-divider {
+    width: 3rem;
+    height: 3px;
+    background: var(--brand-highlight);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Description */
+  .cs-desc {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--brand-secondary);
+    margin-bottom: 2rem;
+  }
+
+  /* ─── Features: vertical list ─── */
+  .cs-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 2rem;
+    border-left: 2px solid var(--brand-tertiary);
+    padding-left: 0;
+  }
+
+  .cs-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 1rem;
+    border-left: 2px solid transparent;
+    margin-left: -2px;
+    transition: all 0.25s ease;
+  }
+
+  .cs-feature:hover {
+    border-left-color: var(--brand-highlight);
+    background: var(--brand-tertiary);
+  }
+
+  .cs-feature-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--brand-highlight);
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+
+  .cs-feature:hover .cs-feature-dot {
+    transform: scale(1.5);
+  }
+
+  .cs-feature-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--brand-primary);
+  }
+
+  /* ─── CTA ─── */
+  .cs-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.7rem 1.75rem;
+    background: var(--brand-highlight);
+    color: #0a0a0a;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: all 0.3s ease;
+  }
+  .cs-btn:hover {
+    filter: brightness(1.08);
+    transform: translateX(4px);
+  }
+  .cs-btn svg {
+    transition: transform 0.3s ease;
+  }
+  .cs-btn:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 768px) {
+    .cs-section {
+      grid-template-columns: 1fr;
+    }
+    .cs-section--flipped {
+      direction: ltr;
+    }
+    .cs-image-side {
+      min-height: 280px;
+    }
+    .cs-slope {
+      display: none;
+    }
+    .cs-accent-strip {
+      display: none;
+    }
+    .cs-text-side {
+      padding: 2.5rem 1.5rem;
+    }
+  }
+</style>

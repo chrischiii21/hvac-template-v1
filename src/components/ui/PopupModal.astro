@@ -1,0 +1,519 @@
+---
+import { Image } from "astro:assets";
+import { siteConfig } from "@/config/site"
+
+interface Props {
+  delay?: number;
+  showOnce?: boolean;
+  triggerId?: string;
+}
+
+const {
+  delay = 5000,
+  showOnce = true,
+  triggerId = "free-scan-trigger",
+} = Astro.props;
+---
+
+<div
+  id="popup-modal"
+  class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/60 backdrop-blur-sm overflow-y-auto"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="popup-title"
+  data-delay={delay}
+  data-show-once={showOnce}
+  data-trigger-id={triggerId}
+>
+  <div class="popup-card animate-popup-in">
+
+    <!-- Close button -->
+    <button
+      id="close-popup"
+      class="popup-close"
+      aria-label="Close popup"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- ═══ Two-column layout ═══ -->
+    <div class="popup-layout">
+
+      <!-- Left: Image side -->
+      <div class="popup-image-side">
+        <Image
+          src="https://johnh967.sg-host.com/wp-content/uploads/sb-instagram-feed-images/466555884_570355772412079_4111747127252492406_nfull.webp"
+          alt="Professional HVAC technician at work"
+          class="popup-image"
+          loading="lazy"
+          width={450}
+          height={480}
+          format="webp"
+          quality={65}
+        />
+        <div class="popup-image-overlay"></div>
+
+        <!-- Floating price badge over image -->
+        <div class="popup-price-badge">
+          <span class="popup-price-eyebrow">Special</span>
+          <div class="popup-price-value">
+            <span class="popup-dollar">$</span><span class="popup-amount">69</span>
+          </div>
+        </div>
+
+        <!-- Bottom image bar -->
+        <div class="popup-image-bar"></div>
+      </div>
+
+      <!-- Right: Content side -->
+      <div class="popup-content-side">
+
+        <!-- Eyebrow -->
+        <div class="popup-eyebrow-wrap">
+          <span class="popup-eyebrow">Limited Time Offer</span>
+        </div>
+
+        <h2 id="popup-title" class="popup-title">Service Special</h2>
+        <p class="popup-subtitle">Complete HVAC System Diagnostic</p>
+
+        <div class="popup-divider"></div>
+
+        <!-- Features -->
+        <div class="popup-features">
+          <div class="popup-feature">
+            <span class="popup-feature-dot"></span>
+            <span>Complete system inspection</span>
+          </div>
+          <div class="popup-feature">
+            <span class="popup-feature-dot"></span>
+            <span>Performance & efficiency report</span>
+          </div>
+          <div class="popup-feature">
+            <span class="popup-feature-dot"></span>
+            <span>No hidden fees or obligations</span>
+          </div>
+        </div>
+
+        <!-- CTAs -->
+        <div class="popup-actions">
+          <a href="/contact" class="popup-btn popup-btn-primary">
+            Schedule Online
+            <svg class="popup-btn-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+
+          <a href={`tel:${siteConfig.contact.phone}`} class="popup-btn popup-btn-dark">
+            <svg class="popup-btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+            Call {siteConfig.contact.phoneFormatted}
+          </a>
+        </div>
+
+        <!-- Trust -->
+        <div class="popup-trust">
+          <span class="popup-trust-item">
+            <span class="popup-trust-dot"></span>
+            Fast Response
+          </span>
+          <span class="popup-trust-item">
+            <span class="popup-trust-dot"></span>
+            Licensed & Insured
+          </span>
+        </div>
+
+        <button id="close-popup-bottom" class="popup-dismiss">No thanks, maybe later</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  function showPopup(force) {
+    var popup = document.getElementById("popup-modal");
+    if (!popup) return;
+    if (!force && sessionStorage.getItem("popup-shown") === "true") return;
+    popup.classList.remove("hidden");
+    popup.classList.add("flex");
+    document.body.style.overflow = "hidden";
+    sessionStorage.setItem("popup-shown", "true");
+  }
+
+  function closePopup() {
+    var popup = document.getElementById("popup-modal");
+    if (!popup) return;
+    popup.classList.add("hidden");
+    popup.classList.remove("flex");
+    document.body.style.overflow = "";
+  }
+
+  function initPopup() {
+    var popup = document.getElementById("popup-modal");
+    if (!popup) return;
+
+    var alreadyShown = sessionStorage.getItem("popup-shown") === "true";
+    var triggerId = popup.getAttribute("data-trigger-id");
+    var abortController = new AbortController();
+    var signal = abortController.signal;
+
+    var closeBtn = document.getElementById("close-popup");
+    var closeBtnBottom = document.getElementById("close-popup-bottom");
+    if (closeBtn) closeBtn.addEventListener("click", closePopup, { signal: signal });
+    if (closeBtnBottom) closeBtnBottom.addEventListener("click", closePopup, { signal: signal });
+    popup.addEventListener("click", function(e) { if (e.target === popup) closePopup(); }, { signal: signal });
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Escape" && !popup.classList.contains("hidden")) closePopup();
+    }, { signal: signal });
+
+    if (triggerId) {
+      var trigger = document.getElementById(triggerId);
+      if (trigger) trigger.addEventListener("click", function(e) {
+        e.preventDefault();
+        showPopup(true);
+      }, { signal: signal });
+    }
+
+    var delay = parseInt(popup.getAttribute("data-delay") || "0") || 0;
+    if (delay > 0 && window.innerWidth >= 768 && !alreadyShown) {
+      setTimeout(function() { if (window.innerWidth >= 768) showPopup(false); }, delay);
+    }
+
+    document.addEventListener('astro:before-swap', function() {
+      closePopup();
+      abortController.abort();
+    }, { once: true });
+  }
+
+  document.addEventListener("astro:page-load", initPopup);
+</script>
+
+<style>
+  @keyframes popup-in {
+    from { opacity: 0; transform: translateY(30px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .animate-popup-in {
+    animation: popup-in 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* ─── Card ─── */
+  .popup-card {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 1.5rem;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    background: #fff;
+  }
+
+  /* Close */
+  .popup-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 30;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    color: var(--brand-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .popup-close:hover {
+    background: var(--brand-primary);
+    border-color: var(--brand-primary);
+    color: #fff;
+  }
+
+  /* ─── Two-column Layout ─── */
+  .popup-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 480px;
+  }
+
+  /* ─── Image Side ─── */
+  .popup-image-side {
+    position: relative;
+    overflow: hidden;
+    min-height: 100%;
+  }
+  .popup-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 8s ease;
+  }
+  .popup-card:hover .popup-image {
+    transform: scale(1.06);
+  }
+
+  .popup-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--brand-primary) 85%, transparent) 0%,
+      color-mix(in srgb, var(--brand-primary) 55%, transparent) 40%,
+      color-mix(in srgb, var(--brand-primary) 35%, transparent) 100%
+    );
+    z-index: 1;
+  }
+
+  /* Highlight bar at image bottom */
+  .popup-image-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--brand-highlight);
+    z-index: 3;
+  }
+
+  /* Floating price badge */
+  .popup-price-badge {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    text-align: center;
+    background: color-mix(in srgb, var(--brand-primary) 80%, transparent);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    padding: 1rem 1.75rem;
+  }
+  .popup-price-eyebrow {
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--brand-highlight);
+    margin-bottom: 0.35rem;
+  }
+  .popup-price-value {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    line-height: 1;
+  }
+  .popup-dollar {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 2.25rem;
+    color: var(--brand-highlight);
+  }
+  .popup-amount {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 5rem;
+    color: #fff;
+    letter-spacing: -0.04em;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  /* ─── Content Side ─── */
+  .popup-content-side {
+    padding: 2.75rem 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Eyebrow */
+  .popup-eyebrow-wrap {
+    margin-bottom: 1rem;
+  }
+  .popup-eyebrow {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--brand-highlight);
+    padding: 0.35rem 0.75rem;
+    background: var(--brand-primary);
+  }
+
+  .popup-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 1.75rem;
+    color: var(--brand-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+    margin: 0 0 0.35rem;
+  }
+  .popup-subtitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--brand-secondary);
+    margin: 0 0 1.25rem;
+  }
+
+  .popup-divider {
+    width: 2.5rem;
+    height: 3px;
+    background: var(--brand-highlight);
+    margin-bottom: 1rem;
+  }
+
+  /* Features */
+  .popup-features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-bottom: 1.75rem;
+  }
+  .popup-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--brand-secondary);
+  }
+  .popup-feature-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--brand-highlight);
+    flex-shrink: 0;
+  }
+
+  /* CTAs */
+  .popup-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    margin-top: auto;
+  }
+
+  .popup-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.9rem 1.75rem;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .popup-btn-icon {
+    width: 0.9rem;
+    height: 0.9rem;
+    flex-shrink: 0;
+  }
+  .popup-btn-arrow {
+    width: 0.9rem;
+    height: 0.9rem;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .popup-btn-primary {
+    background: var(--brand-highlight);
+    color: var(--brand-primary);
+  }
+  .popup-btn-primary:hover {
+    filter: brightness(1.08);
+  }
+  .popup-btn-primary:hover .popup-btn-arrow {
+    transform: translateX(4px);
+  }
+
+  .popup-btn-dark {
+    background: var(--brand-primary);
+    color: #fff;
+  }
+  .popup-btn-dark:hover {
+    opacity: 0.9;
+  }
+
+  /* Trust */
+  .popup-trust {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  .popup-trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--brand-secondary);
+  }
+  .popup-trust-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--brand-highlight);
+    flex-shrink: 0;
+  }
+
+  .popup-dismiss {
+    display: block;
+    width: 100%;
+    background: none;
+    border: none;
+    color: rgba(0, 0, 0, 0.25);
+    font-size: 0.65rem;
+    cursor: pointer;
+    padding: 0.35rem;
+    transition: color 0.2s;
+    text-align: center;
+  }
+  .popup-dismiss:hover {
+    color: var(--brand-primary);
+  }
+
+  /* ─── Mobile: stack vertically ─── */
+  @media (max-width: 640px) {
+    .popup-card {
+      max-width: 360px;
+    }
+    .popup-layout {
+      grid-template-columns: 1fr;
+    }
+    .popup-image-side {
+      height: 200px;
+    }
+    .popup-price-badge {
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0.75rem 1.5rem;
+    }
+    .popup-amount {
+      font-size: 3.5rem;
+    }
+    .popup-dollar {
+      font-size: 1.75rem;
+    }
+    .popup-content-side {
+      padding: 1.5rem 1.25rem 1.25rem;
+    }
+  }
+</style>
