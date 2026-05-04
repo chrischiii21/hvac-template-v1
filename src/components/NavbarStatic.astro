@@ -79,7 +79,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
                   </div>
                   <div class="nb-mega-footer">
                     <a href={item.href} class="nb-mega-view-all">
-                      Explore All {item.title}
+                      View all {item.title}
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
                   </div>
@@ -200,16 +200,27 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     --nav-glass-bg: rgba(255, 255, 255, 0.85);
     --nav-glass-border: rgba(255, 255, 255, 0.5);
     --nav-glass-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+  }
+
+  .nb-header {
     --nav-text: var(--brand-primary);
     --nav-text-muted: color-mix(in srgb, var(--brand-primary) 60%, transparent);
+    transition: all 0.3s ease;
   }
 
   .dark {
     --nav-glass-bg: rgba(14, 12, 26, 0.85);
     --nav-glass-border: rgba(255, 255, 255, 0.08);
     --nav-glass-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+  }
+  .dark .nb-header {
     --nav-text: #f1f0f9;
     --nav-text-muted: color-mix(in srgb, #f1f0f9 60%, transparent);
+  }
+  
+  .dark .nb-dropdown-panel, .dark .nb-mega-inner {
+    --mega-text: #f1f0f9;
+    --mega-text-muted: color-mix(in srgb, #f1f0f9 60%, transparent);
   }
 
   .nb-mobile-toggle-input {
@@ -235,17 +246,21 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
 
   /* ── Floating Glass Card ── */
   .nb-glass-card {
-    background: var(--nav-glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--nav-glass-border);
+    background: transparent;
+    border: 1px solid transparent;
     border-radius: 1.25rem;
-    box-shadow: var(--nav-glass-shadow);
     display: flex;
     flex-direction: column;
     overflow: visible;
     position: relative;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .nb-header.is-scrolled .nb-glass-card {
+    background: var(--nav-glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--nav-glass-border);
+    box-shadow: var(--nav-glass-shadow);
   }
 
   /* ── Top Row (Desktop Only) ── */
@@ -254,6 +269,10 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 1.5rem;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s ease;
+  }
+  .nb-header.is-scrolled .nb-top-row {
     border-bottom: 1px solid color-mix(in srgb, var(--nav-text) 8%, transparent);
   }
   @media (min-width: 1024px) { .nb-top-row { display: flex; } }
@@ -326,6 +345,8 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     transition: all 0.2s ease;
     z-index: 110;
+    --mega-text: var(--brand-primary);
+    --mega-text-muted: color-mix(in srgb, var(--brand-primary) 60%, transparent);
   }
   .nb-dropdown-wrapper:hover .nb-dropdown-panel {
     opacity: 1;
@@ -337,7 +358,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     padding: 0.5rem 1rem;
     font-size: 0.75rem;
     font-weight: 600;
-    color: var(--nav-text);
+    color: var(--mega-text);
     text-decoration: none;
     border-radius: 0.375rem;
     transition: all 0.2s;
@@ -443,6 +464,8 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
   }
   
   .nb-mega-inner {
+    --mega-text: var(--brand-primary);
+    --mega-text-muted: color-mix(in srgb, var(--brand-primary) 60%, transparent);
     background: var(--nav-glass-bg);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
@@ -466,7 +489,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     gap: 0.75rem;
     font-size: 0.875rem;
     font-weight: 600;
-    color: var(--nav-text);
+    color: var(--mega-text);
     text-decoration: none;
     padding: 0.5rem;
     border-radius: 0.5rem;
@@ -474,7 +497,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
   }
   .nb-mega-dot {
     width: 6px; height: 6px; border-radius: 50%;
-    background: var(--nav-text-muted);
+    background: var(--mega-text-muted);
     transition: all 0.2s;
   }
   .nb-mega-link:hover {
@@ -490,7 +513,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     display: flex;
     justify-content: center;
     padding-top: 1.5rem;
-    border-top: 1px solid color-mix(in srgb, var(--nav-text) 10%, transparent);
+    border-top: 1px solid color-mix(in srgb, var(--mega-text) 10%, transparent);
   }
   .nb-mega-view-all {
     display: inline-flex;
@@ -701,3 +724,24 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
   .nb-drawer-phone-btn svg { width: 24px; height: 24px; }
   .nb-drawer-phone-btn:hover { background: var(--brand-highlight); }
 </style>
+
+<script is:inline>
+  function initNavbarScroll() {
+    const header = document.querySelector('.nb-header');
+    if (!header) return;
+    
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        header.classList.add('is-scrolled');
+      } else {
+        header.classList.remove('is-scrolled');
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
+  }
+  
+  initNavbarScroll();
+  document.addEventListener('astro:page-load', initNavbarScroll);
+</script>
