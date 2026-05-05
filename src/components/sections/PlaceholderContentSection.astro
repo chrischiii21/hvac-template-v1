@@ -12,25 +12,108 @@ const {
 } = Astro.props;
 ---
 
-<section class="relative py-24 md:py-32 overflow-hidden bg-muted/30">
-  {bgImage && (
-    <div class="absolute inset-0">
-      <img src={bgImage} alt="" class="w-full h-full object-cover" />
-      <div class="absolute inset-0 bg-background/90"></div>
-    </div>
-  )}
+<section class="pcs-section relative py-24 md:py-32 overflow-hidden bg-[var(--brand-highlight)]">
+  <!-- Dynamic Texture Layer -->
+  <div class="absolute inset-0 z-0 opacity-10">
+    {bgImage ? (
+      <img src={bgImage} alt="" class="w-full h-full object-cover grayscale mix-blend-overlay" />
+    ) : (
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--brand-primary)_0%,_transparent_70%)] opacity-20"></div>
+    )}
+  </div>
 
-  <div class="container mx-auto px-4 relative z-10">
-    <div class="max-w-3xl mx-auto text-center" data-animate="fade-up">
-      <div class="w-12 h-1 bg-accent mx-auto mb-8 rounded-full"></div>
-      <h2 class="text-3xl md:text-5xl font-bold text-foreground mb-4 tracking-wide">
+  <!-- Decorative Structural Lines (Bento Style) -->
+  <div class="absolute top-0 left-0 w-full h-px bg-[var(--brand-primary)]/10"></div>
+  <div class="absolute bottom-0 left-0 w-full h-px bg-[var(--brand-primary)]/10"></div>
+  <div class="absolute left-1/2 top-0 bottom-0 w-px bg-[var(--brand-primary)]/5 hidden lg:block"></div>
+
+  <div class="container mx-auto px-6 relative z-10">
+    <div class="max-w-4xl mx-auto text-center reveal-on-scroll">
+      
+      <!-- Professional Accented Eyebrow -->
+      {subtitle && (
+        <div class="inline-flex flex-col items-center gap-5 mb-12">
+          <div class="w-16 h-1.5 bg-[var(--brand-primary)] rounded-full shadow-lg shadow-black/5"></div>
+          <span class="text-[0.75rem] md:text-[0.85rem] font-black text-[var(--brand-primary)] uppercase tracking-[0.4em] leading-tight">
+            {subtitle}
+          </span>
+        </div>
+      )}
+
+      <!-- High-Impact Bold Title -->
+      <h2 class="text-4xl md:text-6xl lg:text-7xl font-black text-[var(--brand-primary)] uppercase tracking-tighter leading-[0.95] mb-12">
         {title}
       </h2>
-      {subtitle && (
-        <p class="text-lg md:text-xl text-muted-foreground uppercase tracking-widest">
-          {subtitle}
-        </p>
-      )}
     </div>
   </div>
 </section>
+
+<style>
+  .pcs-section {
+    position: relative;
+  }
+
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .reveal-on-scroll.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  function initPlaceholderReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+  }
+
+  initPlaceholderReveal();
+  document.addEventListener('astro:page-load', initPlaceholderReveal);
+</script>
+
+<style>
+  .pcs-section {
+    position: relative;
+  }
+
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .reveal-on-scroll.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  function initPlaceholderReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+  }
+
+  initPlaceholderReveal();
+  document.addEventListener('astro:page-load', initPlaceholderReveal);
+</script>

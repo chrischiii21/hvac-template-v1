@@ -85,25 +85,37 @@ function getIcon(key?: string): string {
 
 <!-- ============ SERVICES VARIANT ============ -->
 {variant === "services" && (
-  <section class="fps-svc">
-    <div class="container mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-28">
+  <section class="fps-svc relative overflow-hidden bg-white py-20 lg:py-32">
+    <!-- Decorative background elements -->
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] opacity-[0.02] pointer-events-none z-0">
+      <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+        <path d="M750,250 C850,350 850,550 750,650 C650,750 450,750 350,650 C250,550 250,350 350,250 C450,150 650,150 750,250" fill="var(--brand-primary)" />
+      </svg>
+    </div>
+
+    <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
 
       {/* Header */}
-      <div class="fps-svc-header" data-animate="fade-up">
+      <div class="mb-16 lg:mb-24 text-center max-w-4xl mx-auto" data-animate="fade-up">
         {badge && (
-          <div class="fps-svc-eyebrow">
-            <span class="fps-svc-eyebrow-text">{badge}</span>
+          <div class="mb-6">
+            <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-full border border-[var(--brand-primary)]/10 shadow-sm">
+              <span class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] animate-pulse"></span>
+              <span class="text-xs font-black text-[var(--brand-primary)] uppercase tracking-[0.2em]">{badge}</span>
+            </div>
           </div>
         )}
-        <h2 class="fps-svc-title">{title}</h2>
-        <div class="fps-svc-divider"></div>
-        {subtitle && <p class="fps-svc-subtitle">{subtitle}</p>}
+        <h2 class="text-3xl md:text-4xl lg:text-5xl font-black text-[var(--brand-primary)] uppercase tracking-tight leading-[1.1] mb-6">
+          {title}
+        </h2>
+        <div class="w-12 h-1.5 bg-[var(--brand-highlight)] mx-auto mb-8 rounded-full shadow-[0_2px_8px_rgba(var(--brand-highlight-rgb),0.3)]"></div>
+        {subtitle && <p class="text-gray-500 text-lg md:text-xl font-medium leading-relaxed" set:html={subtitle} />}
       </div>
 
       {/* Cards grid */}
       <div class:list={[
-        "fps-svc-grid",
-        items.length <= 3 ? "fps-svc-grid--narrow" : ""
+        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8",
+        items.length === 3 ? "lg:grid-cols-3 max-w-6xl mx-auto" : ""
       ]} data-animate-stagger>
         {items.map((item) => {
           const isLink = !!item.href;
@@ -111,34 +123,45 @@ function getIcon(key?: string): string {
           return (
             <Tag
               href={isLink ? item.href : undefined}
-              class="fps-svc-card group"
+              class="group relative flex flex-col bg-white rounded-[2.5rem] overflow-hidden shadow-[0_15px_40px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] transition-all duration-700 border border-gray-100/50 hover:border-[var(--brand-highlight)]/40 hover:-translate-y-3"
             >
-              {/* Image strip */}
-              {item.image ? (
-                <div class="fps-svc-img">
-                  <img src={item.image} alt={item.title} class="fps-svc-img-el" width="740" height="494" loading="lazy" decoding="async" />
-                  <div class="fps-svc-img-overlay"></div>
-                </div>
-              ) : (
-                <div class="fps-svc-img fps-svc-img--placeholder">
-                  <div class="fps-svc-img-icon">
-                    <Fragment set:html={getIcon(item.icon)} />
+              {/* Image Container */}
+              <div class="relative aspect-[4/5] overflow-hidden">
+                {item.image ? (
+                  <>
+                    <img src={item.image} alt={item.title} class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" width="740" height="494" loading="lazy" decoding="async" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)]/40 via-transparent to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-700"></div>
+                  </>
+                ) : (
+                  <div class="w-full h-full bg-[var(--brand-primary)]/5 flex items-center justify-center text-[var(--brand-primary)]/20">
+                    <div class="w-20 h-20 opacity-10 group-hover:opacity-20 transition-opacity" set:html={getIcon(item.icon)} />
+                  </div>
+                )}
+                
+                {/* Floating Glass Icon */}
+                <div class="absolute top-6 right-6 z-20">
+                  <div class="w-12 h-12 bg-white/30 backdrop-blur-xl rounded-2xl flex items-center justify-center text-white border border-white/20 shadow-2xl transition-all duration-500 group-hover:bg-[var(--brand-highlight)] group-hover:text-[var(--brand-primary)] group-hover:scale-110 group-hover:rotate-6">
+                    <div class="w-6 h-6" set:html={getIcon(item.icon)} />
                   </div>
                 </div>
-              )}
-
-              {/* Accent strip */}
-              <span class="fps-svc-strip"></span>
+              </div>
 
               {/* Body */}
-              <div class="fps-svc-body">
-                <h3 class="fps-svc-card-title">{item.title}</h3>
-                {item.text && <p class="fps-svc-card-text">{item.text}</p>}
+              <div class="p-8 pb-10 flex flex-col flex-1 relative z-10 bg-white group-hover:bg-gradient-to-b group-hover:from-white group-hover:to-[var(--brand-primary)]/[0.02] transition-colors duration-700">
+                <h3 class="text-xl font-black text-[var(--brand-primary)] uppercase tracking-tight leading-[1.2] mb-4 group-hover:text-[var(--brand-highlight)] transition-colors duration-500">
+                  {item.title}
+                </h3>
+                
+                {item.text && <p class="text-[0.95rem] text-gray-500 font-medium leading-relaxed mb-8 opacity-80 group-hover:opacity-100 transition-opacity" set:html={item.text} />}
+                
                 {isLink && (
-                  <div class="fps-svc-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
+                  <div class="mt-auto flex items-center justify-between w-full pt-4">
+                    <span class="text-[0.7rem] font-black uppercase tracking-[0.2em] text-[var(--brand-primary)]/40 group-hover:text-[var(--brand-primary)] transition-colors">Discover More</span>
+                    <div class="w-11 h-11 rounded-xl bg-[var(--brand-highlight)] text-white flex items-center justify-center transition-all duration-500 group-hover:bg-[var(--brand-primary)] group-hover:scale-110 shadow-lg shadow-[var(--brand-highlight)]/30">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-transform duration-500 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
+                    </div>
                   </div>
                 )}
               </div>
@@ -376,200 +399,9 @@ function getIcon(key?: string): string {
     }
   }
 
-  /* ═══════════════════════════════════════════
-     SERVICES VARIANT
-     ═══════════════════════════════════════════ */
+  /* Redesigned Services Variant Styles are handled inline with Utility Classes */
   .fps-svc {
-    background: var(--background);
-  }
-
-  .fps-svc-header {
-    text-align: center;
-    margin-bottom: 3rem;
-    max-width: 48rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .fps-svc-eyebrow {
-    margin-bottom: 1.25rem;
-  }
-  .fps-svc-eyebrow-text {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--brand-highlight);
-    display: inline-block;
-    padding: 0.4rem 1rem;
-    background: var(--brand-primary);
-  }
-  .fps-svc-title {
-    font-size: 2rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
-    color: var(--brand-primary);
-    margin-bottom: 1rem;
-  }
-  @media (min-width: 768px) {
-    .fps-svc-title { font-size: 2.25rem; }
-  }
-  .fps-svc-divider {
-    width: 3rem;
-    height: 3px;
-    background: var(--brand-highlight);
-    margin: 0 auto 1.25rem;
-  }
-  .fps-svc-subtitle {
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: var(--brand-secondary);
-  }
-
-  /* Grid */
-  .fps-svc-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    max-width: 76rem;
-    margin: 0 auto;
-  }
-  @media (min-width: 1024px) {
-    .fps-svc-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-    .fps-svc-grid--narrow {
-      grid-template-columns: repeat(3, 1fr);
-      max-width: 64rem;
-    }
-  }
-
-  /* Card */
-  .fps-svc-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    overflow: hidden;
-    transition: all 0.35s ease;
-    text-decoration: none;
-    color: inherit;
-  }
-  .fps-svc-card:hover {
-    border-color: var(--brand-highlight);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
-  }
-
-  /* Image strip */
-  .fps-svc-img {
-    position: relative;
-    height: 180px;
-    overflow: hidden;
-  }
-  .fps-svc-img--placeholder {
-    background: var(--brand-tertiary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 140px;
-  }
-  .fps-svc-img-el {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-  .fps-svc-card:hover .fps-svc-img-el {
-    transform: scale(1.06);
-  }
-  .fps-svc-img-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.15) 0%, transparent 50%);
-  }
-  .fps-svc-img-icon {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    color: var(--brand-primary);
-    transition: all 0.3s ease;
-  }
-  .fps-svc-card:hover .fps-svc-img-icon {
-    background: var(--brand-highlight);
-    border-color: var(--brand-highlight);
-  }
-
-  /* Accent strip on left */
-  .fps-svc-strip {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3px;
-    height: 0;
-    background: var(--brand-highlight);
-    transition: height 0.35s ease;
-    z-index: 2;
-  }
-  .fps-svc-card:hover .fps-svc-strip {
-    height: 100%;
-  }
-
-  /* Body */
-  .fps-svc-body {
-    padding: 1.5rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  .fps-svc-card-title {
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: var(--brand-primary);
-    margin-bottom: 0.5rem;
-    line-height: 1.25;
-    transition: color 0.3s ease;
-  }
-  .fps-svc-card-text {
-    font-size: 0.85rem;
-    line-height: 1.6;
-    color: var(--brand-secondary);
-    margin-bottom: auto;
-    padding-bottom: 1.25rem;
-  }
-
-  /* Arrow */
-  .fps-svc-arrow {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--brand-tertiary);
-    color: var(--brand-secondary);
-    transition: all 0.3s ease;
-  }
-  .fps-svc-card:hover .fps-svc-arrow {
-    background: var(--brand-highlight);
-    color: var(--brand-primary);
-    transform: translateX(4px);
-  }
-
-  @media (max-width: 640px) {
-    .fps-svc-grid {
-      grid-template-columns: 1fr;
-    }
-    .fps-svc-img {
-      height: 160px;
-    }
+    /* Base styles if needed, but mostly using Tailwind */
   }
 
   /* ═══════════════════════════════════════════
