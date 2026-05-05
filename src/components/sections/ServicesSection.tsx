@@ -198,38 +198,56 @@ export function ServicesSection({ title, description, categories }: Props) {
   const activeCategory = categories[activeTab];
 
   return (
-    <section ref={sectionRef} className="ss-r-section">
-      <div className="container mx-auto px-6 md:px-12 lg:px-16">
+    <section ref={sectionRef} className="relative overflow-hidden bg-white py-20 md:py-32">
+      {/* Subtle Background Accents */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--brand-primary)]/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[var(--brand-highlight)]/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
 
-        {/* Header */}
-        <div className={`ss-r-header transition-all duration-700 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <div className="ss-r-eyebrow">
-            <span className="ss-r-eyebrow-text">Our Services</span>
+      <div className="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
+
+        {/* Premium Header */}
+        <div className={`transition-all duration-1000 ease-out mb-16 lg:mb-20 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
+          <div className="mb-8">
+            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-full border border-[var(--brand-primary)]/10 shadow-sm">
+              <span className="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] shadow-[0_0_8px_rgba(var(--brand-highlight-rgb),0.5)] animate-pulse"></span>
+              <span className="text-xs font-black text-[var(--brand-primary)] uppercase tracking-[0.2em]">Our Services</span>
+            </div>
           </div>
-          <div className="ss-r-header-grid">
-            <h2 className="ss-r-title">{title}</h2>
-            <p className="ss-r-desc">{description}</p>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-[var(--brand-primary)] uppercase tracking-tight leading-[1.05]">
+              {title}
+            </h2>
+            <div className="text-gray-500 text-lg lg:text-xl font-medium leading-relaxed pt-2">
+              {description}
+            </div>
           </div>
         </div>
 
-        {/* Tabs */}
+        {/* Modern Tabs */}
         {categories.length > 1 && (
-          <div className={`ss-r-tabs transition-all duration-700 delay-100 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+          <div className={`flex flex-wrap gap-2 mb-16 transition-all duration-700 delay-200 ease-out ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
             {categories.map((cat, i) => (
               <button
                 key={i}
                 onClick={() => setActiveTab(i)}
-                className={`ss-r-tab ${activeTab === i ? 'ss-r-tab--active' : ''}`}
+                className={`group relative px-6 py-3 rounded-full font-black text-[0.7rem] uppercase tracking-widest transition-all duration-300 ${
+                  activeTab === i 
+                    ? 'bg-[var(--brand-primary)] text-white shadow-lg shadow-[var(--brand-primary)]/20 translate-y-[-2px]' 
+                    : 'bg-white text-gray-400 border border-gray-100 hover:border-[var(--brand-highlight)] hover:text-[var(--brand-primary)]'
+                }`}
               >
-                <span className="ss-r-tab-text">{cat.title}</span>
-                <span className="ss-r-tab-bar" />
+                {cat.title}
+                {activeTab === i && (
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[var(--brand-highlight)] rounded-full"></span>
+                )}
               </button>
             ))}
           </div>
         )}
 
         {/* Cards grid */}
-        <div className="ss-r-grid">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {activeCategory.services.map((service, i) => {
             const isLink = !!service.href;
             const Tag = isLink ? 'a' : 'div';
@@ -238,247 +256,37 @@ export function ServicesSection({ title, description, categories }: Props) {
               <Tag
                 key={`${activeTab}-${i}`}
                 {...(isLink ? { href: service.href } : {})}
-                className={`ss-r-card group transition-all duration-500 ease-out ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+                className={`group relative bg-white rounded-[2rem] p-8 border border-gray-100 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] transition-all duration-500 ease-out hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] hover:-translate-y-2 hover:border-[var(--brand-highlight)]/50 no-underline text-inherit flex flex-col h-full ${
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
                 }`}
-                style={{ transitionDelay: `${i * 70}ms` }}
+                style={{ transitionDelay: `${i * 100}ms` }}
               >
-                <span className="ss-r-card-strip" />
+                {/* Animated Accent Line */}
+                <div className="absolute top-0 left-0 right-0 h-[4px] bg-[var(--brand-highlight)] scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100 rounded-t-full"></div>
+                
+                <div className="w-14 h-14 bg-[var(--brand-primary)]/5 rounded-2xl flex items-center justify-center text-[var(--brand-primary)] mb-6 transition-all duration-500 group-hover:bg-[var(--brand-highlight)] group-hover:scale-110 group-hover:rotate-3 shadow-sm group-hover:shadow-lg group-hover:shadow-[var(--brand-highlight)]/20">
+                  {getIconForService(service.title)}
+                </div>
 
-                <div className="ss-r-card-inner">
-                  <div className="ss-r-icon">
-                    {getIconForService(service.title)}
-                  </div>
+                <h4 className="text-lg font-black uppercase text-[var(--brand-primary)] tracking-tight mb-4 transition-colors duration-300 group-hover:text-[var(--brand-highlight)] leading-tight">{service.title}</h4>
+                <div className="text-sm text-gray-500 font-medium leading-relaxed mb-8 flex-grow">
+                  {service.description}
+                </div>
 
-                  <h3 className="ss-r-card-title">{service.title}</h3>
-                  <p className="ss-r-card-desc">{service.description}</p>
-
-                  {isLink && (
-                    <div className="ss-r-arrow">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                {isLink && (
+                  <div className="mt-auto self-start">
+                    <div className="w-10 h-10 bg-[var(--brand-primary)]/5 rounded-xl flex items-center justify-center text-[var(--brand-primary)] transition-all duration-500 group-hover:bg-[var(--brand-primary)] group-hover:text-white group-hover:translate-x-1 group-hover:shadow-lg group-hover:shadow-[var(--brand-primary)]/20">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7" />
                       </svg>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </Tag>
             );
           })}
         </div>
       </div>
-
-      <style>{`
-        .ss-r-section {
-          background: var(--background);
-          padding: 5rem 0 7rem;
-        }
-        @media (min-width: 768px) {
-          .ss-r-section {
-            padding: 7rem 0;
-          }
-        }
-
-        /* ─── Header ─── */
-        .ss-r-header {
-          margin-bottom: 2.5rem;
-        }
-        .ss-r-eyebrow {
-          margin-bottom: 1.5rem;
-        }
-        .ss-r-eyebrow-text {
-          font-size: 0.7rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.2em;
-          color: var(--brand-highlight);
-          display: inline-block;
-          padding: 0.4rem 1rem;
-          background: var(--brand-primary);
-        }
-
-        .ss-r-header-grid {
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 1rem;
-        }
-        @media (min-width: 1024px) {
-          .ss-r-header-grid {
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: start;
-          }
-        }
-
-        .ss-r-title {
-          font-size: 2rem;
-          font-weight: 800;
-          text-transform: uppercase;
-          letter-spacing: -0.01em;
-          line-height: 1.1;
-          color: var(--brand-primary);
-        }
-        @media (min-width: 768px) {
-          .ss-r-title { font-size: 2.5rem; }
-        }
-
-        .ss-r-desc {
-          font-size: 0.95rem;
-          line-height: 1.75;
-          color: var(--brand-secondary);
-        }
-
-        /* ─── Tabs ─── */
-        .ss-r-tabs {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0;
-          margin-bottom: 2.5rem;
-          border-bottom: 2px solid rgba(0, 0, 0, 0.18);
-        }
-
-        .ss-r-tab {
-          position: relative;
-          padding: 0.85rem 1.5rem;
-          font-size: 0.75rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          color: var(--brand-secondary);
-          background: none;
-          border: none;
-          cursor: pointer;
-          transition: color 0.3s ease;
-        }
-        .ss-r-tab:hover {
-          color: var(--brand-primary);
-        }
-        .ss-r-tab--active {
-          color: var(--brand-primary);
-        }
-
-        .ss-r-tab-bar {
-          position: absolute;
-          bottom: -2px;
-          left: 0;
-          right: 0;
-          height: 3px;
-          background: transparent;
-          transition: background 0.3s ease;
-        }
-        .ss-r-tab--active .ss-r-tab-bar {
-          background: var(--brand-highlight);
-        }
-
-        /* ─── Cards Grid ─── */
-        .ss-r-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 1.5rem;
-        }
-        @media (min-width: 1024px) {
-          .ss-r-grid {
-            grid-template-columns: repeat(4, 1fr);
-          }
-        }
-        @media (max-width: 640px) {
-          .ss-r-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        /* ─── Card ─── */
-        .ss-r-card {
-          position: relative;
-          display: block;
-          background: white;
-          border: 1px solid rgba(0, 0, 0, 0.06);
-          overflow: hidden;
-          text-decoration: none;
-          color: inherit;
-          transition: all 0.35s ease;
-        }
-        .ss-r-card:hover {
-          border-color: var(--brand-highlight);
-          transform: translateY(-4px);
-          box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
-        }
-
-        /* Left accent strip */
-        .ss-r-card-strip {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 3px;
-          height: 0;
-          background: var(--brand-highlight);
-          transition: height 0.35s ease;
-        }
-        .ss-r-card:hover .ss-r-card-strip {
-          height: 100%;
-        }
-
-        .ss-r-card-inner {
-          padding: 1.75rem 1.5rem;
-          display: flex;
-          flex-direction: column;
-          min-height: 180px;
-        }
-
-        /* Icon */
-        .ss-r-icon {
-          width: 48px;
-          height: 48px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: var(--brand-tertiary);
-          border: 1px solid rgba(0, 0, 0, 0.06);
-          color: var(--brand-primary);
-          margin-bottom: 1.25rem;
-          transition: all 0.3s ease;
-        }
-        .ss-r-card:hover .ss-r-icon {
-          background: var(--brand-highlight);
-          border-color: var(--brand-highlight);
-          color: var(--brand-primary);
-        }
-
-        .ss-r-card-title {
-          font-size: 1rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.02em;
-          color: var(--brand-primary);
-          margin-bottom: 0.5rem;
-          line-height: 1.25;
-          transition: color 0.3s ease;
-        }
-
-        .ss-r-card-desc {
-          font-size: 0.85rem;
-          line-height: 1.6;
-          color: var(--brand-secondary);
-          flex: 1;
-          margin-bottom: 1rem;
-        }
-
-        /* Arrow */
-        .ss-r-arrow {
-          width: 32px;
-          height: 32px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: var(--brand-tertiary);
-          color: var(--brand-secondary);
-          transition: all 0.3s ease;
-        }
-        .ss-r-card:hover .ss-r-arrow {
-          background: var(--brand-highlight);
-          color: var(--brand-primary);
-          transform: translateX(4px);
-        }
-      `}</style>
     </section>
   );
 }

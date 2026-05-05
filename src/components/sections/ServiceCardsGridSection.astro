@@ -19,285 +19,186 @@ interface Props {
 }
 
 const { badge = "OUR SERVICES", title, description, categories } = Astro.props;
+
+// Balanced category colors
+const panelColors = [
+  "from-blue-50/20 to-white",
+  "from-orange-50/20 to-white",
+  "from-green-50/20 to-white",
+  "from-purple-50/20 to-white",
+  "from-gray-50/20 to-white",
+];
 ---
 
-<section class="svc-section">
-  <div class="svc-body">
-    <div class="container mx-auto px-6 md:px-12 lg:px-16">
-
-      <!-- Header -->
-      <div class="svc-header" data-animate="fade-up">
-        <div class="svc-eyebrow">
-          <span class="svc-eyebrow-text">{badge}</span>
-        </div>
-
-        <div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-          <h2 class="svc-title">{title}</h2>
-          <p class="svc-desc" set:html={description} />
-        </div>
+<section class="svc-section relative overflow-hidden bg-[#fafafa] pt-24 pb-8 lg:pt-32 lg:pb-12">
+  <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
+    
+    <!-- Balanced Header -->
+    <div class="mb-16 lg:mb-24" data-animate="fade-up">
+      <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-full border border-[var(--brand-primary)]/10 shadow-sm mb-8">
+        <span class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] animate-pulse"></span>
+        <span class="text-xs font-black text-[var(--brand-primary)] uppercase tracking-[0.2em]">{badge}</span>
       </div>
-
-      <!-- Category Tabs -->
-      <div class="svc-tabs" data-animate="fade-up" data-animate-delay="100">
-        {categories.map((category, index) => (
-          <button
-            class="svc-tab"
-            data-tab={index}
-            data-active={index === 0 ? "true" : "false"}
-          >
-            <span class="svc-tab-text">{category.title}</span>
-            <span class="svc-tab-bar"></span>
-          </button>
-        ))}
+      
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-end">
+        <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-[var(--brand-primary)] uppercase tracking-tight leading-[1.0] mb-0">
+          {title}
+        </h2>
+        <div class="text-gray-500 text-lg font-medium leading-relaxed max-w-xl" set:html={description} />
       </div>
+    </div>
 
-      <!-- Service Cards Grid -->
-      <div class="relative min-h-[800px] sm:min-h-[600px] lg:min-h-[400px]">
-        {categories.map((category, catIndex) => (
-          <div
-            class="service-content absolute inset-0 transition-opacity duration-500"
-            data-content={catIndex}
-            style={catIndex === 0 ? "opacity: 1; pointer-events: auto;" : "opacity: 0; pointer-events: none;"}
-          >
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5" data-animate-stagger>
-              {category.services.map((service, serviceIndex) => {
-                const Tag = service.href ? 'a' : 'div';
-                return (
-                  <Tag
-                    {...(service.href ? { href: service.href } : {})}
-                    class="svc-card group"
-                    style={`transition-delay: ${serviceIndex * 70}ms`}
-                  >
-                    {/* Highlight strip on left */}
-                    <span class="svc-card-strip"></span>
+    <!-- Click-Only Architectural Accordion -->
+    <div class="flex flex-col lg:flex-row gap-4 lg:gap-5 h-auto lg:h-[640px] items-stretch" id="accordion-container">
+      {categories.map((category, index) => (
+        <div 
+          class={`svc-panel group relative flex-grow transition-all duration-700 ease-[cubic-bezier(0.25,1,0.3,1)] overflow-hidden rounded-[2.5rem] lg:rounded-[3rem] border border-gray-100 bg-white shadow-sm hover:border-[var(--brand-highlight)]/40 cursor-pointer ${index === 0 ? 'is-active' : ''}`}
+          data-index={index}
+          data-accordion-panel
+        >
+          <!-- Gradient Background Base -->
+          <div class={`absolute inset-0 bg-gradient-to-br transition-opacity duration-700 ${panelColors[index % panelColors.length]} panel-overlay opacity-0`}></div>
+          
+          <!-- Collapsed Label (Visible when not active) -->
+          <div class="collapsed-label absolute inset-0 flex flex-col items-center justify-between py-16 transition-opacity duration-500">
+            <span class="text-2xl font-black text-[var(--brand-primary)]/10">0{index + 1}</span>
+            <h3 class="font-black text-[var(--brand-primary)] uppercase tracking-[0.45em] rotate-180 [writing-mode:vertical-lr] text-[0.75rem] lg:text-[0.8rem] opacity-60 group-hover:opacity-100 transition-opacity">
+              {category.title}
+            </h3>
+            <div class="w-1.5 h-1.5 rounded-full bg-gray-200"></div>
+          </div>
 
-                    <div class="svc-card-inner">
-                      <div class="svc-icon">
-                        <span set:html={service.icon} />
-                      </div>
-
-                      <h3 class="svc-card-title">{service.title}</h3>
-                      <p class="svc-card-desc" set:html={service.description} />
-
-                      {service.href && (
-                        <div class="svc-arrow">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5 12h14M12 5l7 7-7 7" />
-                          </svg>
-                        </div>
-                      )}
-                    </div>
-                  </Tag>
-                );
-              })}
+          <!-- Mobile Header (Always visible on mobile) -->
+          <div class="lg:hidden flex items-center justify-between p-7 relative z-10 border-b border-gray-50">
+            <div class="flex items-center gap-4">
+              <span class="text-xl font-black text-[var(--brand-primary)]/10">0{index + 1}</span>
+              <h3 class="text-sm font-black text-[var(--brand-primary)] uppercase tracking-widest">{category.title}</h3>
+            </div>
+            <div class="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center transition-transform duration-500 mobile-toggle-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path d="M19 9l-7 7-7-7" />
+              </svg>
             </div>
           </div>
-        ))}
-      </div>
+
+          <!-- Expanded Content -->
+          <div class="expanded-content relative h-full p-10 lg:p-16 flex flex-col opacity-0 translate-y-8 transition-all duration-700 pointer-events-none overflow-hidden">
+            
+            <!-- Internal Header -->
+            <div class="hidden lg:flex items-center justify-between mb-12 border-b border-gray-100 pb-8">
+              <div class="flex items-center gap-8">
+                <span class="text-6xl font-black text-[var(--brand-primary)]/5 leading-none">0{index + 1}</span>
+                <h3 class="text-3xl font-black text-[var(--brand-primary)] uppercase tracking-tight leading-none">{category.title}</h3>
+              </div>
+              <div class="w-11 h-11 bg-white border border-gray-100 rounded-full flex items-center justify-center text-[var(--brand-primary)] shadow-sm">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+              </div>
+            </div>
+
+            <!-- Balanced Service Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10 lg:overflow-y-auto lg:custom-scrollbar lg:pr-6">
+              {category.services.map((service) => (
+                <div class="service-item group/service flex gap-6">
+                  <div class="flex-shrink-0 w-13 h-13 bg-white rounded-2xl flex items-center justify-center text-[var(--brand-primary)] shadow-sm border border-gray-100 transition-all duration-500 group-hover/service:bg-[var(--brand-primary)] group-hover/service:text-white">
+                    <div class="w-6.5 h-6.5" set:html={service.icon} />
+                  </div>
+                  <div class="flex-grow">
+                    <h4 class="font-black text-[var(--brand-primary)] uppercase tracking-tight text-lg mb-2 group-hover/service:text-[var(--brand-highlight)] transition-colors">
+                      {service.title}
+                    </h4>
+                    <p class="text-gray-500 text-sm font-medium leading-relaxed opacity-80" set:html={service.description} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   </div>
 </section>
 
 <style>
-  .svc-section {
-    position: relative;
-    background: var(--background);
+  .custom-scrollbar::-webkit-scrollbar { width: 3px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: #eee; border-radius: 10px; }
+
+  @media (min-width: 1024px) {
+    /* Base State: Static */
+    .svc-panel {
+      flex: 1;
+    }
+
+    /* ONLY Active State (Triggered by Click) */
+    .svc-panel.is-active {
+      flex: 7;
+      cursor: default;
+    }
+    .svc-panel.is-active .expanded-content {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      transition-delay: 300ms;
+    }
+    .svc-panel.is-active .collapsed-label {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .svc-panel.is-active .panel-overlay {
+      opacity: 1;
+    }
+
+    /* Subtlest Hover Effect (No expansion) */
+    .svc-panel:not(.is-active):hover {
+      background: #fff;
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05);
+    }
   }
 
-  .svc-body {
-    background: #fff;
-    padding: 4rem 0 5rem;
-  }
-
-  /* ─── Header ─── */
-  .svc-header {
-    margin-bottom: 2.5rem;
-  }
-
-  .svc-eyebrow {
-    margin-bottom: 1.5rem;
-  }
-  .svc-eyebrow-text {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--brand-highlight);
-    display: inline-block;
-    padding: 0.4rem 1rem;
-    background: var(--brand-primary);
-  }
-
-  .svc-title {
-    font-size: 2rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
-    color: var(--brand-primary);
-  }
-  @media (min-width: 768px) {
-    .svc-title { font-size: 2.5rem; }
-  }
-
-  .svc-desc {
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: var(--brand-secondary);
-  }
-
-  /* ─── Tabs ─── */
-  .svc-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0;
-    margin-bottom: 2.5rem;
-    border-bottom: 2px solid rgba(0,0,0,0.18);
-  }
-
-  .svc-tab {
-    position: relative;
-    padding: 0.85rem 1.5rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--brand-secondary);
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
-  .svc-tab:hover {
-    color: var(--brand-primary);
-  }
-
-  .svc-tab[data-active="true"] {
-    color: var(--brand-primary);
-  }
-
-  .svc-tab-bar {
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: transparent;
-    transition: background 0.3s ease;
-  }
-  .svc-tab[data-active="true"] .svc-tab-bar {
-    background: var(--brand-highlight);
-  }
-
-  /* ─── Cards ─── */
-  .svc-card {
-    position: relative;
-    display: block;
-    background: white;
-    border: 1px solid rgba(0,0,0,0.18);
-    overflow: hidden;
-    transition: all 0.35s ease;
-    text-decoration: none;
-  }
-  .svc-card:hover {
-    border-color: var(--brand-highlight);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.18);
-  }
-
-  .svc-card-strip {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3px;
-    height: 0;
-    background: var(--brand-highlight);
-    transition: height 0.35s ease;
-  }
-  .svc-card:hover .svc-card-strip {
-    height: 100%;
-  }
-
-  .svc-card-inner {
-    padding: 1.75rem 1.5rem;
-  }
-
-  .svc-icon {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--brand-tertiary);
-    border: 1px solid rgba(0,0,0,0.06);
-    color: var(--brand-primary);
-    margin-bottom: 1.25rem;
-    transition: all 0.3s ease;
-  }
-  .svc-card:hover .svc-icon {
-    background: var(--brand-highlight);
-    border-color: var(--brand-highlight);
-    color: var(--brand-primary);
-  }
-
-  .svc-card-title {
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: var(--brand-primary);
-    margin-bottom: 0.5rem;
-    line-height: 1.25;
-    transition: color 0.3s ease;
-  }
-
-  .svc-card-desc {
-    font-size: 0.85rem;
-    line-height: 1.6;
-    color: var(--brand-secondary);
-    margin-bottom: 1.25rem;
-  }
-
-  .svc-arrow {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--brand-tertiary);
-    color: var(--brand-secondary);
-    transition: all 0.3s ease;
-  }
-  .svc-card:hover .svc-arrow {
-    background: var(--brand-highlight);
-    color: var(--brand-primary);
-    transform: translateX(4px);
+  /* --- Mobile Stacked Accordion --- */
+  @media (max-width: 1023px) {
+    .svc-panel {
+      flex: none;
+      height: auto;
+      max-height: 85px;
+      transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-bottom: 0.75rem;
+    }
+    .svc-panel.is-active {
+      max-height: 2500px;
+    }
+    .svc-panel.is-active .expanded-content {
+      opacity: 1;
+      padding-top: 1.5rem;
+      pointer-events: auto;
+    }
+    .svc-panel.is-active .panel-overlay {
+      opacity: 1;
+    }
+    .svc-panel.is-active .mobile-toggle-icon {
+      transform: rotate(180deg);
+      background: var(--brand-primary);
+      color: white;
+    }
+    .collapsed-label {
+      display: none;
+    }
   }
 </style>
 
 <script>
-  const tabs = document.querySelectorAll<HTMLElement>('.svc-tab');
-  const contents = document.querySelectorAll<HTMLElement>('.service-content');
+  const panels = document.querySelectorAll<HTMLElement>('[data-accordion-panel]');
 
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      const tabIndex = tab.getAttribute('data-tab');
-
-      tabs.forEach((t) => t.setAttribute('data-active', 'false'));
-      tab.setAttribute('data-active', 'true');
-
-      contents.forEach((content) => {
-        const contentIndex = content.getAttribute('data-content');
-        if (contentIndex === tabIndex) {
-          content.style.opacity = '1';
-          content.style.pointerEvents = 'auto';
-        } else {
-          content.style.opacity = '0';
-          content.style.pointerEvents = 'none';
-        }
-      });
+  panels.forEach((panel) => {
+    panel.addEventListener('click', () => {
+      const isActive = panel.classList.contains('is-active');
+      
+      // Close all others
+      panels.forEach((p) => p.classList.remove('is-active'));
+      
+      // Open clicked
+      if (!isActive) {
+        panel.classList.add('is-active');
+      }
     });
   });
-
-
 </script>
