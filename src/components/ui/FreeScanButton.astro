@@ -11,7 +11,7 @@
   >
     <!-- Icon -->
     <span class="fab-icon">
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
           d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
       </svg>
@@ -22,9 +22,6 @@
       <span class="fab-label">Service Special</span>
       <span class="fab-value">$69 Offer</span>
     </span>
-
-    <!-- Highlight strip -->
-    <span class="fab-strip"></span>
   </button>
 </div>
 
@@ -37,74 +34,98 @@
     position: relative;
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1.5rem 0.75rem 0.75rem;
-    background: var(--brand-primary);
+    gap: 0.85rem;
+    padding: 0.65rem 1.75rem 0.65rem 0.65rem;
+    background: rgba(10, 15, 26, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 3rem;
     color: #fff;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-left: 3px solid var(--brand-highlight);
     cursor: pointer;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    overflow: hidden;
-  }
-  .fab-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 44px rgba(0,0,0,0.4);
-    border-color: var(--brand-highlight);
-  }
-  .fab-btn:active {
-    transform: translateY(0);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .fab-strip {
+  /* Gradient border magic */
+  .fab-btn::before {
+    content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--brand-highlight);
+    inset: -1px;
+    border-radius: 3rem;
+    padding: 1px;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--brand-highlight) 60%, transparent), rgba(255,255,255,0.05) 50%, transparent);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .fab-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.6), 0 0 20px rgba(var(--brand-highlight-rgb), 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .fab-btn:hover::before {
+    background: linear-gradient(135deg, var(--brand-highlight), rgba(255,255,255,0.2) 50%, transparent);
+  }
+
+  .fab-btn:active {
+    transform: translateY(0);
   }
 
   .fab-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 2.75rem;
+    height: 2.75rem;
     background: var(--brand-highlight);
+    border-radius: 50%;
     color: var(--brand-primary);
     flex-shrink: 0;
-    transition: background 0.2s;
+    box-shadow: 0 0 15px rgba(var(--brand-highlight-rgb), 0.4);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fab-btn:hover .fab-icon {
+    transform: rotate(15deg) scale(1.05);
   }
 
   .fab-text {
     display: flex;
     flex-direction: column;
-    line-height: 1.2;
+    align-items: flex-start;
+    line-height: 1.15;
   }
   .fab-label {
     font-size: 0.6rem;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 0.15rem;
   }
   .fab-value {
-    font-weight: 800;
+    font-weight: 900;
     font-size: 1.1rem;
     letter-spacing: 0.02em;
-    color: var(--brand-highlight);
+    color: transparent;
+    background: linear-gradient(to right, #fff, rgba(255,255,255,0.7));
+    -webkit-background-clip: text;
+    background-clip: text;
   }
 
   @keyframes fab-enter {
     from {
       opacity: 0;
-      transform: translateY(24px);
+      transform: translateY(30px) scale(0.9);
     }
     to {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
     }
   }
 </style>

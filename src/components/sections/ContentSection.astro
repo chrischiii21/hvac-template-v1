@@ -34,316 +34,119 @@ const mainImage = images[0] || "";
 const isRight = imagePosition === "right";
 ---
 
-<section class="cs-wrapper">
-  <div class:list={["cs-section", { "cs-section--flipped": isRight }]}>
-  <!-- Full-bleed image side -->
-  <div class="cs-image-side" data-animate={isRight ? "fade-left" : "fade-right"}>
-    {mainImage ? (
-      <Image
-        src={mainImage}
-        alt={imageAlts[0] || title}
-        class="cs-image"
-        loading="lazy"
-        width={960}
-        height={720}
-        format="webp"
-        quality={75}
-        decoding="async"
-      />
-    ) : (
-      <div class="cs-image cs-image--placeholder">
-        <span>Image</span>
-      </div>
-    )}
-
-    <!-- Diagonal slope cutting into image -->
-    <div class="cs-slope">
-      <svg viewBox="0 0 120 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <polygon points="40,0 120,0 120,800 0,800" fill="var(--background)" />
-        <polygon points="20,0 40,0 0,800 0,570" fill="var(--background)" opacity="0.55" />
-        <polygon points="5,0 20,0 0,570 0,400" fill="var(--background)" opacity="0.25" />
-      </svg>
-    </div>
-
-    <!-- Highlight accent strip -->
-    <div class="cs-accent-strip"></div>
+<section class="cs-wrapper relative overflow-hidden bg-white py-16 lg:py-24">
+  <!-- Decorative Abstract Background -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] opacity-[0.03] pointer-events-none z-0">
+    <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+      <path d="M750,250 C850,350 850,550 750,650 C650,750 450,750 350,650 C250,550 250,350 350,250 C450,150 650,150 750,250" fill="var(--brand-primary)" />
+    </svg>
   </div>
 
-  <!-- Text side -->
-  <div class="cs-text-side" data-animate={isRight ? "fade-right" : "fade-left"} data-animate-delay="200">
-    <div class="cs-text-inner">
-      {badge && (
-        <div class="cs-eyebrow">
-          <span class="cs-eyebrow-text">{badge}</span>
-        </div>
-      )}
+  <div class:list={["container mx-auto px-6 md:px-12 lg:px-16 relative z-10", { "cs-container--flipped": isRight }]}>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+      
+      <!-- Modern Floating Image Side -->
+      <div class:list={["lg:col-span-6 relative", isRight ? "lg:order-2" : "lg:order-1"]} data-animate={isRight ? "fade-left" : "fade-right"}>
+        <div class="relative max-w-[540px] mx-auto lg:mx-0 group">
+          <!-- Decorative Offset Border -->
+          <div class="absolute inset-0 border-2 border-[var(--brand-highlight)] rounded-[2.5rem] translate-x-4 translate-y-4 lg:translate-x-6 lg:translate-y-6 z-0 transition-transform duration-500 group-hover:translate-x-2 group-hover:translate-y-2"></div>
+          
+          <!-- Background Glow -->
+          <div class="absolute -inset-10 bg-[var(--brand-primary)]/10 rounded-full blur-[60px] z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
-      <h2 class="cs-title">{title}</h2>
-
-      <div class="cs-divider"></div>
-
-      <p class="cs-desc" set:html={description} />
-
-      {features.length > 0 && (
-        <div class="cs-features" data-animate-stagger>
-          {features.map((feature) => (
-            <div class="cs-feature">
-              <span class="cs-feature-dot"></span>
-              <span class="cs-feature-text" set:html={feature} />
+          <!-- Main Image Container -->
+          <div class="relative z-10 rounded-[2rem] overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.2)] aspect-[4/5] sm:aspect-square lg:aspect-[4/5]">
+            {mainImage ? (
+              <Image
+                src={mainImage}
+                alt={imageAlts[0] || title}
+                class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                loading="lazy"
+                width={800}
+                height={1000}
+                format="webp"
+                quality={85}
+                decoding="async"
+              />
+            ) : (
+              <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
+                <span>Image</span>
+              </div>
+            )}
+            
+            <!-- Bottom Glassmorphic Card (Visual Only) -->
+            <div class="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8 md:right-8 bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-white/40 shadow-xl z-20 transition-all duration-500 group-hover:-translate-y-2">
+              <div class="flex items-center gap-4">
+                <div class="flex-shrink-0 w-10 h-10 bg-[var(--brand-primary)] rounded-xl flex items-center justify-center text-[var(--brand-highlight)] shadow-lg shadow-[var(--brand-primary)]/20">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                  </svg>
+                </div>
+                <div class="w-full h-2 bg-[var(--brand-primary)]/10 rounded-full"></div>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
-      )}
+      </div>
 
-      {buttonText && buttonHref && (
-        <a href={buttonHref} class="cs-btn">
-          {buttonText}
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </a>
-      )}
+      <!-- Text Side -->
+      <div class:list={["lg:col-span-6", isRight ? "lg:order-1" : "lg:order-2"]} data-animate={isRight ? "fade-right" : "fade-left"} data-animate-delay="200">
+        <div class="max-w-xl mx-auto lg:mx-0">
+          {badge && (
+            <div class="mb-6 lg:mb-8">
+              <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-full border border-[var(--brand-primary)]/10 shadow-sm">
+                <span class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] shadow-[0_0_8px_rgba(var(--brand-highlight-rgb),0.5)] animate-pulse"></span>
+                <span class="text-xs font-black text-[var(--brand-primary)] uppercase tracking-[0.2em]">{badge}</span>
+              </div>
+            </div>
+          )}
+
+          <h2 class="text-3xl md:text-4xl lg:text-5xl font-black text-[var(--brand-primary)] uppercase tracking-tight leading-[1.1] mb-6">
+            {title}
+          </h2>
+
+          <div class="w-16 h-1.5 bg-[var(--brand-highlight)] mb-8 shadow-[0_4px_10px_rgba(var(--brand-highlight-rgb),0.3)] rounded-full"></div>
+
+          <div class="text-gray-600 text-base md:text-lg font-medium leading-relaxed mb-10" set:html={description} />
+
+          {features.length > 0 && (
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-12" data-animate-stagger>
+              {features.map((feature) => (
+                <div class="group flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-2xl shadow-sm transition-all duration-300 hover:border-gray-200 hover:shadow-md hover:-translate-y-1">
+                  <span class="w-2 h-2 rounded-full bg-[var(--brand-highlight)] shadow-[0_0_8px_rgba(var(--brand-highlight-rgb),0.5)] flex-shrink-0 transition-transform duration-300 group-hover:scale-150"></span>
+                  <span class="text-[var(--brand-primary)] font-bold text-xs md:text-sm leading-tight" set:html={feature} />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {buttonText && buttonHref && (
+            <a href={buttonHref} class="group relative inline-flex items-center justify-center gap-3 bg-[var(--brand-primary)] text-white py-4 px-10 rounded-full font-black text-sm uppercase tracking-widest transition-all duration-300 overflow-hidden shadow-[0_10px_20px_-5px_rgba(0,0,0,0.2)] hover:shadow-[0_15px_30px_-5px_rgba(var(--brand-primary-rgb),0.3)] hover:-translate-y-1">
+              <div class="absolute inset-0 w-0 bg-[var(--brand-highlight)] transition-all duration-500 ease-out group-hover:w-full z-[0]"></div>
+              <span class="relative z-[1] transition-colors duration-300 group-hover:text-[var(--brand-primary)]">{buttonText}</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="relative z-[1] w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-[var(--brand-primary)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+          )}
+        </div>
+      </div>
+
     </div>
-  </div>
   </div>
 </section>
 
 <style>
-  .cs-wrapper {
-    background: var(--background);
-    overflow: hidden;
-  }
-
-  /* ─── Layout ─── */
-  .cs-section {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    min-height: auto;
-    overflow: hidden;
-    max-width: 100%;
-  }
-
-  .cs-section--flipped {
-    direction: rtl;
-  }
-  .cs-section--flipped > * {
-    direction: ltr;
-  }
-
-  /* ─── Image side: full bleed ─── */
-  .cs-image-side {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cs-image {
-    width: 100%;
-    display: block;
-    object-fit: cover;
-    aspect-ratio: 4 / 3;
-    min-height: 100%;
-  }
-
-  .cs-image--placeholder {
-    background: var(--brand-tertiary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted-foreground);
-    font-size: 0.875rem;
-  }
-
-  /* 3-layer diagonal slope on the inner edge */
-  .cs-slope {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 120px;
-    height: 100%;
-    z-index: 2;
-    pointer-events: none;
-  }
-  .cs-slope svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  .cs-section--flipped .cs-slope {
-    right: auto;
-    left: 0;
-    transform: scaleX(-1);
-  }
-
-  /* Vertical highlight strip on the image edge */
-  .cs-accent-strip {
-    position: absolute;
-    top: 15%;
-    right: 85px;
-    width: 3px;
-    height: 35%;
-    background: var(--brand-highlight);
-    z-index: 3;
-    opacity: 0.8;
-  }
-
-  .cs-section--flipped .cs-accent-strip {
-    right: auto;
-    left: 85px;
-  }
-
-  /* ─── Text side ─── */
-  .cs-text-side {
-    display: flex;
-    align-items: center;
-    padding: 2.5rem 2rem 2.5rem 2.5rem;
-  }
-
-  @media (min-width: 1024px) {
-    .cs-text-side {
-      padding: 3.5rem 4rem 3.5rem 3.5rem;
-    }
-  }
-
-  .cs-text-inner {
-    max-width: 560px;
-  }
-
-  /* Eyebrow */
-  .cs-eyebrow {
-    margin-bottom: 1.25rem;
-  }
-  .cs-eyebrow-text {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--brand-highlight);
-    display: inline-block;
-    padding: 0.4rem 1rem;
-    background: var(--brand-primary);
-  }
-
-  /* Title */
-  .cs-title {
-    font-size: 2rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 1.15;
-    color: var(--brand-primary);
-    margin-bottom: 1.25rem;
-  }
-  @media (min-width: 768px) {
-    .cs-title { font-size: 2.25rem; }
-  }
-  @media (min-width: 1280px) {
-    .cs-title { font-size: 2.5rem; }
-  }
-
-  /* Divider */
-  .cs-divider {
-    width: 3rem;
-    height: 3px;
-    background: var(--brand-highlight);
+  /* Ensure description styles inherit correctly */
+  .text-gray-600 :global(p) {
     margin-bottom: 1.5rem;
   }
-
-  /* Description */
-  .cs-desc {
-    font-size: 0.9rem;
-    line-height: 1.8;
-    color: var(--brand-secondary);
-    margin-bottom: 2rem;
+  .text-gray-600 :global(p:last-child) {
+    margin-bottom: 0;
   }
-
-  /* ─── Features: vertical list ─── */
-  .cs-features {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    margin-bottom: 2rem;
-    border-left: 2px solid var(--brand-tertiary);
-    padding-left: 0;
-  }
-
-  .cs-feature {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.6rem 1rem;
-    border-left: 2px solid transparent;
-    margin-left: -2px;
-    transition: all 0.25s ease;
-  }
-
-  .cs-feature:hover {
-    border-left-color: var(--brand-highlight);
-    background: var(--brand-tertiary);
-  }
-
-  .cs-feature-dot {
-    width: 6px;
-    height: 6px;
-    background: var(--brand-highlight);
-    flex-shrink: 0;
-    transition: transform 0.25s ease;
-  }
-
-  .cs-feature:hover .cs-feature-dot {
-    transform: scale(1.5);
-  }
-
-  .cs-feature-text {
-    font-size: 0.875rem;
-    font-weight: 600;
+  .text-gray-600 :global(strong) {
     color: var(--brand-primary);
-  }
-
-  /* ─── CTA ─── */
-  .cs-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.625rem;
-    padding: 0.7rem 1.75rem;
-    background: var(--brand-highlight);
-    color: #0a0a0a;
-    font-weight: 700;
-    font-size: 0.8rem;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    transition: all 0.3s ease;
-  }
-  .cs-btn:hover {
-    filter: brightness(1.08);
-    transform: translateX(4px);
-  }
-  .cs-btn svg {
-    transition: transform 0.3s ease;
-  }
-  .cs-btn:hover svg {
-    transform: translateX(4px);
-  }
-
-  /* ─── Responsive ─── */
-  @media (max-width: 768px) {
-    .cs-section {
-      grid-template-columns: 1fr;
-    }
-    .cs-section--flipped {
-      direction: ltr;
-    }
-    .cs-image-side {
-      min-height: 280px;
-    }
-    .cs-slope {
-      display: none;
-    }
-    .cs-accent-strip {
-      display: none;
-    }
-    .cs-text-side {
-      padding: 2.5rem 1.5rem;
-    }
+    font-weight: 800;
   }
 </style>
