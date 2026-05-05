@@ -34,70 +34,86 @@ const defaultBackgrounds = [
 ];
 ---
 
-<section class="cpn-section relative overflow-hidden py-20 md:py-28">
-  <div class="cpn-bg-base"></div>
+<section class="cpn-section relative overflow-hidden py-20 md:py-32 bg-[var(--brand-primary)]">
+  <!-- Dynamic Background Glow -->
+  <div class="absolute inset-0 bg-gradient-to-b from-[var(--brand-primary)]/80 via-transparent to-[var(--brand-primary)] mix-blend-multiply z-[1] pointer-events-none"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--brand-highlight)]/10 rounded-full blur-[120px] pointer-events-none z-[1]"></div>
 
-  <div class="relative z-[1] container mx-auto px-6 md:px-12 lg:px-16">
+  <div class="relative z-[2] container mx-auto px-4 md:px-8 lg:px-12">
     <!-- Section header -->
-    <div class="mb-14" data-animate="fade-scale">
-      <div class="flex items-center gap-3 mb-4">
-        <div class="h-[3px] w-10 bg-brand-highlight"></div>
-        <span class="text-xs font-bold uppercase tracking-[0.2em] text-brand-highlight">Limited Time</span>
+    <div class="flex flex-col items-center gap-5 mb-20 text-center" data-animate="fade-scale">
+      <div class="inline-flex items-center gap-3 px-5 py-2 bg-[var(--brand-highlight)]/10 backdrop-blur-xl rounded-full border border-[var(--brand-highlight)]/30 shadow-[0_0_20px_rgba(var(--brand-highlight-rgb),0.2)]">
+        <span class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] shadow-[0_0_10px_var(--brand-highlight)] animate-pulse"></span>
+        <span class="text-xs tracking-[0.25em] font-black text-white uppercase drop-shadow-md">Limited Time</span>
       </div>
-      <h2 class="text-3xl md:text-4xl lg:text-5xl font-extrabold uppercase tracking-tight text-brand-primary">{title}</h2>
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70 uppercase tracking-tight leading-[1.1] drop-shadow-2xl">
+        {title}
+      </h2>
     </div>
 
     <!-- Coupons grid -->
-    <div class="cpn-grid" data-animate-stagger>
+    <div class="cpn-grid max-w-[85rem] mx-auto" data-animate-stagger>
       {coupons.map((coupon, i) => {
         const cardBg = coupon.backgroundImage || (i === centerIndex && backgroundImage) || defaultBackgrounds[i % defaultBackgrounds.length];
         return (
           <div class:list={["cpn-coupon group", { "cpn-coupon--featured": i === centerIndex }]}>
-            <!-- Top: image strip -->
-            <div class="cpn-img-strip">
-              <div class="cpn-img-bg">
+            
+            <!-- Top: Image Strip -->
+            <div class="relative h-56 rounded-t-[1.5rem] overflow-hidden">
+              <div class="absolute inset-0 transition-transform duration-1000 ease-out group-hover:scale-110">
                 <Image
                   src={cardBg}
                   alt={coupon.label}
-                  class="cpn-img-bg-actual"
+                  class="w-full h-full object-cover"
                   width={600}
                   height={360}
                   format="webp"
-                  quality={60}
+                  quality={70}
                   loading="lazy"
                   decoding="async"
                 />
               </div>
-              <div class="cpn-img-overlay"></div>
-              <div class="cpn-img-content">
-                <span class="cpn-tag">{coupon.label}</span>
+              <!-- Dark overlay for text legibility -->
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0a0f1a] via-[#0a0f1a]/50 to-transparent z-[1]"></div>
+              
+              <div class="relative z-[2] flex flex-col justify-end h-full p-8 pb-4">
+                <span class="inline-block w-max text-sm font-black uppercase tracking-[0.2em] text-[var(--brand-highlight)] drop-shadow-md">
+                  {coupon.label}
+                </span>
               </div>
+              
               <!-- Corner ribbon for featured -->
               {i === centerIndex && (
-                <div class="cpn-ribbon">
-                  <span>Best Deal</span>
+                <div class="absolute top-6 -right-10 z-[5] bg-gradient-to-r from-[var(--brand-highlight)] to-white text-[var(--brand-primary)] text-xs font-black uppercase tracking-widest py-2 px-12 rotate-45 shadow-[0_5px_20px_rgba(0,0,0,0.5)]">
+                  Best Deal
                 </div>
               )}
             </div>
 
-            <!-- Perforated tear line -->
-            <div class="cpn-tear">
-              <div class="cpn-tear-notch cpn-tear-notch--left"></div>
-              <div class="cpn-tear-line"></div>
-              <div class="cpn-tear-notch cpn-tear-notch--right"></div>
+            <!-- Modern Ticket Tear Line -->
+            <div class="relative h-10 bg-[#0a0f1a] flex items-center z-10 -my-1">
+              <div class="flex-1 border-t-2 border-dashed border-white/20 mx-8"></div>
             </div>
 
-            <!-- Bottom: coupon details -->
-            <div class="cpn-details">
-              <div class="cpn-discount-row">
-                <span class="cpn-discount">{coupon.discount}</span>
+            <!-- Bottom: Coupon Details -->
+            <div class="flex flex-col flex-1 p-8 pt-4 relative bg-[#0a0f1a] rounded-b-[1.5rem] z-[2]">
+              <div class="mb-4">
+                <span class="font-black text-5xl lg:text-7xl leading-none text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-[var(--brand-highlight)] tracking-tighter drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] block">
+                  {coupon.discount}
+                </span>
               </div>
-              <p class="cpn-desc">{coupon.description}</p>
-              <div class="cpn-footer">
-                <div class="cpn-dashed-border"></div>
-                <a href={coupon.buttonHref || "/contact"} class="cpn-btn">
-                  {coupon.buttonText || "GET OFFER"}
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <p class="text-gray-300/90 text-base font-medium leading-relaxed mb-10 flex-1">
+                {coupon.description}
+              </p>
+              
+              <div class="mt-auto">
+                <a href={coupon.buttonHref || "/contact"} class="cpn-btn relative w-full group/btn inline-flex items-center justify-center gap-3 bg-white text-[var(--brand-primary)] py-4 px-8 rounded-[1rem] font-black text-sm uppercase tracking-widest transition-all duration-300 overflow-hidden shadow-[0_10px_20px_-5px_rgba(255,255,255,0.2)] hover:shadow-[0_15px_30px_-5px_rgba(var(--brand-highlight-rgb),0.4)] hover:-translate-y-1">
+                  <!-- Hover effect background -->
+                  <div class="absolute inset-0 w-0 bg-[var(--brand-highlight)] transition-all duration-500 ease-out group-hover/btn:w-full z-[0]"></div>
+                  
+                  <span class="relative z-[1] transition-colors duration-300">{coupon.buttonText || "GET OFFER"}</span>
+                  
+                  <svg xmlns="http://www.w3.org/2000/svg" class="relative z-[1] w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                   </svg>
                 </a>
@@ -111,244 +127,102 @@ const defaultBackgrounds = [
 </section>
 
 <style>
-  /* ─── Section Background ─── */
-  .cpn-bg-base {
-    position: absolute;
-    inset: 0;
-    background: var(--brand-primary);
-  }
-
-  /* Section header override for dark bg */
-  .cpn-section h2 {
-    color: #fff;
-  }
-  .cpn-section .text-brand-primary {
-    color: #fff;
-  }
-
   /* ─── Grid ─── */
   .cpn-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    max-width: 76rem;
-    margin: 0 auto;
-    align-items: end;
+    gap: 3rem;
+    align-items: stretch;
   }
 
-  /* Lift the middle card */
-  .cpn-grid > :nth-child(2) {
-    transform: translateY(-1.5rem);
-  }
-  .cpn-grid > :nth-child(2):hover {
-    transform: translateY(calc(-1.5rem - 6px));
+  /* Lift the middle card on desktop */
+  @media (min-width: 1024px) {
+    .cpn-grid > :nth-child(2) {
+      transform: scale(1.05) translateY(-1rem);
+    }
   }
 
-  /* ─── Coupon Card ─── */
+  /* ─── Coupon Card (Eye-catching) ─── */
   .cpn-coupon {
-    position: relative;
     display: flex;
     flex-direction: column;
-    background: #fff;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    position: relative;
+    border-radius: 1.5rem;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+    background: #0a0f1a;
+  }
+
+  /* Gradient Border Magic */
+  .cpn-coupon::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: calc(1.5rem + 2px);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--brand-highlight) 80%, transparent), rgba(255,255,255,0.1) 40%, rgba(255,255,255,0.05) 60%, color-mix(in srgb, var(--brand-highlight) 30%, transparent));
+    z-index: -1;
+    opacity: 0.6;
+    transition: opacity 0.4s ease;
   }
 
   .cpn-coupon:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    transform: translateY(-12px);
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7);
   }
 
-  /* Featured card glow */
+  .cpn-coupon:hover::before {
+    opacity: 1;
+    background: linear-gradient(135deg, var(--brand-highlight), rgba(255,255,255,0.3) 40%, rgba(255,255,255,0.1) 60%, var(--brand-highlight));
+  }
+
+  /* Featured card intense glow */
   .cpn-coupon--featured {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25), 0 0 0 2px var(--brand-highlight);
+    z-index: 10;
   }
-  .cpn-coupon--featured:hover {
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), 0 0 0 2px var(--brand-highlight), 0 0 30px color-mix(in srgb, var(--brand-highlight) 25%, transparent);
+  .cpn-coupon--featured::before {
+    opacity: 1;
+    background: linear-gradient(135deg, var(--brand-highlight), rgba(255,255,255,0.5), var(--brand-highlight));
+    animation: borderRotate 4s linear infinite;
   }
-
-  /* ─── Image Strip (top half) ─── */
-  .cpn-img-strip {
-    position: relative;
-    height: 180px;
-    overflow: hidden;
-  }
-
-  .cpn-img-bg {
+  .cpn-coupon--featured::after {
+    content: '';
     position: absolute;
-    inset: 0;
-    overflow: hidden;
-    transition: transform 0.6s ease;
-  }
-  .cpn-img-bg-actual {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .cpn-coupon:hover .cpn-img-bg {
-    transform: scale(1.08);
-  }
-
-  .cpn-img-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      160deg,
-      color-mix(in srgb, var(--brand-primary) 70%, transparent) 0%,
-      color-mix(in srgb, var(--brand-primary) 90%, transparent) 100%
-    );
-    z-index: 1;
-  }
-
-  .cpn-img-content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    align-items: flex-end;
-    height: 100%;
-    padding: 1.25rem 1.5rem;
-  }
-
-  .cpn-tag {
-    display: inline-block;
-    font-size: 0.6rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--brand-highlight);
-    border-bottom: 2px solid var(--brand-highlight);
-    padding-bottom: 0.3rem;
-  }
-
-  /* Corner ribbon */
-  .cpn-ribbon {
-    position: absolute;
-    top: 16px;
-    right: -32px;
-    z-index: 5;
+    inset: -2px;
+    border-radius: calc(1.5rem + 2px);
     background: var(--brand-highlight);
-    color: var(--brand-primary);
-    font-size: 0.55rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    padding: 0.3rem 2.5rem;
-    transform: rotate(45deg);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: -2;
+    filter: blur(20px);
+    opacity: 0.3;
   }
-
-  /* ─── Perforated Tear Line ─── */
-  .cpn-tear {
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 0;
-    z-index: 3;
-  }
-
-  .cpn-tear-notch {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--brand-primary);
-    flex-shrink: 0;
-    position: relative;
-  }
-  .cpn-tear-notch--left {
-    margin-left: -8px;
-  }
-  .cpn-tear-notch--right {
-    margin-right: -8px;
-  }
-
-  .cpn-tear-line {
-    flex: 1;
-    border-top: 2px dashed color-mix(in srgb, var(--brand-primary) 15%, transparent);
-  }
-
-  /* ─── Details (bottom half) ─── */
-  .cpn-details {
-    padding: 1.5rem 1.5rem 1.75rem;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-
-  .cpn-discount-row {
-    margin-bottom: 0.5rem;
-  }
-
-  .cpn-discount {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-weight: 800;
-    font-size: 2.75rem;
-    line-height: 1;
-    color: var(--brand-primary);
-    text-transform: uppercase;
-  }
-
-  .cpn-desc {
-    font-size: 0.85rem;
-    line-height: 1.5;
-    color: #666;
-    margin-bottom: auto;
-    padding-bottom: 1.25rem;
-  }
-
-  .cpn-footer {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .cpn-dashed-border {
-    border-top: 2px dashed color-mix(in srgb, var(--brand-primary) 12%, transparent);
-    padding-top: 1rem;
-  }
-
-  .cpn-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--brand-highlight);
-    color: var(--brand-primary);
-    padding: 0.75rem 1.75rem;
-    font-weight: 800;
-    font-size: 0.75rem;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    transition: all 0.3s ease;
-    align-self: flex-start;
-  }
-  .cpn-btn:hover {
-    filter: brightness(1.08);
-    transform: translateX(4px);
+  
+  @keyframes borderRotate {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   /* ─── Responsive ─── */
+  @media (max-width: 1200px) {
+    .cpn-grid { gap: 2rem; }
+  }
+
   @media (max-width: 1024px) {
     .cpn-grid {
       grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
     }
   }
 
   @media (max-width: 640px) {
     .cpn-grid {
       grid-template-columns: 1fr;
+      gap: 2.5rem;
     }
     .cpn-grid > :nth-child(2) {
       transform: none;
     }
-    .cpn-grid > :nth-child(2):hover {
-      transform: translateY(-6px);
-    }
-    .cpn-img-strip {
-      height: 150px;
-    }
-    .cpn-discount {
-      font-size: 2.25rem;
+    .cpn-coupon:hover {
+      transform: translateY(-4px);
     }
   }
 </style>
