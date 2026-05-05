@@ -1,5 +1,7 @@
 ---
 import { getLocationText } from "@/config/site"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 
 interface JobOpening {
   title: string;
@@ -48,38 +50,38 @@ const introDescription = rawIntroDescription ? getLocationText(rawIntroDescripti
       {description && <p class="jo-subheader-desc" set:html={description} />}
     </div>
 
-    {/* Job cards */}
+    {/* Job cards using React Card/Button */}
     <div class="jo-grid" data-animate-stagger>
       {jobs.map((job, i) => (
-        <div class="jo-card group">
-          <span class="jo-card-accent"></span>
+        <Card className="relative overflow-hidden group border-gray-100 hover:border-[var(--brand-highlight)] h-full">
+          {/* Top accent line sweep */}
+          <span class="absolute top-0 left-0 right-0 h-[4px] bg-[var(--brand-highlight)] scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100 z-10"></span>
 
           {/* Background number */}
-          <div class="jo-card-bg-num" aria-hidden="true">
+          <div class="absolute -bottom-6 right-2 text-9xl font-black leading-none text-[var(--brand-primary)] opacity-[0.03] pointer-events-none select-none z-0">
             {String(i + 1).padStart(2, '0')}
           </div>
 
-          <div class="jo-card-inner">
-            <h3 class="jo-card-title">{job.title}</h3>
-            <span class="jo-card-type">{job.type || "Full-time position"}</span>
+          <CardContent className="relative flex flex-col p-8 md:p-10 min-h-[340px] z-10 h-full">
+            <h3 class="text-xl md:text-2xl font-black uppercase text-[var(--brand-primary)] tracking-tight mb-2">{job.title}</h3>
+            <span class="text-xs font-bold uppercase tracking-[0.1em] text-[var(--brand-secondary)]">{job.type || "Full-time position"}</span>
 
-            <div class="jo-card-sep"></div>
+            <div class="w-12 h-[3px] bg-[var(--brand-highlight)] my-6 shadow-[0_0_10px_rgba(var(--brand-highlight-rgb),0.5)]"></div>
 
-            <p class="jo-card-resp">
-              <span class="jo-card-resp-label">Responsibilities:</span> {job.responsibilities}
+            <p class="text-sm md:text-base leading-relaxed text-gray-600 mb-8 flex-grow">
+              <span class="font-bold text-[var(--brand-primary)]">Responsibilities:</span> {job.responsibilities}
             </p>
 
-            <a
-              href={job.buttonHref || "/contact"}
-              class="jo-btn"
-            >
-              {job.buttonText || "APPLY NOW"}
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </a>
-          </div>
-        </div>
+            <Button asChild className="self-start mt-auto group/btn">
+              <a href={job.buttonHref || "/contact"}>
+                {job.buttonText || "APPLY NOW"}
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2 transition-transform duration-300 group-hover/btn:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </Button>
+          </CardContent>
+        </Card>
       ))}
     </div>
   </div>
@@ -173,122 +175,8 @@ const introDescription = rawIntroDescription ? getLocationText(rawIntroDescripti
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
-    max-width: 64rem;
+    max-width: 72rem;
     margin: 0 auto;
-  }
-
-  /* ─── Card ─── */
-  .jo-card {
-    position: relative;
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    overflow: hidden;
-    transition: all 0.35s ease;
-  }
-  .jo-card:hover {
-    border-color: var(--brand-highlight);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
-  }
-
-  .jo-card-accent {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--brand-highlight);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.35s ease;
-  }
-  .jo-card:hover .jo-card-accent {
-    transform: scaleX(1);
-  }
-
-  .jo-card-bg-num {
-    position: absolute;
-    bottom: -0.25rem;
-    right: 0.5rem;
-    font-size: 5rem;
-    font-weight: 800;
-    line-height: 1;
-    color: var(--brand-primary);
-    opacity: 0.03;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .jo-card-inner {
-    position: relative;
-    padding: 2rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    min-height: 280px;
-  }
-
-  .jo-card-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: var(--brand-primary);
-    margin-bottom: 0.35rem;
-    line-height: 1.25;
-  }
-
-  .jo-card-type {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--brand-secondary);
-  }
-
-  .jo-card-sep {
-    width: 2rem;
-    height: 2px;
-    background: var(--brand-highlight);
-    margin: 1.25rem 0;
-  }
-
-  .jo-card-resp {
-    font-size: 0.85rem;
-    line-height: 1.6;
-    color: var(--brand-secondary);
-    margin-bottom: auto;
-    padding-bottom: 1.5rem;
-  }
-  .jo-card-resp-label {
-    font-weight: 700;
-    color: var(--brand-primary);
-  }
-
-  .jo-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.625rem;
-    padding: 0.7rem 1.5rem;
-    background: var(--brand-primary);
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.75rem;
-    text-decoration: none;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    transition: all 0.3s ease;
-    align-self: flex-start;
-  }
-  .jo-btn:hover {
-    background: var(--brand-highlight);
-    color: var(--brand-primary);
-    transform: translateX(4px);
-  }
-  .jo-btn svg {
-    transition: transform 0.3s ease;
-  }
-  .jo-btn:hover svg {
-    transform: translateX(4px);
   }
 
   /* ─── Responsive ─── */
