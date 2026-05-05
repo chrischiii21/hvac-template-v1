@@ -1,5 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
