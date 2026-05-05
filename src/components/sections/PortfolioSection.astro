@@ -5,268 +5,156 @@ interface Props {
   badge?: string;
   title: string;
   images?: string[];
-  columns?: number;
 }
 
-const { badge = "Portfolio", title, images = [], columns = 4 } = Astro.props;
+const { badge, title, images = [] } = Astro.props;
 
-const topRow = images.slice(0, 4);
-const bottomRow = images.slice(4);
+// Ensure all 8 images fit the specific diagram logic
+const displayImages = images.slice(0, 8);
 ---
 
-<section class="pf-section">
-  <div class="container mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-28">
-    <!-- Header -->
-    <div class="pf-header" data-animate="fade-scale">
-      <div class="pf-eyebrow">
-        <span class="pf-eyebrow-text">{badge}</span>
-      </div>
-      <h2 class="pf-title">{title}</h2>
-      <div class="pf-divider"></div>
+<section class="pf-section relative overflow-hidden bg-white py-24 lg:py-32">
+  <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
+    
+    <!-- Stable Balanced Header -->
+    <div class="max-w-4xl mb-16 lg:mb-20 reveal-on-scroll">
+      {badge && (
+        <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-full border border-[var(--brand-primary)]/10 mb-8">
+          <span class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] animate-pulse"></span>
+          <span class="text-xs font-black text-[var(--brand-primary)] uppercase tracking-[0.2em]">{badge}</span>
+        </div>
+      )}
+      <h2 class="text-4xl md:text-5xl lg:text-7xl font-black text-[var(--brand-primary)] uppercase tracking-tighter leading-[0.95] mb-0">
+        {title}
+      </h2>
     </div>
 
+    <!-- Maximized Symmetrical Bento (Diagram Match) -->
     {images.length > 0 ? (
-      <div class="pf-gallery">
-        <!-- Top row -->
-        <div class="pf-row pf-row--top" data-animate-stagger>
-          {topRow.map((img, i) => (
-            <div class="pf-item group">
-              <Image src={img} alt={`${title} - project ${i + 1}`} class="pf-img" width={400} height={300} format="webp" quality={65} loading="lazy" decoding="async" />
-              {/* Geometric hover overlay */}
-              <div class="pf-hover">
-                <div class="pf-hover-slope">
-                  <svg viewBox="0 0 400 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                    <polygon points="0,180 400,100 400,300 0,300" fill="var(--brand-primary)" opacity="0.9" />
-                    <polygon points="0,210 400,130 400,300 0,300" fill="var(--brand-primary)" opacity="0.6" />
-                  </svg>
-                </div>
-                <div class="pf-hover-content">
-                  <span class="pf-hover-accent"></span>
-                  <span class="pf-hover-label">Project {i + 1}</span>
-                </div>
-              </div>
-              {/* Top highlight strip */}
-              <span class="pf-item-strip"></span>
-            </div>
-          ))}
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 lg:gap-6 reveal-on-scroll auto-rows-fr">
+        
+        {/* --- Top Cluster --- */}
+        
+        {/* Top Left Featured (2x2) - Image 1 */}
+        <div class="md:col-span-2 md:row-span-2 group relative overflow-hidden rounded-[2.5rem] lg:rounded-[3.5rem] bg-gray-100 shadow-sm transition-all duration-700 hover:shadow-2xl">
+          <Image src={displayImages[0]} alt={`${title} 1`} class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" width={1200} height={1200} format="webp" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="absolute bottom-10 left-10 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
+             <span class="text-xs font-bold text-white uppercase tracking-[0.3em]">Project 1</span>
+          </div>
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(255,255,255,0.15)_0%,transparent_60%)] pointer-events-none"></div>
         </div>
 
-        <!-- Bottom row -->
-        {bottomRow.length > 0 && (
-          <div class="pf-row pf-row--bottom" style={`--pf-bottom-count: ${bottomRow.length}`} data-animate-stagger>
-            {bottomRow.map((img, i) => (
-              <div class="pf-item group">
-                <Image src={img} alt={`${title} - project ${topRow.length + i + 1}`} class="pf-img" width={400} height={300} format="webp" quality={65} loading="lazy" decoding="async" />
-                <div class="pf-hover">
-                  <div class="pf-hover-slope">
-                    <svg viewBox="0 0 400 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                      <polygon points="0,180 400,100 400,300 0,300" fill="var(--brand-primary)" opacity="0.9" />
-                      <polygon points="0,210 400,130 400,300 0,300" fill="var(--brand-primary)" opacity="0.6" />
-                    </svg>
-                  </div>
-                  <div class="pf-hover-content">
-                    <span class="pf-hover-accent"></span>
-                    <span class="pf-hover-label">Project {topRow.length + i + 1}</span>
-                  </div>
-                </div>
-                <span class="pf-item-strip"></span>
-              </div>
-            ))}
+        {/* Top Right Squares (1x1) - Image 2 & 3 */}
+        <div class="group relative aspect-square overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-gray-100 shadow-sm transition-all duration-700 hover:shadow-2xl">
+           <Image src={displayImages[1]} alt={`${title} 2`} class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" width={600} height={600} format="webp" />
+           <div class="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+           <div class="absolute bottom-8 left-8 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
+              <span class="text-[0.65rem] font-bold text-white uppercase tracking-[0.3em]">Project 2</span>
+           </div>
+        </div>
+        <div class="group relative aspect-square overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-gray-100 shadow-sm transition-all duration-700 hover:shadow-2xl">
+           <Image src={displayImages[2]} alt={`${title} 3`} class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" width={600} height={600} format="webp" />
+           <div class="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+           <div class="absolute bottom-8 left-8 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
+              <span class="text-[0.65rem] font-bold text-white uppercase tracking-[0.3em]">Project 3</span>
+           </div>
+        </div>
+
+        {/* Top Right Landscape (2x1) - Image 4 - MAXIMIZED HEIGHT */}
+        <div class="md:col-span-2 group relative overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-gray-100 shadow-sm transition-all duration-700 hover:shadow-2xl h-full min-h-[150px] lg:min-h-[200px]">
+           <Image src={displayImages[3]} alt={`${title} 4`} class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" width={1200} height={600} format="webp" />
+           <div class="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+           <div class="absolute bottom-8 left-8 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
+              <span class="text-xs font-bold text-white uppercase tracking-[0.3em]">Project 4</span>
+           </div>
+        </div>
+
+        {/* --- Bottom Cluster (Mirrored) --- */}
+
+        {/* Bottom Left Squares (1x1) - Image 5 & 6 */}
+        <div class="group relative aspect-square overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-gray-100 shadow-sm transition-all duration-700 hover:shadow-2xl">
+           <Image src={displayImages[4]} alt={`${title} 5`} class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" width={600} height={600} format="webp" />
+           <div class="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+           <div class="absolute bottom-8 left-8 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
+              <span class="text-[0.65rem] font-bold text-white uppercase tracking-[0.3em]">Project 5</span>
+           </div>
+        </div>
+        <div class="group relative aspect-square overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-gray-100 shadow-sm transition-all duration-700 hover:shadow-2xl">
+           <Image src={displayImages[5]} alt={`${title} 6`} class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" width={600} height={600} format="webp" />
+           <div class="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+           <div class="absolute bottom-8 left-8 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
+              <span class="text-[0.65rem] font-bold text-white uppercase tracking-[0.3em]">Project 6</span>
+           </div>
+        </div>
+
+        {/* Bottom Right Featured (2x2) - Image 8 */}
+        <div class="md:col-span-2 md:row-span-2 group relative overflow-hidden rounded-[2.5rem] lg:rounded-[3.5rem] bg-gray-100 shadow-sm transition-all duration-700 hover:shadow-2xl">
+          <Image src={displayImages[7]} alt={`${title} 8`} class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" width={1200} height={1200} format="webp" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <div class="absolute bottom-10 left-10 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
+             <span class="text-xs font-bold text-white uppercase tracking-[0.3em]">Project 8</span>
           </div>
-        )}
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(255,255,255,0.15)_0%,transparent_60%)] pointer-events-none"></div>
+        </div>
+
+        {/* Bottom Left Landscape (2x1) - Image 7 - MAXIMIZED HEIGHT */}
+        <div class="md:col-span-2 group relative overflow-hidden rounded-[2rem] lg:rounded-[2.5rem] bg-gray-100 shadow-sm transition-all duration-700 hover:shadow-2xl h-full min-h-[150px] lg:min-h-[200px]">
+           <Image src={displayImages[6]} alt={`${title} 7`} class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" width={1200} height={600} format="webp" />
+           <div class="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+           <div class="absolute bottom-8 left-8 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-100">
+              <span class="text-xs font-bold text-white uppercase tracking-[0.3em]">Project 7</span>
+           </div>
+        </div>
+
       </div>
     ) : (
-      <div class="pf-row pf-row--top" data-animate-stagger>
-        {Array.from({ length: 8 }).map((_, i) => (
-          <div class="pf-item pf-item--placeholder">
-            <span>Project {i + 1}</span>
-          </div>
-        ))}
+      <div class="py-20 text-center border-2 border-dashed border-gray-100 rounded-[3rem]">
+        <p class="text-gray-400 font-medium italic">Gallery contents loading...</p>
       </div>
     )}
+
   </div>
 </section>
 
 <style>
-  .pf-section {
-    background: var(--background);
-  }
-
-  /* ─── Header ─── */
-  .pf-header {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-
-  .pf-eyebrow {
-    margin-bottom: 1.25rem;
-  }
-  .pf-eyebrow-text {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--brand-highlight);
-    display: inline-block;
-    padding: 0.4rem 1rem;
-    background: var(--brand-primary);
-  }
-
-  .pf-title {
-    font-size: 2rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
-    color: var(--brand-primary);
-    margin-bottom: 1rem;
-  }
-  @media (min-width: 768px) {
-    .pf-title { font-size: 2.25rem; }
-  }
-
-  .pf-divider {
-    width: 3rem;
-    height: 3px;
-    background: var(--brand-highlight);
-    margin: 0 auto;
-  }
-
-  /* ─── Gallery ─── */
-  .pf-gallery {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .pf-row {
-    display: grid;
-    gap: 0.75rem;
-  }
-
-  .pf-row--top {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .pf-row--bottom {
-    grid-template-columns: repeat(var(--pf-bottom-count, 4), 1fr);
-  }
-
-  /* ─── Items ─── */
-  .pf-item {
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 4 / 3;
-    cursor: pointer;
-  }
-
-  .pf-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.5s ease;
-  }
-  .pf-item:hover .pf-img {
-    transform: scale(1.06);
-  }
-
-  /* Top highlight strip */
-  .pf-item-strip {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--brand-highlight);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s ease;
-    z-index: 3;
-  }
-  .pf-item:hover .pf-item-strip {
-    transform: scaleX(1);
-  }
-
-  /* Geometric hover overlay */
-  .pf-hover {
-    position: absolute;
-    inset: 0;
+  .reveal-on-scroll {
     opacity: 0;
-    transition: opacity 0.35s ease;
-    z-index: 2;
+    transform: translateY(30px);
+    transition: all 1s cubic-bezier(0.25, 1, 0.3, 1);
   }
-  .pf-item:hover .pf-hover {
+  
+  .reveal-on-scroll.is-revealed {
     opacity: 1;
-  }
-
-  .pf-hover-slope {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-  .pf-hover-slope svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  .pf-hover-content {
-    position: absolute;
-    bottom: 1.25rem;
-    left: 1.25rem;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    transform: translateY(8px);
-    transition: transform 0.35s ease;
-  }
-  .pf-item:hover .pf-hover-content {
     transform: translateY(0);
   }
-
-  .pf-hover-accent {
-    width: 3px;
-    height: 18px;
-    background: var(--brand-highlight);
-  }
-
-  .pf-hover-label {
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  /* Placeholder */
-  .pf-item--placeholder {
-    background: var(--brand-tertiary);
-    border: 1px solid rgba(0,0,0,0.06);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted-foreground);
-    font-size: 0.875rem;
-  }
-
-  /* ─── Responsive ─── */
-  @media (max-width: 1024px) {
-    .pf-row--top {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .pf-row--bottom {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 640px) {
-    .pf-row--top,
-    .pf-row--bottom {
-      grid-template-columns: 1fr;
-    }
-    .pf-item {
-      aspect-ratio: 16 / 10;
-    }
-  }
 </style>
+
+<script>
+  function initPortfolioAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+    // Mouse Spotlight on the large featured squares
+    document.querySelectorAll('.md\\:col-span-2.md\\:row-span-2').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--mouse-x', `${x}%`);
+        card.style.setProperty('--mouse-y', `${y}%`);
+      });
+    });
+  }
+
+  initPortfolioAnimations();
+  document.addEventListener('astro:page-load', initPortfolioAnimations);
+</script>
