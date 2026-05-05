@@ -34,9 +34,11 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
                   <svg class="nb-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
                 </a>
                 <div class="nb-dropdown-panel">
-                  {item.children.map((child) => (
-                    <a href={child.href} class="nb-dropdown-item">{child.title}</a>
-                  ))}
+                  <div class="nb-dropdown-inner">
+                    {item.children.map((child) => (
+                      <a href={child.href} class="nb-dropdown-item">{child.title}</a>
+                    ))}
+                  </div>
                 </div>
               </div>
             ) : (
@@ -332,11 +334,25 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
   .nb-dropdown-wrapper { position: relative; }
   .nb-dropdown-panel {
     position: absolute;
-    top: calc(100% + 0.5rem);
+    top: 100%;
     left: 50%;
     transform: translateX(-50%) translateY(10px);
+    padding-top: 1rem; /* Hover-safe bridge */
     opacity: 0;
     visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 150;
+    --mega-text: var(--brand-primary);
+    --mega-text-muted: color-mix(in srgb, var(--brand-primary) 60%, transparent);
+  }
+
+  .nb-dropdown-wrapper:hover .nb-dropdown-panel {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .nb-dropdown-inner {
     background: var(--nav-glass-bg);
     backdrop-filter: blur(16px);
     border: 1px solid var(--nav-glass-border);
@@ -344,15 +360,6 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     padding: 0.5rem;
     min-width: 180px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    transition: all 0.2s ease;
-    z-index: 110;
-    --mega-text: var(--brand-primary);
-    --mega-text-muted: color-mix(in srgb, var(--brand-primary) 60%, transparent);
-  }
-  .nb-dropdown-wrapper:hover .nb-dropdown-panel {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
   }
   .nb-dropdown-item {
     display: block;
@@ -448,15 +455,18 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
   /* Mega Menu (Floating Card) */
   .nb-mega-menu {
     position: absolute;
-    top: calc(100% + 0.5rem);
-    left: 1.5rem; right: 1.5rem;
+    top: 100%;
+    left: 1.5rem; 
+    right: 1.5rem;
+    padding-top: 1rem; /* The visual gap is now a hover-safe bridge */
     opacity: 0;
     visibility: hidden;
     transform: translateY(10px);
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 90;
+    z-index: 150;
     pointer-events: none;
   }
+
   .nb-nav-item:hover .nb-mega-menu {
     opacity: 1;
     visibility: visible;
@@ -475,6 +485,15 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     box-shadow: 0 20px 50px -10px rgba(0,0,0,0.15);
     padding: 2rem;
     overflow: hidden;
+  }
+
+  .nb-mega-menu::before {
+    content: '';
+    position: absolute;
+    top: -2rem;
+    left: 0;
+    right: 0;
+    height: 2rem;
   }
 
   .nb-mega-grid {
