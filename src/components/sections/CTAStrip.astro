@@ -12,7 +12,6 @@ interface Props {
   phoneLabel?: string;
   phone?: string;
   features?: Feature[];
-  borderColor?: string;
 }
 
 const {
@@ -23,154 +22,111 @@ const {
   features = [
     { icon: "siren", text: "24/7 Emergency Service" },
     { icon: "award", text: "Experienced & Certified Technicians" }
-  ],
-  borderColor
+  ]
 } = Astro.props;
 
 const iconSvgs: Record<string, string> = {
-  siren: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18v-6a5 5 0 1 1 10 0v6"></path><path d="M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z"></path><path d="M21 12h1"></path><path d="M18.5 4.5 18 5"></path><path d="M2 12h1"></path><path d="M12 2v1"></path><path d="m4.929 4.929.707.707"></path><path d="M12 12v6"></path></svg>`,
-  award: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg>`,
+  siren: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18v-6a5 5 0 1 1 10 0v6"></path><path d="M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z"></path><path d="M21 12h1"></path><path d="M18.5 4.5 18 5"></path><path d="M2 12h1"></path><path d="M12 2v1"></path><path d="m4.929 4.929.707.707"></path><path d="M12 12v6"></path></svg>`,
+  award: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg>`,
 };
-
-const borderStyle = borderColor ? `border-top-color: ${borderColor}; border-bottom-color: ${borderColor};` : "";
 ---
 
-<section class="cta-strip" style={borderStyle}>
+<section class="cta-strip-section relative bg-white py-12 lg:py-16 reveal-on-scroll">
   <div class="container mx-auto px-6 md:px-12 lg:px-16">
-    <div class="cta-inner" data-animate="fade-up">
-      <!-- Left: button + phone -->
-      <div class="cta-left">
-        <a href={buttonHref} class="cta-btn">
-          {buttonText}
+    
+    <div class="cta-strip relative flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-12 bg-[var(--brand-primary)] border-b-8 border-[var(--brand-highlight)] p-10 lg:p-12 lg:px-16 rounded-[3rem] lg:rounded-[4.5rem] shadow-2xl shadow-[var(--brand-primary)]/20 overflow-hidden">
+      
+      {/* Background Architectural Grid Pattern */}
+      <div class="absolute inset-0 opacity-[0.05] pointer-events-none" style="background-image: radial-gradient(var(--brand-highlight) 1px, transparent 1px); background-size: 32px 32px;"></div>
+      
+      {/* Background Light Glow */}
+      <div class="absolute top-0 left-1/4 w-1/2 h-full bg-[var(--brand-highlight)]/10 blur-[100px] -translate-y-1/2 pointer-events-none"></div>
+
+      {/* Segment 1: Phone Info (The Hook) */}
+      <div class="flex flex-col items-center md:items-start relative z-10">
+        <span class="text-[0.6rem] lg:text-[0.65rem] font-black text-[var(--brand-highlight)] uppercase tracking-[0.4em] mb-2">{phoneLabel}</span>
+        <a href={`tel:${phone}`} class="text-3xl lg:text-4xl font-black text-white tracking-tighter transition-all duration-500 hover:text-[var(--brand-highlight)]">
+          {phone}
         </a>
-        <div class="cta-phone">
-          <span class="cta-phone-label">{phoneLabel}</span>
-          <a href={`tel:${phone}`} class="cta-phone-number">{phone}</a>
-        </div>
       </div>
 
-      <!-- Right: features -->
-      <div class="cta-features" data-animate-stagger>
+      {/* Segment 2: Action Button (The Bridge) */}
+      <div class="relative z-10 w-full lg:w-auto">
+        <a href={buttonHref} class="group relative inline-flex items-center justify-center px-12 lg:px-14 py-4.5 bg-white rounded-2xl lg:rounded-[2rem] overflow-hidden transition-all duration-700 hover:shadow-xl hover:shadow-white/10 hover:-translate-y-1 w-full md:w-auto">
+           <span class="relative z-10 text-[0.8rem] font-black text-[var(--brand-primary)] uppercase tracking-[0.25em]">{buttonText}</span>
+           <div class="absolute inset-0 bg-[var(--brand-highlight)] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+        </a>
+      </div>
+
+      {/* Segment 3: Values (The Trust) - Sophisticated Glass Pods */}
+      <div class="flex flex-col sm:flex-row items-center gap-6 lg:gap-8 relative z-10">
         {features.map((feature) => {
           const iconSvg = iconSvgs[feature.icon];
           return (
-            <div class="cta-feature">
+            <div class="flex items-center gap-4 px-6 py-3.5 bg-white/5 border border-white/10 rounded-2xl lg:rounded-[2rem] backdrop-blur-md transition-all duration-500 hover:bg-white/10 hover:border-white/20">
               {iconSvg && (
-                <span class="cta-feature-icon">
+                <span class="text-[var(--brand-highlight)] transition-transform duration-500 hover:scale-110">
                   <Fragment set:html={iconSvg} />
                 </span>
               )}
-              <span class="cta-feature-text">{feature.text}</span>
+              <span class="text-[0.65rem] lg:text-[0.7rem] font-black text-white/90 uppercase tracking-[0.15em] leading-tight max-w-[120px]">
+                {feature.text}
+              </span>
             </div>
           );
         })}
       </div>
+
     </div>
+
   </div>
 </section>
 
 <style>
-  .cta-strip {
-    background: var(--brand-primary);
-    border-top: 3px solid var(--brand-highlight);
-    border-bottom: 3px solid var(--brand-highlight);
-    padding: 1.5rem 0;
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s cubic-bezier(0.25, 1, 0.3, 1);
+  }
+  
+  .reveal-on-scroll.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  .cta-inner {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
+  .cta-strip::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(110deg, transparent 20%, rgba(255,255,255,0.05) 45%, rgba(255,255,255,0.05) 55%, transparent 80%);
+    background-size: 200% 100%;
+    animation: shine 8s infinite linear;
+    pointer-events: none;
   }
 
-  .cta-left {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  .cta-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.8rem 2rem;
-    background: var(--brand-highlight);
-    color: var(--brand-primary);
-    font-weight: 800;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-  .cta-btn:hover {
-    filter: brightness(1.08);
-    transform: translateX(4px);
-  }
-
-  .cta-phone {
-    display: flex;
-    flex-direction: column;
-  }
-  .cta-phone-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: rgba(255,255,255,0.5);
-  }
-  .cta-phone-number {
-    font-size: 1.35rem;
-    font-weight: 800;
-    color: #fff;
-    text-decoration: none;
-    letter-spacing: 0.02em;
-    transition: color 0.2s ease;
-  }
-  .cta-phone-number:hover {
-    color: var(--brand-highlight);
-  }
-
-  .cta-features {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
-  .cta-feature {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .cta-feature-icon {
-    color: var(--brand-highlight);
-    display: flex;
-    align-items: center;
-  }
-
-  .cta-feature-text {
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: rgba(255,255,255,0.7);
-  }
-
-  @media (max-width: 768px) {
-    .cta-inner {
-      flex-direction: column;
-      text-align: center;
-    }
-    .cta-left {
-      flex-direction: column;
-    }
-    .cta-features {
-      justify-content: center;
-    }
+  @keyframes shine {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
   }
 </style>
+
+<script>
+  function initCTAAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+  }
+
+  initCTAAnimations();
+  document.addEventListener('astro:page-load', initCTAAnimations);
+</script>
