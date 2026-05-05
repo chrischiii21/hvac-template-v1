@@ -22,7 +22,6 @@ import PromoTilesSection from "@/components/sections/PromoTilesSection.astro"
 import ReviewsSection from "@/components/sections/ReviewsSection.astro"
 import ServiceAreaSection from "@/components/sections/ServiceAreaSection.astro"
 import ServiceCardsGridSection from "@/components/sections/ServiceCardsGridSection.astro"
-import ServicesSection from "@/components/sections/ServicesSection.tsx"
 import SignupBannerSection from "@/components/sections/SignupBannerSection.astro"
 import TestimonialsSection from "@/components/sections/TestimonialsSection.astro"
 import TrustBadges from "@/components/sections/TrustBadges.astro"
@@ -51,7 +50,7 @@ const componentMap: Record<string, any> = {
   ReviewsSection,
   ServiceAreaSection,
   ServiceCardsGridSection,
-  ServicesSection,
+  ServicesSection: ServiceCardsGridSection,
   SignupBannerSection,
   TestimonialsSection,
   TrustBadges,
@@ -70,9 +69,6 @@ const { sections = [] } = Astro.props
 ---
 
 {sections.map(({ component, props = {} }) => {
-  if (component === "ServicesSection") {
-    return <ServicesSection client:visible {...(props as any)} />
-  }
   const Comp = componentMap[component]
   if (!Comp) {
     console.warn(`[SectionRenderer] Unknown component: ${component}`)
