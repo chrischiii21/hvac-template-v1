@@ -23,104 +23,88 @@ const {
   heading = "Achievement Starts with Action."
 } = Astro.props;
 
-const duplicatedBadges = [...badges, ...badges, ...badges];
+// Split the heading nicely for the typography
+const words = heading.split(' ');
+const mid = Math.ceil(words.length / 2);
+const firstHalf = words.slice(0, mid).join(' ');
+const secondHalf = words.slice(mid).join(' ');
 ---
 
-<section class="trust-section relative overflow-hidden">
-  <!-- Dark background with diagonal accent -->
-  <div class="absolute inset-0 bg-brand-primary"></div>
-  <div class="trust-slope absolute inset-0 pointer-events-none">
-    <svg class="h-full w-full" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="0,0 200,0 350,200 0,200" fill="white" opacity="0.04" />
-      <polygon points="200,0 280,0 430,200 350,200" fill="white" opacity="0.02" />
-    </svg>
-  </div>
-
-  <div class="relative z-[1] container mx-auto px-6 md:px-12 lg:px-16 py-6 md:py-8">
-    <div class="flex flex-col md:flex-row items-center gap-6 md:gap-10">
-
-      <!-- Left: heading with accent -->
-      <div class="flex items-center gap-4 flex-shrink-0" data-animate="fade-right">
-        <div class="h-10 w-[3px] bg-brand-highlight"></div>
-        <div>
-          <p class="text-[10px] tracking-[0.2em] uppercase text-brand-highlight font-semibold mb-0.5">Trusted By Thousands</p>
-          <h2 class="text-sm md:text-base font-bold text-white uppercase tracking-[0.08em]">{heading}</h2>
-        </div>
+<section class="trust-strip-section relative w-full bg-[var(--brand-primary)] py-10 md:py-14 border-b border-white/10">
+  <div class="container mx-auto px-4 md:px-6 max-w-7xl flex flex-col items-center relative z-10">
+    
+    <!-- Centered Text Block -->
+    <div class="flex flex-col items-center gap-4 mb-10 md:mb-14 text-center">
+      <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-white/10 backdrop-blur-xl rounded-full border border-white/20 shadow-lg">
+        <span class="w-2 h-2 rounded-full bg-[var(--brand-highlight)] shadow-[0_0_8px_var(--brand-highlight)] animate-pulse"></span>
+        <span class="text-[10px] md:text-xs tracking-[0.2em] font-bold text-white uppercase drop-shadow-md">Trusted By Thousands</span>
       </div>
+      <h2 class="text-2xl md:text-3xl font-black text-white uppercase tracking-tight leading-[1.15] drop-shadow-lg">
+        <span>{firstHalf}</span> <span class="text-[var(--brand-highlight)]">{secondHalf}</span>
+      </h2>
+    </div>
 
-      <!-- Divider -->
-      <div class="hidden md:block w-px h-10 bg-white/10 flex-shrink-0"></div>
-
-      <!-- Right: scrolling badges -->
-      <div class="carousel-container flex-1 max-w-4xl" data-animate="fade-left">
-        <div class="carousel-track">
-          {duplicatedBadges.map((badge) => (
-            <div class="carousel-item">
+    <!-- Carousel Container with Fade Mask -->
+    <div class="w-full overflow-hidden mask-gradient relative flex max-w-6xl mx-auto pause-on-hover">
+      
+      <div class="flex animate-marquee shrink-0 items-center justify-around min-w-full gap-12 md:gap-24 pr-12 md:gap-24">
+        {badges.map((badge) => (
+           <div class="flex items-center justify-center flex-shrink-0">
               <Image
                 src={badge.image}
                 alt={badge.alt || badge.name}
-                class="h-10 md:h-12 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
-                width={156}
-                height={70}
+                class="h-8 md:h-12 w-auto object-contain transition-all duration-300 filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 hover:scale-105"
+                width={160}
+                height={60}
                 format="webp"
-                quality={70}
+                quality={100}
                 loading="lazy"
                 decoding="async"
               />
-            </div>
-          ))}
-        </div>
+           </div>
+        ))}
       </div>
+
+      <div class="flex animate-marquee shrink-0 items-center justify-around min-w-full gap-12 md:gap-24 pr-12 md:gap-24" aria-hidden="true">
+        {badges.map((badge) => (
+           <div class="flex items-center justify-center flex-shrink-0">
+              <Image
+                src={badge.image}
+                alt={badge.alt || badge.name}
+                class="h-8 md:h-12 w-auto object-contain transition-all duration-300 filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 hover:scale-105"
+                width={160}
+                height={60}
+                format="webp"
+                quality={100}
+                loading="lazy"
+                decoding="async"
+              />
+           </div>
+        ))}
+      </div>
+
     </div>
   </div>
 </section>
 
 <style>
-  .trust-section {
-    position: relative;
+  @keyframes marquee {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
   }
 
-  .carousel-container {
-    overflow: hidden;
-    position: relative;
-    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
   }
-
-  .carousel-track {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-    width: max-content;
-    animation: scroll 18s linear infinite;
-    will-change: transform;
+  
+  .pause-on-hover:hover .animate-marquee {
+    animation-play-state: paused;
   }
-
-  .carousel-item {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  @keyframes scroll {
-    0% {
-      transform: translate3d(0, 0, 0);
-    }
-    100% {
-      transform: translate3d(calc(-100% / 3), 0, 0);
-    }
-  }
-
-  @media (min-width: 768px) {
-    .carousel-track {
-      gap: 4rem;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .carousel-track {
-      animation: none;
-    }
+  
+  .mask-gradient {
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
   }
 </style>
+
+

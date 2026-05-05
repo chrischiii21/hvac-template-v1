@@ -112,53 +112,51 @@ const isSlider = variant === "slider";
   <div class="absolute inset-0 bg-gradient-to-b from-[var(--brand-primary)]/80 via-transparent to-[var(--brand-primary)]/90 mix-blend-multiply z-[1]"></div>
   <div class="absolute inset-0 bg-black/30 z-[1]"></div>
 
-  <!-- Center Text Slider -->
-  <div class="relative z-[2] container mx-auto px-6 flex-1 flex flex-col justify-center items-center text-center pt-24 pb-48 lg:pb-56">
-    <div class="text-slider-grid w-full max-w-5xl mx-auto">
+  <!-- Center Text Slider & HUD -->
+  <div class="relative z-[2] container mx-auto px-4 md:px-6 flex-1 flex flex-col justify-center items-center text-center pt-24 pb-24 md:pb-32 lg:pb-40">
+    <div class="text-slider-grid w-full max-w-5xl mx-auto mb-8 md:mb-12">
       {slides.map((slide, i) => (
         <div class={`text-slide transition-all duration-700 ease-out ${i === 0 ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`} data-index={i}>
-          <h1 class="hero-title text-4xl md:text-6xl lg:text-[5.5rem] font-black leading-[1.05] mb-6 uppercase tracking-tight text-white drop-shadow-2xl">
+          <h1 class="hero-title text-3xl sm:text-4xl md:text-6xl lg:text-[5.5rem] font-black leading-[1.1] mb-4 md:mb-6 uppercase tracking-tight text-white drop-shadow-2xl">
             {getLocationText(slide.title)}
           </h1>
-          <p class="hero-subtitle text-lg md:text-2xl leading-relaxed text-gray-200 font-medium max-w-3xl mx-auto drop-shadow-lg">
+          <p class="hero-subtitle text-base sm:text-lg md:text-2xl leading-relaxed text-gray-200 font-medium max-w-3xl mx-auto drop-shadow-lg px-2">
             {slide.subtitle}
           </p>
         </div>
       ))}
     </div>
-  </div>
 
-  <!-- Bottom Glass HUD Dashboard -->
-  <div class="absolute bottom-24 md:bottom-36 lg:bottom-52 left-0 right-0 z-[10] px-4 md:px-6 flex justify-center">
-    <div class="w-full max-w-fit">
-      <div class="hud-slider-grid">
+    <!-- Glass HUD Dashboard (Pill) now close to text -->
+    <div class="z-[10] w-full max-w-fit flex justify-center">
+      <div class="hud-slider-grid w-full">
         {slides.map((slide, i) => (
-          <div class={`hud-slide transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${i === 0 ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-12 pointer-events-none'}`} data-index={i}>
+          <div class={`hud-slide transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${i === 0 ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-8 pointer-events-none'}`} data-index={i}>
             
-            <div class="bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[2rem] md:rounded-full py-4 px-6 md:px-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] flex flex-col md:flex-row items-center gap-6 md:gap-10">
+            <div class="bg-white/10 backdrop-blur-2xl border border-white/20 rounded-[1.5rem] md:rounded-full py-3 md:py-4 px-5 md:px-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] flex flex-col md:flex-row items-center gap-4 md:gap-10 w-full mx-auto">
               
               <!-- Hook / Stat -->
-              <div class="flex items-center gap-4 text-left">
-                <div class="bg-[var(--brand-highlight)] text-[var(--brand-primary)] font-black text-3xl md:text-4xl px-5 py-2.5 rounded-[1rem] shadow-xl transform -rotate-3 transition-transform duration-500 hover:rotate-0">
+              <div class="flex items-center gap-3 md:gap-4 text-left w-full justify-center md:justify-start">
+                <div class="bg-[var(--brand-highlight)] text-[var(--brand-primary)] font-black text-2xl md:text-4xl px-4 md:px-5 py-1.5 md:py-2.5 rounded-[0.75rem] md:rounded-[1rem] shadow-xl transform -rotate-3 transition-transform duration-500 hover:rotate-0">
                   {slide.statNumber}
                 </div>
                 <div>
-                  <h3 class="text-white font-black text-lg md:text-xl uppercase tracking-widest drop-shadow-sm whitespace-nowrap">{slide.statLabel}</h3>
+                  <h3 class="text-white font-black text-base md:text-xl uppercase tracking-widest drop-shadow-sm whitespace-nowrap">{slide.statLabel}</h3>
                 </div>
               </div>
               
               <!-- Controls inside HUD -->
-              <div class="flex items-center gap-5 border-t md:border-t-0 md:border-l border-white/20 pt-4 md:pt-0 md:pl-8">
-                <div class="flex gap-2.5">
+              <div class="flex flex-row items-center justify-between md:justify-start gap-4 md:gap-5 border-t md:border-t-0 md:border-l border-white/20 pt-3 md:pt-0 md:pl-8 w-full md:w-auto">
+                <div class="flex gap-2 md:gap-2.5">
                   {slides.map((_, dotIndex) => (
                     <button 
-                      class={`hud-dot w-2.5 h-2.5 rounded-full transition-all duration-300 ${dotIndex === i ? 'bg-[var(--brand-highlight)] scale-150 shadow-[0_0_10px_var(--brand-highlight)]' : 'bg-white/30 hover:bg-white/60'}`} 
+                      class={`hud-dot w-2 h-2 md:w-2.5 md:h-2.5 rounded-full transition-all duration-300 ${dotIndex === i ? 'bg-[var(--brand-highlight)] scale-150 shadow-[0_0_10px_var(--brand-highlight)]' : 'bg-white/30 hover:bg-white/60'}`} 
                       data-index={dotIndex} 
                       aria-label={`Slide ${dotIndex + 1}`}
                     />
                   ))}
                 </div>
-                <div class="progress-track w-24 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                <div class="progress-track w-16 md:w-24 h-1.5 bg-white/10 rounded-full overflow-hidden">
                   <div class="progress-fill h-full bg-[var(--brand-highlight)] rounded-full w-0"></div>
                 </div>
               </div>

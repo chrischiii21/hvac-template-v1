@@ -132,27 +132,19 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
       </label>
     </div>
 
-    <div class="nb-drawer-content">
-      <!-- Services -->
-      <div class="nb-drawer-section">
-        <p class="nb-drawer-label">Our Services</p>
-        {mainNavItems.map((service) => (
-          <details class="nb-drawer-details">
-            <summary class="nb-drawer-summary">
-              {service.title}
-              <svg class="nb-drawer-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-            </summary>
-            <div class="nb-drawer-children">
-              {service.categories.flatMap((cat) => cat.items).map((link) => (
-                <a href={link.href} class="nb-drawer-child">{link.title}</a>
-              ))}
-            </div>
-          </details>
-        ))}
-      </div>
+    <!-- Quick actions (Fixed at top) -->
+    <div class="nb-drawer-actions nb-drawer-actions--sticky">
+      {quickActions.map((action) => (
+        <a href={action.href} class="nb-drawer-action-btn">
+          {action.title}
+        </a>
+      ))}
+    </div>
 
-      <!-- Utility links -->
-      <div class="nb-drawer-section nb-drawer-section--alt">
+    <div class="nb-drawer-content">
+
+      <!-- Utility links (Company) -->
+      <div class="nb-drawer-section">
         <p class="nb-drawer-label">Company</p>
         {utilityNavItems.map((item) => (
           item.children ? (
@@ -173,12 +165,21 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
         ))}
       </div>
 
-      <!-- Quick actions -->
-      <div class="nb-drawer-actions">
-        {quickActions.map((action) => (
-          <a href={action.href} class="nb-drawer-action-btn">
-            {action.title}
-          </a>
+      <!-- Services -->
+      <div class="nb-drawer-section">
+        <p class="nb-drawer-label">Our Services</p>
+        {mainNavItems.map((service) => (
+          <details class="nb-drawer-details">
+            <summary class="nb-drawer-summary">
+              {service.title}
+              <svg class="nb-drawer-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            </summary>
+            <div class="nb-drawer-children">
+              {service.categories.flatMap((cat) => cat.items).map((link) => (
+                <a href={link.href} class="nb-drawer-child">{link.title}</a>
+              ))}
+            </div>
+          </details>
         ))}
       </div>
     </div>
@@ -654,6 +655,12 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
   .nb-drawer-content {
     flex: 1; overflow-y: auto;
     padding-bottom: 2rem;
+    /* Hide scrollbar */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .nb-drawer-content::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
   }
 
   .nb-drawer-section { padding: 1.5rem; }
@@ -690,6 +697,12 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
   .nb-drawer-actions {
     display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
     padding: 1.5rem;
+  }
+  .nb-drawer-actions--sticky {
+    border-bottom: 1px solid var(--border);
+    background: var(--background);
+    padding: 1rem 1.5rem;
+    z-index: 10;
   }
   .nb-drawer-action-btn {
     display: flex; align-items: center; justify-content: center; text-align: center;
