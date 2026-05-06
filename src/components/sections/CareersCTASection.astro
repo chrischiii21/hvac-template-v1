@@ -23,59 +23,52 @@ const title = getLocationText(rawTitle);
 const description = rawDescription ? getLocationText(rawDescription) : undefined;
 ---
 
-<section class="cc-section">
-  <!-- Geometric slope accent -->
-  <div class="cc-slope">
-    <svg class="h-full w-full" viewBox="0 0 200 800" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="60,0 200,0 200,800 0,800" fill="white" opacity="0.03" />
-      <polygon points="100,0 200,0 200,800 40,800" fill="white" opacity="0.02" />
-    </svg>
+<section class="career-banner-section overflow-hidden">
+  <!-- Dynamic Mesh & Image Background -->
+  <div class="banner-canvas">
+    <div class="banner-mesh"></div>
+    <div class="banner-blobs">
+      <div class="banner-blob banner-blob-1"></div>
+      <div class="banner-blob banner-blob-2"></div>
+    </div>
+    
+    <!-- Integrated Image -->
+    {image && (
+      <div class="banner-image-wrap">
+        <img src={image} alt={imageAlt} class="banner-img" />
+        <div class="banner-img-overlay"></div>
+      </div>
+    )}
   </div>
 
-  <div class="container mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-28 relative z-10">
-    <div class="cc-layout">
-
-      <!-- Text side -->
-      <div class="cc-text" data-animate="fade-right">
-        <div class="cc-eyebrow">
-          <span class="cc-eyebrow-text">Join Us</span>
+  <div class="container mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-24 relative z-10">
+    <div class="banner-grid" data-animate="fade-up">
+      
+      <!-- Content Area -->
+      <div class="banner-content">
+        <div class="banner-badge-wrap">
+          <span class="banner-badge">
+            <span class="banner-badge-pulse"></span>
+            Join Us
+          </span>
         </div>
 
-        <h2 class="cc-title">{title}</h2>
-        <div class="cc-divider"></div>
-
+        <h2 class="banner-title" set:html={title} />
+        
         {description && (
-          <p class="cc-desc" set:html={description} />
+          <p class="banner-description" set:html={description} />
         )}
 
-        <a href={buttonHref} class="cc-btn">
-          {buttonText}
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </a>
-      </div>
-
-      <!-- Image side -->
-      <div class="cc-image-side" data-animate="fade-left">
-        {image ? (
-          <div class="cc-image-wrap">
-            <img
-              src={image}
-              alt={imageAlt}
-              class="cc-image"
-              loading="lazy"
-            />
-            <div class="cc-image-overlay"></div>
-
-            <!-- Vertical highlight strip -->
-            <div class="cc-image-strip"></div>
-          </div>
-        ) : (
-          <div class="cc-image-wrap cc-image-placeholder">
-            <span>Image</span>
-          </div>
-        )}
+        <div class="banner-actions">
+          <a href={buttonHref} class="banner-btn">
+            <span class="banner-btn-text">{buttonText}</span>
+            <div class="banner-btn-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </a>
+        </div>
       </div>
 
     </div>
@@ -83,157 +76,163 @@ const description = rawDescription ? getLocationText(rawDescription) : undefined
 </section>
 
 <style>
-  .cc-section {
-    background: var(--brand-primary);
+  .career-banner-section {
     position: relative;
-    overflow: hidden;
+    background: var(--brand-primary);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  .cc-slope {
+  /* ─── Canvas & Image Integration ─── */
+  .banner-canvas { position: absolute; inset: 0; z-index: 1; overflow: hidden; }
+  .banner-mesh {
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(at 0% 0%, color-mix(in srgb, var(--brand-primary), white 8%) 0px, transparent 50%),
+      var(--brand-primary);
+  }
+  .banner-blobs { position: absolute; inset: 0; filter: blur(100px); opacity: 0.15; }
+  .banner-blob { position: absolute; border-radius: 50%; animation: bannerBlob 30s infinite alternate ease-in-out; }
+  .banner-blob-1 { width: 40vw; height: 40vw; background: var(--brand-highlight); top: -10%; left: -10%; }
+  .banner-blob-2 { width: 30vw; height: 30vw; background: white; bottom: -5%; right: 20%; animation-delay: -5s; }
+
+  @keyframes bannerBlob {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(60px, 40px) scale(1.1); }
+  }
+
+  .banner-image-wrap {
     position: absolute;
     top: 0;
     right: 0;
-    width: 40%;
+    bottom: 0;
+    width: 50%;
+    z-index: 2;
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .banner-image-wrap { display: block; }
+  }
+
+  .banner-img {
+    width: 100%;
     height: 100%;
-    z-index: 1;
-    pointer-events: none;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .banner-img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--brand-primary) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.3) 100%);
   }
 
   /* ─── Layout ─── */
-  .cc-layout {
+  .banner-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    max-width: 72rem;
-    margin: 0 auto;
-    align-items: center;
+    grid-template-columns: 1fr;
+    max-width: 1200px;
+  }
+  @media (min-width: 1024px) {
+    .banner-grid { grid-template-columns: repeat(12, 1fr); }
   }
 
-  /* ─── Text Side ─── */
-  .cc-eyebrow {
-    margin-bottom: 1.25rem;
+  /* ─── Content ─── */
+  .banner-content {
+    text-align: center;
   }
-  .cc-eyebrow-text {
-    font-size: 0.7rem;
-    font-weight: 700;
+  @media (min-width: 1024px) {
+    .banner-content {
+      grid-column: span 8;
+      text-align: left;
+    }
+  }
+
+  .banner-badge-wrap { margin-bottom: 1.5rem; }
+  .banner-badge {
+    display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.4rem 1.25rem;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-radius: 99px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.2em; color: var(--brand-highlight);
+  }
+  .banner-badge-pulse { 
+    width: 6px; height: 6px; background: var(--brand-highlight); border-radius: 50%; 
+    box-shadow: 0 0 10px var(--brand-highlight);
+    animation: b-pulse 2s infinite;
+  }
+
+  @keyframes b-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+  }
+
+  .banner-title {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 900;
+    line-height: 0.95;
+    color: white;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--brand-highlight);
-    display: inline-block;
-    padding-bottom: 0.5rem;
-    border-bottom: 3px solid var(--brand-highlight);
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
   }
 
-  .cc-title {
-    font-size: 2rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
-    color: #fff;
-    margin-bottom: 1rem;
+  .banner-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+    max-width: 36rem;
+    margin-bottom: 2.5rem;
   }
-  @media (min-width: 768px) {
-    .cc-title { font-size: 2.25rem; }
-  }
-
-  .cc-divider {
-    width: 3rem;
-    height: 3px;
-    background: var(--brand-highlight);
-    margin-bottom: 1.25rem;
+  @media (max-width: 1023px) {
+    .banner-description { margin-left: auto; margin-right: auto; }
   }
 
-  .cc-desc {
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: rgba(255, 255, 255, 0.55);
-    margin-bottom: 2rem;
-  }
-
-  .cc-btn {
+  /* ─── Actions ─── */
+  .banner-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.625rem;
-    padding: 0.8rem 2rem;
-    background: var(--brand-highlight);
+    background: white;
     color: var(--brand-primary);
-    font-weight: 700;
-    font-size: 0.8rem;
+    padding: 0.5rem;
+    padding-left: 2rem;
+    border-radius: 99px;
     text-decoration: none;
+    font-weight: 800;
+    font-size: 0.9rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    transition: all 0.3s ease;
-  }
-  .cc-btn:hover {
-    filter: brightness(1.08);
-    transform: translateX(4px);
-  }
-  .cc-btn svg {
-    transition: transform 0.3s ease;
-  }
-  .cc-btn:hover svg {
-    transform: translateX(4px);
+    letter-spacing: 0.05em;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* ─── Image Side ─── */
-  .cc-image-wrap {
-    position: relative;
-    overflow: hidden;
-  }
-  .cc-image {
-    width: 100%;
-    display: block;
-    object-fit: cover;
-    aspect-ratio: 4 / 3;
-    transition: transform 0.6s ease;
-  }
-  .cc-image-wrap:hover .cc-image {
-    transform: scale(1.04);
-  }
-
-  .cc-image-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      160deg,
-      color-mix(in srgb, var(--brand-primary) 25%, transparent) 0%,
-      transparent 50%
-    );
-  }
-
-  .cc-image-strip {
-    position: absolute;
-    top: 10%;
-    left: 0;
-    width: 3px;
-    height: 40%;
+  .banner-btn-icon {
+    width: 48px;
+    height: 48px;
     background: var(--brand-highlight);
-    z-index: 2;
-  }
-
-  .cc-image-placeholder {
-    aspect-ratio: 4 / 3;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, 0.3);
-    font-size: 0.875rem;
+    margin-left: 1.5rem;
+    color: var(--brand-primary);
+    transition: all 0.4s ease;
   }
 
-  /* ─── Responsive ─── */
-  @media (max-width: 768px) {
-    .cc-layout {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-    }
-    .cc-image-side {
-      order: -1;
-    }
-    .cc-image {
-      aspect-ratio: 16 / 9;
-    }
+  .banner-btn:hover {
+    background: var(--brand-highlight);
+    transform: translateY(-3px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  }
+
+  .banner-btn:hover .banner-btn-icon {
+    background: var(--brand-primary);
+    color: white;
+    transform: rotate(-45deg);
+  }
+
+  @media (max-width: 1023px) {
+    .banner-btn { width: 100%; max-width: 320px; justify-content: space-between; }
   }
 </style>
+

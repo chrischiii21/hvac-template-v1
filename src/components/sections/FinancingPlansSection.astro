@@ -1,4 +1,6 @@
 ---
+import { getLocationText } from "@/config/site"
+
 interface Item {
   title: string;
   text?: string;
@@ -15,19 +17,27 @@ interface Props {
   variant?: "plans" | "services" | "features";
 }
 
-const { badge, title, subtitle, items, variant = "plans" } = Astro.props;
+const { badge, title: rawTitle, subtitle: rawSubtitle, items: rawItems, variant = "plans" } = Astro.props;
+
+const title = getLocationText(rawTitle);
+const subtitle = rawSubtitle ? getLocationText(rawSubtitle) : undefined;
+const items = rawItems.map(item => ({
+  ...item,
+  title: getLocationText(item.title),
+  text: item.text ? getLocationText(item.text) : undefined
+}));
 
 const iconSvgs: Record<string, string> = {
-  percent: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>`,
-  zero: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>`,
-  calendar: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>`,
-  check: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
-  home: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
-  building: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>`,
-  wrench: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
-  settings: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>`,
-  map: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>`,
-  clock: `<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  percent: `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>`,
+  zero: `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>`,
+  calendar: `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>`,
+  check: `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
+  home: `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+  building: `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg>`,
+  wrench: `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+  settings: `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>`,
+  map: `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>`,
+  clock: `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
 };
 
 const defaultIconKey = variant === "services" ? "wrench" : "check";
@@ -36,128 +46,148 @@ function getIcon(key?: string): string {
 }
 ---
 
-<!-- ============ FEATURES VARIANT ============ -->
-{variant === "features" && (
-  <section class="fps-feat">
-    <div class="container mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-28">
+<section class:list={[
+  "fps-section relative overflow-hidden py-20 lg:py-28",
+  variant === "features" ? "bg-[var(--brand-tertiary)]" : "bg-[#F8F9FA]"
+]}>
+  
+  {/* Cinematic Background Elements (Matching other pages) */}
+  {variant === "features" ? (
+    <div class="absolute inset-0 z-0 pointer-events-none">
+       <div class="absolute inset-0" style="background: radial-gradient(circle at 10% 20%, color-mix(in srgb, var(--brand-tertiary), white 30%) 0%, transparent 40%), radial-gradient(circle at 90% 80%, color-mix(in srgb, var(--brand-tertiary), black 10%) 0%, transparent 40%), var(--brand-tertiary);"></div>
+       <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(var(--brand-primary) 1px, transparent 1px); background-size: 32px 32px;"></div>
+    </div>
+  ) : (
+    <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-[var(--brand-primary)]/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3"></div>
+  )}
 
-      {/* Header */}
-      <div class="fps-feat-header" data-animate="fade-up">
-        {badge && (
-          <div class="fps-feat-eyebrow">
-            <span class="fps-feat-eyebrow-text">{badge}</span>
-          </div>
-        )}
-        <h2 class="fps-feat-title">{title}</h2>
-        <div class="fps-feat-divider"></div>
-        {subtitle && <p class="fps-feat-subtitle">{subtitle}</p>}
-      </div>
+  <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
+    
+    <!-- Header Section -->
+    <div class:list={[
+      "max-w-4xl mb-12 lg:mb-20 reveal-on-scroll",
+      variant === "features" ? "text-center mx-auto" : ""
+    ]}>
+      {badge && (
+        <div class:list={[
+          "inline-flex items-center gap-3 px-4 py-2 rounded-full border mb-6 transition-all duration-700",
+          variant === "features" 
+            ? "bg-[var(--brand-primary)]/5 border-[var(--brand-primary)]/10 text-[var(--brand-primary)] backdrop-blur-md" 
+            : "bg-[var(--brand-primary)]/5 border-[var(--brand-primary)]/10 text-[var(--brand-primary)]"
+        ]}>
+          <span class="w-2 h-2 rounded-full bg-[var(--brand-highlight)] animate-pulse"></span>
+          <span class="text-[0.65rem] font-black uppercase tracking-[0.3em]">{badge}</span>
+        </div>
+      )}
+      
+      <h2 class:list={[
+        "text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-[1] mb-8",
+        "text-[var(--brand-primary)]"
+      ]}>
+        {title}
+      </h2>
 
-      {/* Steps row */}
-      <div class="fps-feat-grid" data-animate-stagger>
+      {subtitle && (
+        <div class:list={[
+          "relative inline-block",
+          variant === "features" ? "max-w-3xl" : ""
+        ]}>
+           {variant !== "features" && <div class="absolute -left-8 top-0 bottom-0 w-1 bg-[var(--brand-highlight)] rounded-full hidden lg:block"></div>}
+           <p class:list={[
+             "text-lg lg:text-xl leading-relaxed font-semibold",
+             variant === "features" ? "text-[var(--brand-primary)]/80" : "text-[var(--brand-secondary)]"
+           ]} set:html={subtitle} />
+        </div>
+      )}
+    </div>
+
+    <!-- Features Grid Layout (Professional & Clean) -->
+    {variant === "features" ? (
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 items-stretch" data-animate-stagger>
         {items.map((item, i) => (
-          <div class="fps-feat-card group">
-            {/* Step number top */}
-            <div class="fps-feat-step-wrap">
-              <div class="fps-feat-step">
-                {String(i + 1).padStart(2, '0')}
-              </div>
-              {i < items.length - 1 && <div class="fps-feat-line" aria-hidden="true"></div>}
-            </div>
-
-            {/* Card body */}
-            <div class="fps-feat-body">
-              <span class="fps-feat-accent"></span>
-              <div class="fps-feat-inner">
-                <div class="fps-feat-icon">
-                  <Fragment set:html={getIcon(item.icon)} />
+          <div class="group relative transition-all duration-700 h-full">
+            <div class="h-full bg-white/40 backdrop-blur-xl border border-white/60 rounded-[2.5rem] p-10 flex flex-col hover:bg-white/60 hover:-translate-y-2 transition-all duration-500 shadow-2xl shadow-[var(--brand-primary)]/5">
+              {/* Subtle Step Indicator */}
+              <div class="flex items-center gap-4 mb-10">
+                <div class="w-16 h-16 bg-[var(--brand-primary)] text-white rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-lg shadow-[var(--brand-primary)]/20">
+                  <div class="w-8 h-8" set:html={getIcon(item.icon)} />
                 </div>
-                <h3 class="fps-feat-card-title">{item.title}</h3>
-                {item.text && <p class="fps-feat-card-text">{item.text}</p>}
+                <div class="h-px flex-1 bg-[var(--brand-primary)]/10"></div>
+                <span class="text-sm font-black text-[var(--brand-primary)]/20">{String(i + 1).padStart(2, '0')}</span>
+              </div>
+
+              <div class="relative z-10">
+                <h3 class="text-2xl font-black uppercase tracking-tight leading-tight mb-6 text-[var(--brand-primary)] transition-colors duration-500">
+                  {item.title}
+                </h3>
+
+                {item.text && (
+                  <p class="text-[1.05rem] font-medium leading-relaxed text-[var(--brand-primary)]/70 transition-colors" set:html={item.text} />
+                )}
               </div>
             </div>
           </div>
         ))}
       </div>
-    </div>
-  </section>
-)}
-
-<!-- ============ SERVICES VARIANT ============ -->
-{variant === "services" && (
-  <section class="fps-svc relative overflow-hidden bg-white py-20 lg:py-32">
-    <!-- Decorative background elements -->
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] opacity-[0.02] pointer-events-none z-0">
-      <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-        <path d="M750,250 C850,350 850,550 750,650 C650,750 450,750 350,650 C250,550 250,350 350,250 C450,150 650,150 750,250" fill="var(--brand-primary)" />
-      </svg>
-    </div>
-
-    <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
-
-      {/* Header */}
-      <div class="mb-16 lg:mb-24 text-center max-w-4xl mx-auto" data-animate="fade-up">
-        {badge && (
-          <div class="mb-6">
-            <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-full border border-[var(--brand-primary)]/10 shadow-sm">
-              <span class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] animate-pulse"></span>
-              <span class="text-xs font-black text-[var(--brand-primary)] uppercase tracking-[0.2em]">{badge}</span>
-            </div>
-          </div>
-        )}
-        <h2 class="text-3xl md:text-4xl lg:text-5xl font-black text-[var(--brand-primary)] uppercase tracking-tight leading-[1.1] mb-6">
-          {title}
-        </h2>
-        <div class="w-12 h-1.5 bg-[var(--brand-highlight)] mx-auto mb-8 rounded-full shadow-[0_2px_8px_rgba(var(--brand-highlight-rgb),0.3)]"></div>
-        {subtitle && <p class="text-gray-500 text-lg md:text-xl font-medium leading-relaxed" set:html={subtitle} />}
-      </div>
-
-      {/* Cards grid */}
+    ) : (
+      /* Plans/Services Grid */
       <div class:list={[
-        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8",
-        items.length === 3 ? "lg:grid-cols-3 max-w-6xl mx-auto" : ""
+        "grid gap-6 lg:gap-8",
+        variant === "plans" ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
       ]} data-animate-stagger>
-        {items.map((item) => {
+        {items.map((item, i) => {
           const isLink = !!item.href;
           const Tag = isLink ? "a" : "div";
+          
           return (
-            <Tag
+            <Tag 
               href={isLink ? item.href : undefined}
-              class="group relative flex flex-col bg-white rounded-[2.5rem] overflow-hidden shadow-[0_15px_40px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.15)] transition-all duration-700 border border-gray-100/50 hover:border-[var(--brand-highlight)]/40 hover:-translate-y-3"
+              class="fps-card group relative flex flex-col transition-all duration-700 overflow-hidden bg-white border border-gray-100 rounded-[2.5rem] shadow-sm hover:shadow-2xl hover:shadow-[var(--brand-primary)]/10 hover:-translate-y-3"
             >
-              {/* Image Container */}
-              <div class="relative aspect-[4/5] overflow-hidden">
-                {item.image ? (
-                  <>
-                    <img src={item.image} alt={item.title} class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" width="740" height="494" loading="lazy" decoding="async" />
-                    <div class="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)]/40 via-transparent to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-700"></div>
-                  </>
-                ) : (
-                  <div class="w-full h-full bg-[var(--brand-primary)]/5 flex items-center justify-center text-[var(--brand-primary)]/20">
-                    <div class="w-20 h-20 opacity-10 group-hover:opacity-20 transition-opacity" set:html={getIcon(item.icon)} />
-                  </div>
-                )}
-                
-                {/* Floating Glass Icon */}
-                <div class="absolute top-6 right-6 z-20">
-                  <div class="w-12 h-12 bg-white/30 backdrop-blur-xl rounded-2xl flex items-center justify-center text-white border border-white/20 shadow-2xl transition-all duration-500 group-hover:bg-[var(--brand-highlight)] group-hover:text-[var(--brand-primary)] group-hover:scale-110 group-hover:rotate-6">
-                    <div class="w-6 h-6" set:html={getIcon(item.icon)} />
+              {/* Image treatment for Services Variant */}
+              {variant === "services" && item.image && (
+                <div class="relative aspect-[4/3] overflow-hidden">
+                  <img 
+                    src={item.image} 
+                    alt={item.title} 
+                    class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-[var(--brand-primary)]/60 via-transparent to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-700"></div>
+                  
+                  {/* Floating Glass Icon */}
+                  <div class="absolute top-6 right-6 z-20">
+                    <div class="w-12 h-12 bg-white/30 backdrop-blur-xl rounded-2xl flex items-center justify-center text-white border border-white/20 shadow-2xl transition-all duration-500 group-hover:bg-[var(--brand-highlight)] group-hover:text-[var(--brand-primary)] group-hover:scale-110 group-hover:rotate-6">
+                      <div class="w-6 h-6" set:html={getIcon(item.icon)} />
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
 
-              {/* Body */}
-              <div class="p-8 pb-10 flex flex-col flex-1 relative z-10 bg-white group-hover:bg-gradient-to-b group-hover:from-white group-hover:to-[var(--brand-primary)]/[0.02] transition-colors duration-700">
-                <h3 class="text-xl font-black text-[var(--brand-primary)] uppercase tracking-tight leading-[1.2] mb-4 group-hover:text-[var(--brand-highlight)] transition-colors duration-500">
+              {/* Main Content Area */}
+              <div class:list={[
+                "flex-1 flex flex-col",
+                variant === "services" && item.image ? "p-8 pt-6" : "p-10"
+              ]}>
+                
+                {/* Icon for non-image variants */}
+                {(!item.image || variant !== "services") && (
+                  <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-8 transition-all duration-700 border bg-[var(--brand-primary)]/5 border-[var(--brand-primary)]/10 text-[var(--brand-primary)] group-hover:bg-[var(--brand-highlight)] group-hover:border-[var(--brand-highlight)] group-hover:scale-110 shadow-sm">
+                    <div class="w-7 h-7" set:html={getIcon(item.icon)} />
+                  </div>
+                )}
+
+                <h3 class="text-2xl font-black uppercase tracking-tight leading-[1.1] mb-4 text-[var(--brand-primary)] group-hover:text-[var(--brand-highlight)] transition-colors duration-500">
                   {item.title}
                 </h3>
-                
-                {item.text && <p class="text-[0.95rem] text-gray-500 font-medium leading-relaxed mb-8 opacity-80 group-hover:opacity-100 transition-opacity" set:html={item.text} />}
-                
+
+                {item.text && (
+                  <p class="text-[0.95rem] font-medium leading-relaxed text-[var(--brand-secondary)] opacity-60 group-hover:opacity-100 transition-opacity" set:html={item.text} />
+                )}
+
                 {isLink && (
-                  <div class="mt-auto flex items-center justify-between w-full pt-4">
-                    <span class="text-[0.7rem] font-black uppercase tracking-[0.2em] text-[var(--brand-primary)]/40 group-hover:text-[var(--brand-primary)] transition-colors">Discover More</span>
-                    <div class="w-11 h-11 rounded-xl bg-[var(--brand-highlight)] text-white flex items-center justify-center transition-all duration-500 group-hover:bg-[var(--brand-primary)] group-hover:scale-110 shadow-lg shadow-[var(--brand-highlight)]/30">
+                  <div class="mt-auto pt-10 flex items-center justify-between group/btn">
+                    <div class="w-10 h-10 rounded-xl bg-[var(--brand-highlight)] text-[var(--brand-primary)] flex items-center justify-center transition-all duration-500 group-hover:bg-[var(--brand-primary)] group-hover:text-white group-hover:scale-110 shadow-lg shadow-[var(--brand-highlight)]/20">
                       <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-transform duration-500 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                         <path d="M5 12h14M12 5l7 7-7 7" />
                       </svg>
@@ -165,399 +195,43 @@ function getIcon(key?: string): string {
                   </div>
                 )}
               </div>
+
+              {/* Subtle Hover Gradient Accent */}
+              <div class="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-10 transition-opacity duration-700 bg-gradient-to-br from-white to-transparent"></div>
             </Tag>
           );
         })}
       </div>
-    </div>
-  </section>
-)}
-
-<!-- ============ PLANS VARIANT (default) ============ -->
-{variant === "plans" && (
-  <section class="fps-plan">
-    <div class="container mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-28">
-
-      {/* Header */}
-      <div class="fps-plan-header" data-animate="fade-up">
-        {badge && (
-          <div class="fps-plan-eyebrow">
-            <span class="fps-plan-eyebrow-text">{badge}</span>
-          </div>
-        )}
-        <h2 class="fps-plan-title">{title}</h2>
-        <div class="fps-plan-divider"></div>
-        {subtitle && <p class="fps-plan-subtitle">{subtitle}</p>}
-      </div>
-
-      {/* Cards */}
-      <div class:list={[
-        "fps-plan-grid",
-        items.length <= 3 ? "fps-plan-grid--narrow" : ""
-      ]} data-animate-stagger>
-        {items.map((item, i) => (
-          <div class="fps-plan-card group">
-            <span class="fps-plan-accent"></span>
-
-            {/* Background number */}
-            <div class="fps-plan-bg-num" aria-hidden="true">
-              {String(i + 1).padStart(2, '0')}
-            </div>
-
-            <div class="fps-plan-inner">
-              <div class="fps-plan-icon">
-                <Fragment set:html={getIcon(item.icon)} />
-              </div>
-              <h3 class="fps-plan-card-title">{item.title}</h3>
-              {item.text && <p class="fps-plan-card-text">{item.text}</p>}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-)}
+    )}
+  </div>
+</section>
 
 <style>
-  /* ═══════════════════════════════════════════
-     FEATURES VARIANT
-     ═══════════════════════════════════════════ */
-  .fps-feat {
-    background: var(--brand-tertiary);
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s cubic-bezier(0.25, 1, 0.3, 1);
   }
-
-  .fps-feat-header {
-    text-align: center;
-    margin-bottom: 3.5rem;
-    max-width: 48rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .fps-feat-eyebrow {
-    margin-bottom: 1.25rem;
-  }
-  .fps-feat-eyebrow-text {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--brand-highlight);
-    display: inline-block;
-    padding: 0.4rem 1rem;
-    background: var(--brand-primary);
-  }
-  .fps-feat-title {
-    font-size: 2rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
-    color: var(--brand-primary);
-    margin-bottom: 1rem;
-  }
-  @media (min-width: 768px) {
-    .fps-feat-title { font-size: 2.25rem; }
-  }
-  .fps-feat-divider {
-    width: 3rem;
-    height: 3px;
-    background: var(--brand-highlight);
-    margin: 0 auto 1.25rem;
-  }
-  .fps-feat-subtitle {
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: var(--brand-secondary);
-  }
-
-  /* Grid */
-  .fps-feat-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    max-width: 64rem;
-    margin: 0 auto;
-  }
-
-  .fps-feat-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  /* Step number */
-  .fps-feat-step-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.25rem;
-    position: relative;
-    width: 100%;
-  }
-  .fps-feat-step {
-    width: 3.25rem;
-    height: 3.25rem;
-    background: var(--brand-primary);
-    color: var(--brand-highlight);
-    font-weight: 800;
-    font-size: 1rem;
-    letter-spacing: 0.05em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    z-index: 2;
-    border: 2px solid var(--brand-highlight);
-    flex-shrink: 0;
-  }
-  .fps-feat-line {
-    position: absolute;
-    top: 50%;
-    left: calc(50% + 2rem);
-    width: calc(100% - 2rem);
-    height: 2px;
-    background: var(--brand-highlight);
-    opacity: 0.25;
-    z-index: 1;
-  }
-
-  /* Card body */
-  .fps-feat-body {
-    position: relative;
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    overflow: hidden;
-    width: 100%;
-    transition: all 0.35s ease;
-  }
-  .fps-feat-body:hover {
-    border-color: var(--brand-highlight);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
-  }
-
-  .fps-feat-accent {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--brand-highlight);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.35s ease;
-  }
-  .fps-feat-card:hover .fps-feat-accent {
-    transform: scaleX(1);
-  }
-
-  .fps-feat-inner {
-    padding: 2rem 1.5rem;
-    text-align: center;
-  }
-
-  .fps-feat-icon {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--brand-tertiary);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    color: var(--brand-primary);
-    margin: 0 auto 1.25rem;
-    transition: all 0.3s ease;
-  }
-  .fps-feat-card:hover .fps-feat-icon {
-    background: var(--brand-highlight);
-    border-color: var(--brand-highlight);
-    color: var(--brand-primary);
-  }
-
-  .fps-feat-card-title {
-    font-size: 0.9rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--brand-primary);
-    margin-bottom: 0.5rem;
-    transition: color 0.3s ease;
-  }
-  .fps-feat-card-text {
-    font-size: 0.85rem;
-    line-height: 1.6;
-    color: var(--brand-secondary);
-  }
-
-  @media (max-width: 768px) {
-    .fps-feat-grid {
-      grid-template-columns: 1fr;
-      max-width: 24rem;
-    }
-    .fps-feat-line {
-      display: none;
-    }
-  }
-
-  /* Redesigned Services Variant Styles are handled inline with Utility Classes */
-  .fps-svc {
-    /* Base styles if needed, but mostly using Tailwind */
-  }
-
-  /* ═══════════════════════════════════════════
-     PLANS VARIANT
-     ═══════════════════════════════════════════ */
-  .fps-plan {
-    background: var(--background);
-  }
-
-  .fps-plan-header {
-    text-align: center;
-    margin-bottom: 3rem;
-    max-width: 48rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .fps-plan-eyebrow {
-    margin-bottom: 1.25rem;
-  }
-  .fps-plan-eyebrow-text {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--brand-highlight);
-    display: inline-block;
-    padding: 0.4rem 1rem;
-    background: var(--brand-primary);
-  }
-  .fps-plan-title {
-    font-size: 2rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
-    color: var(--brand-primary);
-    margin-bottom: 1rem;
-  }
-  @media (min-width: 768px) {
-    .fps-plan-title { font-size: 2.25rem; }
-  }
-  .fps-plan-divider {
-    width: 3rem;
-    height: 3px;
-    background: var(--brand-highlight);
-    margin: 0 auto 1.25rem;
-  }
-  .fps-plan-subtitle {
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: var(--brand-secondary);
-  }
-
-  /* Grid */
-  .fps-plan-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    max-width: 76rem;
-    margin: 0 auto;
-  }
-  @media (min-width: 1024px) {
-    .fps-plan-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-    .fps-plan-grid--narrow {
-      grid-template-columns: repeat(3, 1fr);
-      max-width: 64rem;
-    }
-  }
-
-  /* Card */
-  .fps-plan-card {
-    position: relative;
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    overflow: hidden;
-    transition: all 0.35s ease;
-  }
-  .fps-plan-card:hover {
-    border-color: var(--brand-highlight);
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
-  }
-
-  /* Top accent */
-  .fps-plan-accent {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--brand-highlight);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.35s ease;
-  }
-  .fps-plan-card:hover .fps-plan-accent {
-    transform: scaleX(1);
-  }
-
-  /* Background number */
-  .fps-plan-bg-num {
-    position: absolute;
-    bottom: -0.25rem;
-    right: 0.5rem;
-    font-size: 5rem;
-    font-weight: 800;
-    line-height: 1;
-    color: var(--brand-primary);
-    opacity: 0.03;
-    pointer-events: none;
-    user-select: none;
-  }
-
-  .fps-plan-inner {
-    position: relative;
-    padding: 2rem 1.5rem;
-  }
-
-  .fps-plan-icon {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--brand-tertiary);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    color: var(--brand-primary);
-    margin-bottom: 1.25rem;
-    transition: all 0.3s ease;
-  }
-  .fps-plan-card:hover .fps-plan-icon {
-    background: var(--brand-highlight);
-    border-color: var(--brand-highlight);
-    color: var(--brand-primary);
-  }
-
-  .fps-plan-card-title {
-    font-size: 1rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    color: var(--brand-primary);
-    margin-bottom: 0.5rem;
-    line-height: 1.25;
-  }
-  .fps-plan-card-text {
-    font-size: 0.85rem;
-    line-height: 1.6;
-    color: var(--brand-secondary);
-  }
-
-  @media (max-width: 640px) {
-    .fps-plan-grid {
-      grid-template-columns: 1fr;
-    }
+  
+  .reveal-on-scroll.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
   }
 </style>
+
+<script>
+  function initFinancingReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+  }
+
+  initFinancingReveal();
+  document.addEventListener('astro:page-load', initFinancingReveal);
+</script>
