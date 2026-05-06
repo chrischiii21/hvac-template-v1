@@ -41,120 +41,133 @@ const emergencyServices = [
 ---
 
 <footer class="ft-footer">
-  <!-- Highlight bar at top -->
-  <div class="ft-highlight-bar"></div>
+  <!-- Mesh background elements -->
+  <div class="ft-bg-mesh"></div>
+  <div class="ft-bg-glow"></div>
 
-  <!-- ─── Top section: Logo + CTA ─── -->
-  <div class="ft-top">
-    <div class="container mx-auto px-6 md:px-12 lg:px-16">
-      <div class="ft-top-inner">
-        <div class="ft-brand">
-          <a href="/" class="ft-logo-link">
-            <img
-              src={siteConfig.logo.src}
-              alt={siteConfig.logo.alt}
-              class="ft-logo-img"
-              width="40"
-              height="40"
-              loading="lazy"
-              decoding="async"
-            />
-            <span class="ft-logo-text">{siteConfig.business.name}</span>
-          </a>
-          <p class="ft-tagline">Trusted HVAC experts serving {siteConfig.location.city} and surrounding areas.</p>
-        </div>
-        <div class="ft-top-actions">
-          <a href={`tel:${siteConfig.contact.phone}`} class="ft-phone-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            {siteConfig.contact.phoneFormatted}
-          </a>
-          <a href="/contact" class="ft-schedule-btn">Schedule Service</a>
+  <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
+    <div class="ft-bento-grid" data-animate-stagger>
+      
+      <!-- ─── Brand & CTA Bento Block ─── -->
+      <div class="ft-card ft-card--brand">
+        <div class="ft-card-inner">
+          <div class="ft-brand">
+            <a href="/" class="ft-logo-link">
+              <img
+                src={siteConfig.logo.src}
+                alt={siteConfig.logo.alt}
+                class="ft-logo-img"
+                width="48"
+                height="48"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="ft-logo-text">{siteConfig.business.name}</span>
+            </a>
+            <p class="ft-tagline">Trusted HVAC experts serving {siteConfig.location.city} and surrounding areas.</p>
+          </div>
+          
+          <div class="ft-top-actions">
+            <a href={`tel:${siteConfig.contact.phone}`} class="ft-phone-btn group">
+              <div class="ft-phone-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </div>
+              <div class="ft-phone-details">
+                <span class="ft-phone-number">{siteConfig.contact.phoneFormatted}</span>
+              </div>
+            </a>
+            <a href="/contact" class="ft-schedule-btn cta-pulse">
+              <span>Schedule Service</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- ─── Main links grid ─── -->
-  <div class="ft-main">
-    <div class="container mx-auto px-6 md:px-12 lg:px-16">
-      <div class="ft-grid">
-        <!-- Contact + Quick Links -->
-        <div class="ft-col ft-col--contact">
-          <div class="ft-section">
+      <!-- ─── Services Grid ─── -->
+      <div class="ft-card ft-card--services ft-card--ac">
+        <h3 class="ft-heading">Air Conditioning Services</h3>
+        <ul class="ft-link-list">
+          {airConditioningServices.map((service) => (
+            <li><a href={service.href} class="ft-link">{service.title}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="ft-card ft-card--services ft-card--heating">
+        <h3 class="ft-heading">Heating Services</h3>
+        <ul class="ft-link-list">
+          {heatingServices.map((service) => (
+            <li><a href={service.href} class="ft-link">{service.title}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="ft-card ft-card--services ft-card--iaq">
+        <h3 class="ft-heading">Indoor Air Quality</h3>
+        <ul class="ft-link-list">
+          {indoorAirQualityServices.map((service) => (
+            <li><a href={service.href} class="ft-link">{service.title}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="ft-card ft-card--services ft-card--emergency">
+        <h3 class="ft-heading">Emergency Services</h3>
+        <ul class="ft-link-list">
+          {emergencyServices.map((service) => (
+            <li><a href={service.href} class="ft-link">{service.title}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- ─── Contact & Links Block ─── -->
+      <div class="ft-card ft-card--info">
+        <div class="ft-info-grid">
+          <div class="ft-info-section">
             <h3 class="ft-heading">Contact Us</h3>
             <div class="ft-contact-list">
               <p class="ft-business-name">{siteConfig.business.fullName}</p>
-              <p class="ft-contact-item">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                {siteConfig.location.fullAddress}
-              </p>
-              <p class="ft-contact-item">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                {siteConfig.contact.email}
-              </p>
-              <p class="ft-contact-item">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                {siteConfig.contact.phoneFormatted}
-              </p>
+              <div class="ft-contact-items-grid">
+                <p class="ft-contact-item">
+                  <span class="ft-contact-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  </span>
+                  {siteConfig.location.fullAddress}
+                </p>
+                <p class="ft-contact-item">
+                  <span class="ft-contact-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                  </span>
+                  {siteConfig.contact.email}
+                </p>
+                <p class="ft-contact-item">
+                  <span class="ft-contact-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </span>
+                  {siteConfig.contact.phoneFormatted}
+                </p>
+              </div>
             </div>
           </div>
 
-          <div class="ft-section ft-quick-links">
+          <div class="ft-info-section">
             <h3 class="ft-heading">Quick Links</h3>
-            <ul class="ft-link-list">
+            <div class="ft-quick-grid">
               {quickLinks.map((link) => (
-                <li><a href={link.href} class="ft-link">{link.title}</a></li>
+                <a href={link.href} class="ft-quick-btn">
+                  <span>{link.title}</span>
+                </a>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
-
-        <!-- AC Services -->
-        <div class="ft-col">
-          <h3 class="ft-heading">Air Conditioning Services</h3>
-          <ul class="ft-link-list">
-            {airConditioningServices.map((service) => (
-              <li><a href={service.href} class="ft-link">{service.title}</a></li>
-            ))}
-          </ul>
-        </div>
-
-        <!-- Heating -->
-        <div class="ft-col">
-          <h3 class="ft-heading">Heating Services</h3>
-          <ul class="ft-link-list">
-            {heatingServices.map((service) => (
-              <li><a href={service.href} class="ft-link">{service.title}</a></li>
-            ))}
-          </ul>
-        </div>
-
-        <!-- IAQ -->
-        <div class="ft-col">
-          <h3 class="ft-heading">Indoor Air Quality</h3>
-          <ul class="ft-link-list">
-            {indoorAirQualityServices.map((service) => (
-              <li><a href={service.href} class="ft-link">{service.title}</a></li>
-            ))}
-          </ul>
-        </div>
-
-        <!-- Emergency -->
-        <div class="ft-col">
-          <h3 class="ft-heading">Emergency Services</h3>
-          <ul class="ft-link-list">
-            {emergencyServices.map((service) => (
-              <li><a href={service.href} class="ft-link">{service.title}</a></li>
-            ))}
-          </ul>
-        </div>
       </div>
-    </div>
-  </div>
 
-  <!-- ─── Bottom bar ─── -->
-  <div class="ft-bottom">
-    <div class="container mx-auto px-6 md:px-12 lg:px-16">
+    </div>
+
+    <!-- ─── Bottom bar ─── -->
+    <div class="ft-bottom">
       <div class="ft-bottom-inner">
         <p class="ft-copyright">
           &copy; {currentYear} {siteConfig.business.name}. All rights reserved.
@@ -171,205 +184,333 @@ const emergencyServices = [
 
 <style>
   .ft-footer {
-    background: var(--brand-primary);
+    background-color: var(--brand-primary);
     color: #fff;
+    padding-top: 6rem;
+    padding-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
   }
 
-  /* ─── Highlight bar ─── */
-  .ft-highlight-bar {
-    height: 3px;
-    background: var(--brand-highlight);
+  /* ─── Mesh Background ─── */
+  .ft-bg-mesh {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--brand-secondary) 15%, transparent) 0%, transparent 40%),
+      radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--brand-accent-secondary) 10%, transparent) 0%, transparent 40%);
+    opacity: 0.6;
+    pointer-events: none;
   }
 
-  /* ─── Top section ─── */
-  .ft-top {
-    padding: 2.5rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+  .ft-bg-glow {
+    position: absolute;
+    bottom: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120%;
+    height: 40%;
+    background: radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--brand-secondary) 15%, transparent), transparent 70%);
+    pointer-events: none;
   }
 
-  .ft-top-inner {
+  /* ─── Bento Grid Layout ─── */
+  .ft-bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    gap: 1.25rem;
+  }
+
+  /* ─── Card Base ─── */
+  .ft-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
+    flex-direction: column;
   }
 
+  .ft-card:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: color-mix(in srgb, var(--brand-secondary) 40%, transparent);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5),
+                0 0 20px color-mix(in srgb, var(--brand-secondary) 15%, transparent);
+  }
+
+  /* ─── Specific Cards ─── */
+  .ft-card--brand {
+    grid-column: span 2;
+    grid-row: span 1;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  }
+
+  .ft-card--services {
+    grid-column: span 1;
+  }
+
+  .ft-card--ac {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .ft-card--heating {
+    grid-column: 4;
+    grid-row: 1;
+  }
+
+  .ft-card--iaq {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .ft-card--emergency {
+    grid-column: 4;
+    grid-row: 2;
+  }
+
+  .ft-card--info {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+  }
+
+  /* ─── Brand Section ─── */
   .ft-brand {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1.25rem;
   }
 
   .ft-logo-link {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 1rem;
     text-decoration: none;
   }
 
   .ft-logo-img {
-    height: 36px;
-    width: 36px;
+    height: 48px;
+    width: 48px;
     object-fit: contain;
-    filter: brightness(0) invert(1);
+    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--brand-secondary) 50%, transparent));
   }
 
   .ft-logo-text {
-    font-size: 0.95rem;
-    font-weight: 800;
+    font-size: 1.25rem;
+    font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
     color: #fff;
+    background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0.7));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .ft-tagline {
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.4);
-    letter-spacing: 0.02em;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.5);
+    line-height: 1.6;
+    max-width: 400px;
+    margin: 0;
   }
 
+  /* ─── Actions ─── */
   .ft-top-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .ft-phone-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .ft-phone-btn:hover {
+    background: color-mix(in srgb, var(--brand-secondary) 15%, transparent);
+    border-color: color-mix(in srgb, var(--brand-secondary) 30%, transparent);
+  }
+
+  .ft-phone-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, var(--brand-secondary) 25%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand-secondary);
+    transition: all 0.3s ease;
+  }
+
+  .ft-phone-btn:hover .ft-phone-icon {
+    background: var(--brand-secondary);
+    color: #fff;
+    transform: rotate(-10deg) scale(1.1);
+  }
+
+  .ft-phone-details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ft-phone-number {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .ft-schedule-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1.5rem;
+    background: var(--brand-secondary);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px -5px color-mix(in srgb, var(--brand-secondary) 40%, transparent);
+  }
+
+  .ft-schedule-btn:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 15px 30px -5px color-mix(in srgb, var(--brand-secondary) 50%, transparent);
+    background: var(--brand-accent-secondary);
+  }
+
+  /* ─── Headings ─── */
+  .ft-heading {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--brand-secondary);
+    margin-bottom: 1.75rem;
     display: flex;
     align-items: center;
     gap: 0.75rem;
   }
 
-  .ft-phone-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.65rem 1.5rem;
-    border: 1px solid rgba(255,255,255,0.15);
-    color: #fff;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-decoration: none;
-    letter-spacing: 0.04em;
-    transition: all 0.3s ease;
-  }
-  .ft-phone-btn:hover {
-    border-color: var(--brand-highlight);
-    color: var(--brand-highlight);
+  .ft-heading::after {
+    content: '';
+    height: 1px;
+    flex-grow: 1;
+    background: linear-gradient(to right, color-mix(in srgb, var(--brand-secondary) 30%, transparent), transparent);
   }
 
-  .ft-schedule-btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.65rem 1.5rem;
-    background: var(--brand-highlight);
-    color: var(--brand-primary);
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-  .ft-schedule-btn:hover {
-    filter: brightness(1.08);
-    transform: translateX(4px);
-  }
-
-  /* ─── Main grid ─── */
-  .ft-main {
-    padding: 3.5rem 0;
-  }
-
-  .ft-grid {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
-    gap: 3rem;
-  }
-
-  .ft-col--contact {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-  }
-
-  .ft-section {
-    /* spacing handled by parent gap */
-  }
-
-  /* ─── Headings ─── */
-  .ft-heading {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: #fff;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid var(--brand-highlight);
-    display: inline-block;
-  }
-
-  /* ─── Contact items ─── */
-  .ft-contact-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-  }
-
-  .ft-business-name {
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #fff;
-    margin: 0;
-  }
-
-  .ft-contact-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.6rem;
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.45);
-    margin: 0;
-    line-height: 1.5;
-  }
-  .ft-contact-item svg {
-    color: var(--brand-highlight);
-    margin-top: 2px;
-  }
-
-  /* ─── Link lists ─── */
+  /* ─── Lists ─── */
   .ft-link-list {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
+    gap: 0.75rem;
   }
 
   .ft-link {
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.45);
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
     text-decoration: none;
     transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .ft-link::before {
-    content: '';
-    width: 0;
-    height: 1px;
-    background: var(--brand-highlight);
-    transition: width 0.3s ease;
-  }
-  .ft-link:hover {
-    color: var(--brand-highlight);
-  }
-  .ft-link:hover::before {
-    width: 12px;
+    display: inline-block;
   }
 
-  /* ─── Bottom bar ─── */
+  .ft-link:hover {
+    color: #fff;
+    transform: translateX(6px);
+  }
+
+  /* ─── Info Block ─── */
+  .ft-info-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 3rem;
+    height: 100%;
+  }
+
+  .ft-business-name {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+
+  .ft-contact-items-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .ft-contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .ft-contact-icon {
+    color: var(--brand-secondary);
+    margin-top: 2px;
+  }
+
+  .ft-quick-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .ft-quick-btn {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0.75rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    transition: all 0.3s ease;
+  }
+
+  .ft-quick-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.02);
+  }
+
+  /* ─── Bottom Bar ─── */
   .ft-bottom {
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 1.5rem 0;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
   }
 
   .ft-bottom-inner {
@@ -377,71 +518,67 @@ const emergencyServices = [
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .ft-copyright {
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.3);
-    letter-spacing: 0.05em;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.3);
     margin: 0;
   }
 
   .ft-bottom-links {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 2rem;
   }
 
   .ft-bottom-link {
-    font-size: 0.7rem;
-    color: rgba(255,255,255,0.3);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.3);
     text-decoration: none;
-    letter-spacing: 0.05em;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
   }
+
   .ft-bottom-link:hover {
-    color: var(--brand-highlight);
+    color: var(--brand-secondary);
   }
 
   /* ─── Responsive ─── */
-  @media (max-width: 1024px) {
-    .ft-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
+  @media (max-width: 1280px) {
+    .ft-bento-grid {
+      grid-template-columns: repeat(3, 1fr);
     }
-    .ft-col--contact {
-      grid-column: span 2;
-      flex-direction: row;
-      gap: 3rem;
-    }
-    .ft-col--contact .ft-section,
-    .ft-col--contact .ft-quick-links {
-      flex: 1;
+    .ft-card--info {
+      grid-column: span 3;
     }
   }
 
-  @media (max-width: 640px) {
-    .ft-top-inner {
-      flex-direction: column;
-      align-items: flex-start;
+  @media (max-width: 1024px) {
+    .ft-bento-grid {
+      grid-template-columns: repeat(2, 1fr);
     }
-    .ft-top-actions {
-      flex-direction: column;
-      width: 100%;
+    .ft-card--brand {
+      grid-column: span 2;
     }
-    .ft-phone-btn,
-    .ft-schedule-btn {
-      width: 100%;
-      justify-content: center;
+    .ft-card--info {
+      grid-column: span 2;
     }
-    .ft-grid {
+  }
+
+  @media (max-width: 768px) {
+    .ft-footer {
+      padding-top: 4rem;
+    }
+    .ft-bento-grid {
       grid-template-columns: 1fr;
-      gap: 2rem;
     }
-    .ft-col--contact {
+    .ft-card--brand, .ft-card--services, .ft-card--info {
       grid-column: span 1;
-      flex-direction: column;
+      grid-row: auto;
+    }
+    .ft-info-grid {
+      grid-template-columns: 1fr;
       gap: 2rem;
     }
     .ft-bottom-inner {
