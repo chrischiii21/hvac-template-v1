@@ -1,7 +1,5 @@
 ---
 import { getLocationText } from "@/config/site"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 
 interface JobOpening {
   title: string;
@@ -26,62 +24,86 @@ const introTitle = rawIntroTitle ? getLocationText(rawIntroTitle) : undefined;
 const introDescription = rawIntroDescription ? getLocationText(rawIntroDescription) : undefined;
 ---
 
-<section class="jo-section" id="openings">
-  <div class="container mx-auto px-6 md:px-12 lg:px-16 py-20 md:py-28">
+<section class="jo-section overflow-hidden" id="openings">
+  <!-- Dynamic Mesh Background -->
+  <div class="jo-canvas">
+    <div class="jo-mesh"></div>
+    <div class="jo-blobs">
+      <div class="jo-blob jo-blob-1"></div>
+      <div class="jo-blob jo-blob-2"></div>
+      <div class="jo-blob jo-blob-3"></div>
+    </div>
+  </div>
 
-    {/* Intro header */}
-    {introTitle && (
-      <div class="jo-intro" data-animate="fade-up">
-        <div class="jo-eyebrow">
-          <span class="jo-eyebrow-text">Careers</span>
+  <div class="container mx-auto px-6 md:px-12 lg:px-16 py-24 md:py-44 relative z-10">
+    <!-- Top Bento Section -->
+    <div class="jo-bento-top">
+      
+      <!-- Vision Cell -->
+      <div class="jo-cell jo-cell-vision" data-animate="fade-up">
+        <div class="jo-cell-content">
+          <div class="jo-eyebrow">
+            <span class="jo-badge">
+              <span class="jo-badge-pulse"></span>
+              Careers
+            </span>
+          </div>
+          {introTitle && <h2 class="jo-vision-title">{introTitle}</h2>}
+          <div class="jo-vision-line"></div>
+          {introDescription && <p class="jo-vision-desc">{introDescription}</p>}
         </div>
-        <h2 class="jo-intro-title">{introTitle}</h2>
-        <div class="jo-divider"></div>
-        {introDescription && <p class="jo-intro-desc">{introDescription}</p>}
       </div>
-    )}
 
-    {/* Openings subheader */}
-    <div class="jo-subheader" data-animate="fade-up">
-      <div class="jo-subheader-inner">
-        <div class="jo-subheader-line"></div>
-        <h3 class="jo-subheader-title">{title}</h3>
+      <!-- Image Cell (Replaced the weird subheader cell) -->
+      <div class="jo-cell jo-cell-image" data-animate="fade-up" data-animate-delay="150">
+        <img 
+          src="https://johnh967.sg-host.com/wp-content/uploads/2024/11/Quality-HVAC-Service.webp" 
+          alt="HVAC Quality Service"
+          class="jo-bento-img"
+        />
+        <div class="jo-img-overlay"></div>
       </div>
-      {description && <p class="jo-subheader-desc" set:html={description} />}
     </div>
 
-    {/* Job cards using React Card/Button */}
-    <div class="jo-grid" data-animate-stagger>
+    <!-- Transition Header (Moved Current Openings here) -->
+    <div class="jo-subheader-full" data-animate="fade-up">
+      <div class="jo-subheader-inner">
+        <div class="jo-subheader-line"></div>
+        <div class="jo-subheader-text">
+          <h3 class="jo-roles-title">{title}</h3>
+          {description && <p class="jo-roles-desc" set:html={description} />}
+        </div>
+      </div>
+    </div>
+
+    <!-- Job Grid Mosaic -->
+    <div class="jo-bento-jobs" data-animate-stagger>
       {jobs.map((job, i) => (
-        <Card className="relative overflow-hidden group border-gray-100 hover:border-[var(--brand-highlight)] h-full">
-          {/* Top accent line sweep */}
-          <span class="absolute top-0 left-0 right-0 h-[4px] bg-[var(--brand-highlight)] scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100 z-10"></span>
+        <div class={`jo-cell jo-cell-job jo-job-${(i % 3) + 1}`}>
+          <div class="jo-job-card">
+            <div class="jo-job-glass"></div>
+            <div class="jo-job-inner">
+              <div class="jo-job-header">
+                <span class="jo-job-type">{job.type || "Full-time position"}</span>
+                <h4 class="jo-job-title">{job.title}</h4>
+              </div>
 
-          {/* Background number */}
-          <div class="absolute -bottom-6 right-2 text-9xl font-black leading-none text-[var(--brand-primary)] opacity-[0.03] pointer-events-none select-none z-0">
-            {String(i + 1).padStart(2, '0')}
+              <div class="jo-job-body">
+                <p class="jo-job-resp">
+                  <span class="jo-resp-label">Responsibilities:</span> {job.responsibilities}
+                </p>
+              </div>
+
+              <div class="jo-job-footer">
+                <a href={job.buttonHref || "/contact"} class="jo-apply-link">
+                  <span>{job.buttonText || "APPLY NOW"}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="jo-job-number">{String(i + 1).padStart(2, '0')}</div>
           </div>
-
-          <CardContent className="relative flex flex-col p-8 md:p-10 min-h-[340px] z-10 h-full">
-            <h3 class="text-xl md:text-2xl font-black uppercase text-[var(--brand-primary)] tracking-tight mb-2">{job.title}</h3>
-            <span class="text-xs font-bold uppercase tracking-[0.1em] text-[var(--brand-secondary)]">{job.type || "Full-time position"}</span>
-
-            <div class="w-12 h-[3px] bg-[var(--brand-highlight)] my-6 shadow-[0_0_10px_rgba(var(--brand-highlight-rgb),0.5)]"></div>
-
-            <p class="text-sm md:text-base leading-relaxed text-gray-600 mb-8 flex-grow">
-              <span class="font-bold text-[var(--brand-primary)]">Responsibilities:</span> {job.responsibilities}
-            </p>
-
-            <Button asChild className="self-start mt-auto group/btn">
-              <a href={job.buttonHref || "/contact"}>
-                {job.buttonText || "APPLY NOW"}
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-2 transition-transform duration-300 group-hover/btn:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </a>
-            </Button>
-          </CardContent>
-        </Card>
+        </div>
       ))}
     </div>
   </div>
@@ -89,105 +111,156 @@ const introDescription = rawIntroDescription ? getLocationText(rawIntroDescripti
 
 <style>
   .jo-section {
+    position: relative;
     background: var(--brand-tertiary);
   }
 
-  /* ─── Intro Header ─── */
-  .jo-intro {
-    text-align: center;
-    margin-bottom: 3rem;
-    max-width: 48rem;
-    margin-left: auto;
-    margin-right: auto;
+  /* ─── Canvas Background ─── */
+  .jo-canvas { position: absolute; inset: 0; z-index: 1; overflow: hidden; }
+  .jo-mesh {
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(at 0% 0%, color-mix(in srgb, var(--brand-tertiary), white 20%) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, color-mix(in srgb, var(--brand-tertiary), black 10%) 0px, transparent 50%),
+      var(--brand-tertiary);
   }
-  .jo-eyebrow {
-    margin-bottom: 1.25rem;
-  }
-  .jo-eyebrow-text {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--brand-highlight);
-    display: inline-block;
-    padding: 0.4rem 1rem;
-    background: var(--brand-primary);
-  }
-  .jo-intro-title {
-    font-size: 2rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
-    color: var(--brand-primary);
-    margin-bottom: 1rem;
-  }
-  @media (min-width: 768px) {
-    .jo-intro-title { font-size: 2.25rem; }
-  }
-  .jo-divider {
-    width: 3rem;
-    height: 3px;
-    background: var(--brand-highlight);
-    margin: 0 auto 1.25rem;
-  }
-  .jo-intro-desc {
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: var(--brand-secondary);
+  .jo-blobs { position: absolute; inset: 0; filter: blur(100px); opacity: 0.4; }
+  .jo-blob { position: absolute; border-radius: 50%; animation: blob 25s infinite alternate ease-in-out; }
+  .jo-blob-1 { width: 40vw; height: 40vw; background: white; top: -10%; left: -10%; }
+  .jo-blob-2 { width: 30vw; height: 30vw; background: var(--brand-highlight); bottom: 10%; right: -5%; animation-delay: -5s; }
+  .jo-blob-3 { width: 25vw; height: 25vw; background: var(--brand-primary); top: 20%; left: 30%; animation-delay: -10s; opacity: 0.2; }
+
+  @keyframes blob {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(100px, 100px) scale(1.2); }
   }
 
-  /* ─── Subheader ─── */
-  .jo-subheader {
-    margin-bottom: 2.5rem;
-    max-width: 64rem;
-    margin-left: auto;
-    margin-right: auto;
+  /* ─── Bento Layout ─── */
+  .jo-bento-top {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  @media (min-width: 1024px) {
+    .jo-bento-top {
+      grid-template-columns: repeat(12, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  /* Vision Cell */
+  .jo-cell-vision {
+    background: var(--brand-primary);
+    border-radius: 2.5rem;
+    padding: 3.5rem;
+    color: white;
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,0.3);
+  }
+  @media (min-width: 1024px) {
+    .jo-cell-vision { grid-column: span 8; }
+  }
+
+  .jo-badge {
+    display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.4rem 1rem;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 99px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.2em; color: var(--brand-highlight); margin-bottom: 2rem;
+  }
+  .jo-badge-pulse { width: 8px; height: 8px; background: var(--brand-highlight); border-radius: 50%; box-shadow: 0 0 10px var(--brand-highlight); }
+
+  .jo-vision-title {
+    font-size: clamp(2.5rem, 4vw, 4rem); font-weight: 900; line-height: 0.95;
+    text-transform: uppercase; letter-spacing: -0.04em; margin-bottom: 2rem;
+  }
+  .jo-vision-line { width: 80px; height: 6px; background: var(--brand-highlight); border-radius: 3px; margin-bottom: 2.5rem; }
+  .jo-vision-desc { font-size: 1.125rem; line-height: 1.6; opacity: 0.85; font-weight: 500; max-width: 40rem; }
+
+  /* Image Cell */
+  .jo-cell-image {
+    position: relative;
+    border-radius: 2.5rem;
+    overflow: hidden;
+    min-height: 300px;
+  }
+  @media (min-width: 1024px) {
+    .jo-cell-image { grid-column: span 4; }
+  }
+  .jo-bento-img { width: 100%; height: 100%; object-fit: cover; }
+  .jo-img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, var(--brand-primary), transparent); opacity: 0.4; }
+
+  /* Transition Header */
+  .jo-subheader-full {
+    margin-bottom: 3.5rem;
+    max-width: 80rem;
   }
   .jo-subheader-inner {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 0.5rem;
-  }
-  .jo-subheader-line {
-    width: 3px;
-    height: 24px;
-    background: var(--brand-highlight);
-    flex-shrink: 0;
-  }
-  .jo-subheader-title {
-    font-size: 0.85rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--brand-primary);
-  }
-  .jo-subheader-desc {
-    font-size: 0.9rem;
-    line-height: 1.7;
-    color: var(--brand-secondary);
-    padding-left: calc(3px + 0.75rem);
-  }
-
-  /* ─── Grid ─── */
-  .jo-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    align-items: flex-start;
     gap: 1.5rem;
-    max-width: 72rem;
-    margin: 0 auto;
+  }
+  .jo-subheader-line { width: 4px; height: 60px; background: var(--brand-highlight); border-radius: 99px; flex-shrink: 0; }
+  .jo-roles-title { font-size: 2rem; font-weight: 900; color: var(--brand-primary); text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+  .jo-roles-desc { font-size: 1.1rem; line-height: 1.5; color: color-mix(in srgb, var(--brand-primary), black 30%); font-weight: 500; max-width: 50rem; }
+
+  /* Job Cells */
+  .jo-bento-jobs {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  @media (min-width: 1024px) {
+    .jo-bento-jobs {
+      grid-template-columns: repeat(12, 1fr);
+      gap: 2rem;
+    }
   }
 
-  /* ─── Responsive ─── */
-  @media (max-width: 1024px) {
-    .jo-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+  .jo-cell-job {
+    position: relative; border-radius: 2.5rem;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  @media (max-width: 640px) {
-    .jo-grid {
-      grid-template-columns: 1fr;
-    }
+  @media (min-width: 1024px) {
+    .jo-job-1 { grid-column: span 4; }
+    .jo-job-2 { grid-column: span 4; }
+    .jo-job-3 { grid-column: span 4; }
+  }
+
+  .jo-job-card { position: relative; height: 100%; min-height: 380px; display: flex; flex-direction: column; }
+  .jo-job-glass {
+    position: absolute; inset: 0; background: rgba(255,255,255,0.4);
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.6); border-radius: 2.5rem;
+    transition: all 0.5s ease;
+  }
+  .jo-cell-job:hover .jo-job-glass { background: white; box-shadow: 0 40px 80px -20px rgba(0,0,0,0.1); border-color: var(--brand-highlight); }
+  .jo-cell-job:hover { transform: translateY(-10px); }
+
+  .jo-job-inner { position: relative; z-index: 2; padding: 3rem; display: flex; flex-direction: column; height: 100%; }
+  .jo-job-type { font-size: 0.7rem; font-weight: 800; color: var(--brand-secondary); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.5rem; display: block; }
+  .jo-job-title { font-size: 1.5rem; font-weight: 900; color: var(--brand-primary); text-transform: uppercase; line-height: 1.1; margin-bottom: 1.5rem; }
+  
+  .jo-job-body { flex-grow: 1; margin-bottom: 2rem; }
+  .jo-job-resp { font-size: 1rem; line-height: 1.5; color: color-mix(in srgb, var(--brand-primary), black 40%); font-weight: 500; }
+  .jo-resp-label { font-weight: 800; color: var(--brand-primary); font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
+
+  .jo-apply-link {
+    display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 1.75rem;
+    background: var(--brand-primary); color: white; border-radius: 12px;
+    font-size: 0.8rem; font-weight: 800; text-transform: uppercase; transition: all 0.3s ease;
+  }
+  .jo-apply-link:hover { background: var(--brand-secondary); transform: scale(1.05); }
+
+  .jo-job-number {
+    position: absolute; bottom: -0.5rem; right: 1rem; font-size: 7rem; font-weight: 900;
+    color: var(--brand-primary); opacity: 0.03; line-height: 1; pointer-events: none;
+  }
+
+  @media (max-width: 1023px) {
+    .jo-cell-vision, .jo-job-inner { padding: 2.5rem 2rem; }
+    .jo-job-card { min-height: 320px; }
   }
 </style>
+
+

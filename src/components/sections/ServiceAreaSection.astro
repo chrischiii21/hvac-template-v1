@@ -31,153 +31,220 @@ const areas = rawAreas ? rawAreas.map(getLocationText) : undefined;
 
 const getMapEmbedUrl = (address: string) => {
   const encodedAddress = encodeURIComponent(address);
-  return `https://www.google.com/maps?q=${encodedAddress}&output=embed`;
+  // Using a more reliable embed URL format
+  return `https://maps.google.com/maps?q=${encodedAddress}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
 };
 
 const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
 ---
 
-<section class="sa-section relative bg-white py-24 lg:py-32">
+<section class="sa-section relative bg-white py-12 lg:py-20 overflow-hidden">
   
-  {/* Abstract Background Accent */}
-  <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-[var(--brand-primary)]/5 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2"></div>
+  {/* Abstract Background Accents */}
+  <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-[var(--brand-primary)]/5 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2"></div>
+  <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[var(--brand-highlight)]/5 rounded-full blur-[100px] translate-x-1/4 translate-y-1/4"></div>
 
   <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
     
-    <!-- Stabilized Header Cluster -->
-    <div class="mb-16 lg:mb-20 reveal-on-scroll">
-      <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-full border border-[var(--brand-primary)]/10 mb-10">
-        <span class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] animate-pulse"></span>
-        <span class="text-xs font-black text-[var(--brand-primary)] uppercase tracking-[0.2em]">Service Area</span>
-      </div>
-      
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-        <div class="lg:col-span-7">
-          <h2 class="text-4xl md:text-5xl lg:text-7xl font-black text-[var(--brand-primary)] uppercase tracking-tighter leading-[0.95] mb-0">
+    {variant === "full" ? (
+      <>
+        <!-- Standard Header Cluster -->
+        <div class="mb-8 lg:mb-12 reveal-on-scroll">
+          <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-full border border-[var(--brand-primary)]/10 mb-6">
+            <span class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] animate-pulse"></span>
+            <span class="text-xs font-black text-[var(--brand-primary)] uppercase tracking-[0.2em]">Service Area</span>
+          </div>
+          
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
+            <div class="lg:col-span-7">
+              <h2 class="text-4xl md:text-5xl lg:text-7xl font-black text-[var(--brand-primary)] uppercase tracking-tighter leading-[0.95] mb-0">
+                {title}
+              </h2>
+            </div>
+            <div class="lg:col-span-5">
+              <div class="relative">
+                 <div class="absolute -left-8 top-0 bottom-0 w-1 bg-[var(--brand-highlight)] rounded-full hidden lg:block"></div>
+                 <p class="text-[1.05rem] text-[var(--brand-secondary)] lg:text-lg leading-relaxed font-medium" set:html={description} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Balanced Layout with Areas and Map -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+          {/* Static Locations Hub */}
+          {areas && areas.length > 0 && (
+            <div class="lg:col-span-5 reveal-on-scroll" data-animate-delay="100">
+              <div class="h-full flex flex-col">
+                 
+                 <div class="w-full flex items-center justify-between p-6 bg-[var(--brand-primary)] rounded-[2rem] shadow-xl mb-6">
+                    <div class="flex items-center gap-4">
+                       <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-[var(--brand-highlight)]">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                       </div>
+                       <div class="flex flex-col items-start">
+                          <span class="text-[0.65rem] font-black text-[var(--brand-highlight)] uppercase tracking-[0.2em] mb-1">Interactive Directory</span>
+                          <h3 class="text-lg font-black text-white uppercase tracking-wider">Areas We Serve</h3>
+                       </div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                       <span class="text-[0.7rem] font-black text-white/50 uppercase tracking-widest hidden sm:block">{areas.length} Locations</span>
+                    </div>
+                 </div>
+
+                 <div class="flex-1 min-h-0">
+                    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-3 max-h-[420px] overflow-y-auto px-2 py-2 sa-custom-scroll">
+                      {areas.map((area) => (
+                        <div class="group flex items-center gap-3 p-3 bg-gray-50 rounded-xl transition-all duration-500 hover:bg-[var(--brand-primary)] hover:translate-x-1 hover:scale-[1.02]">
+                           <span class="w-1.5 h-1.5 rounded-full bg-[var(--brand-highlight)] group-hover:scale-150 transition-transform"></span>
+                           <span class="text-[0.65rem] font-bold text-[var(--brand-primary)] uppercase tracking-wide group-hover:text-white transition-colors leading-tight">{area}</span>
+                        </div>
+                      ))}
+                    </div>
+                 </div>
+                 
+                 <div class="pt-8">
+                   <a href={buttonHref} class="group relative inline-flex items-center justify-center px-10 py-5 bg-white border-2 border-[var(--brand-primary)] rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-1 w-full text-center">
+                      <span class="relative z-10 text-[0.8rem] font-black text-[var(--brand-primary)] uppercase tracking-[0.2em] group-hover:text-white transition-colors">{buttonText}</span>
+                      <div class="absolute inset-0 bg-[var(--brand-primary)] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+                   </a>
+                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* Cinematic Map Column */}
+          <div class={`${areas && areas.length > 0 ? 'lg:col-span-7' : 'lg:col-span-12'} reveal-on-scroll`} data-animate-delay="200">
+            <div class="relative h-full min-h-[400px] lg:min-h-[450px] group">
+              <div class="absolute -inset-4 bg-[var(--brand-primary)]/5 rounded-[4.5rem] blur-2xl transition-all duration-700"></div>
+              
+              <div class="relative h-full w-full rounded-[3.5rem] lg:rounded-[4.5rem] overflow-hidden bg-gray-100 shadow-xl border-8 border-white transition-all duration-700 group-hover:shadow-2xl">
+                 <div class="absolute top-8 left-8 z-20 pointer-events-none">
+                    <div class="flex items-center gap-3 px-5 py-2.5 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white">
+                       <div class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] animate-pulse"></div>
+                       <span class="text-[0.65rem] font-black text-[var(--brand-primary)] uppercase tracking-wider">Service Coverage Active</span>
+                    </div>
+                 </div>
+
+                 {embedUrl ? (
+                   <iframe
+                     src={embedUrl}
+                     class="absolute inset-0 w-full h-full border-0 transition-all duration-1000"
+                     allowfullscreen=""
+                     loading="lazy"
+                     referrerpolicy="no-referrer-when-downgrade"
+                     title="Service Area Map"
+                   ></iframe>
+                 ) : (
+                   <div class="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="relative w-20 h-20 text-[var(--brand-primary)]/10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                   </div>
+                 )}
+
+                 <div class="absolute inset-0 pointer-events-none overflow-hidden opacity-10">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,transparent_40%,#1F1F1F05_60%,transparent_70%)] animate-radar"></div>
+                 </div>
+              </div>
+
+              <div class="absolute bottom-8 right-8 z-20 hidden md:block">
+                 <div class="bg-[var(--brand-primary)]/95 backdrop-blur-xl text-white p-8 rounded-[3rem] shadow-2xl border border-white/20 transition-all duration-500 group/card">
+                    <div class="flex items-center gap-4 mb-4">
+                       <div class="w-12 h-12 rounded-2xl bg-[var(--brand-highlight)] flex items-center justify-center text-[var(--brand-primary)] shadow-lg transition-transform duration-500 group-hover/card:rotate-12">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                       </div>
+                       <div class="flex flex-col">
+                          <span class="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--brand-highlight)] opacity-80">Regional Hub</span>
+                          <span class="text-xs font-black uppercase tracking-widest text-white">Headquarters</span>
+                       </div>
+                    </div>
+                    <p class="text-sm font-bold opacity-90 leading-relaxed max-w-[200px]">{mapAddress}</p>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    ) : (
+      <!-- Compact Variant: Side-by-Side Text and Map -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+        <div class="lg:col-span-6 reveal-on-scroll">
+          <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-full border border-[var(--brand-primary)]/10 mb-8">
+            <span class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] animate-pulse"></span>
+            <span class="text-xs font-black text-[var(--brand-primary)] uppercase tracking-[0.2em]">Service Area</span>
+          </div>
+          
+          <h2 class="text-4xl md:text-5xl lg:text-7xl font-black text-[var(--brand-primary)] uppercase tracking-tighter leading-[0.95] mb-6">
             {title}
           </h2>
-        </div>
-        <div class="lg:col-span-5">
-          <div class="relative">
+
+          <div class="relative mb-8">
              <div class="absolute -left-8 top-0 bottom-0 w-1 bg-[var(--brand-highlight)] rounded-full hidden lg:block"></div>
              <p class="text-[1.05rem] text-[var(--brand-secondary)] lg:text-lg leading-relaxed font-medium" set:html={description} />
           </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Maximized Balanced Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-stretch">
-      
-      {/* Collapsible Locations Hub */}
-      {areas && areas.length > 0 && (
-        <div class="lg:col-span-5 reveal-on-scroll" data-animate-delay="100">
-          <div class="h-full flex flex-col">
+          <div class="flex flex-wrap gap-4">
+             <a href={buttonHref} class="group relative inline-flex items-center justify-center px-10 py-5 bg-[var(--brand-primary)] rounded-[2rem] overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
+                <span class="relative z-10 text-[0.8rem] font-black text-white uppercase tracking-[0.2em]">{buttonText}</span>
+                <div class="absolute inset-0 bg-[var(--brand-highlight)] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
+             </a>
              
-             {/* Zero-JS Collapsible Architecture */}
-             <input type="checkbox" id="sa-toggle" class="sa-toggle-input hidden" />
-             
-             <label for="sa-toggle" class="sa-collapsible-trigger group w-full flex items-center justify-between p-8 bg-[var(--brand-primary)] rounded-[2.5rem] transition-all duration-500 hover:shadow-2xl hover:shadow-[var(--brand-primary)]/20 shadow-xl cursor-pointer">
-                <div class="flex items-center gap-5">
-                   <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-[var(--brand-highlight)] transition-transform duration-500 group-hover:scale-110">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                   </div>
-                   <div class="flex flex-col items-start">
-                      <span class="text-[0.65rem] font-black text-[var(--brand-highlight)] uppercase tracking-[0.2em] mb-1">Interactive Directory</span>
-                      <h3 class="text-lg font-black text-white uppercase tracking-wider">Areas We Serve</h3>
-                   </div>
+             {areas && areas.length > 0 && (
+                <div class="flex items-center gap-3 px-6 py-4 bg-gray-50 rounded-[2rem] border border-gray-100">
+                   <span class="text-xs font-bold text-[var(--brand-primary)] uppercase tracking-wider">{areas.length} Locations Served</span>
                 </div>
-                <div class="flex items-center gap-4">
-                   <span class="text-[0.7rem] font-black text-white/50 uppercase tracking-widest hidden sm:block">{areas.length} Locations</span>
-                   <div class="sa-chevron-icon w-10 h-10 border border-white/20 rounded-xl flex items-center justify-center text-white transition-transform duration-500">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                   </div>
-                </div>
-             </label>
-
-             {/* Collapsible Content Area (Flexible Density) */}
-             <div class="sa-collapsible-content overflow-hidden max-h-0 transition-all duration-700 ease-in-out opacity-0">
-                <div class="pt-8 pb-4">
-                  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3 max-h-[500px] overflow-y-auto px-2 py-2 sa-custom-scroll">
-                    {areas.map((area) => (
-                      <div class="group flex items-center gap-3 p-3 bg-gray-50 rounded-xl transition-all duration-500 hover:bg-[var(--brand-primary)] hover:translate-x-1 hover:scale-[1.02]">
-                         <span class="w-1.5 h-1.5 rounded-full bg-[var(--brand-highlight)] group-hover:scale-150 transition-transform"></span>
-                         <span class="text-[0.65rem] font-bold text-[var(--brand-primary)] uppercase tracking-wide group-hover:text-white transition-colors leading-tight">{area}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-             </div>
-             
-             {/* Action Button Strip */}
-             <div class="mt-auto pt-10">
-               <a href={buttonHref} class="group relative inline-flex items-center justify-center px-10 py-5 bg-white border-2 border-[var(--brand-primary)] rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-1 w-full">
-                  <span class="relative z-10 text-[0.8rem] font-black text-[var(--brand-primary)] uppercase tracking-[0.2em] group-hover:text-white transition-colors">{buttonText}</span>
-                  <div class="absolute inset-0 bg-[var(--brand-primary)] translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-               </a>
-             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Cinematic Map Column */}
-      <div class={`${areas ? 'lg:col-span-7' : 'lg:col-span-12'} reveal-on-scroll`} data-animate-delay="200">
-        <div class="relative h-full min-h-[500px] lg:min-h-full group">
-          <div class="absolute -inset-4 bg-[var(--brand-primary)]/5 rounded-[4.5rem] blur-2xl transition-all duration-700"></div>
-          
-          <div class="relative h-full w-full rounded-[3.5rem] lg:rounded-[4.5rem] overflow-hidden bg-gray-100 shadow-xl border-8 border-white transition-all duration-700 group-hover:shadow-2xl">
-             
-             <div class="absolute top-8 left-8 z-20 pointer-events-none">
-                <div class="flex items-center gap-3 px-5 py-2.5 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white">
-                   <div class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] animate-pulse"></div>
-                   <span class="text-[0.65rem] font-black text-[var(--brand-primary)] uppercase tracking-wider">Service Coverage Active</span>
-                </div>
-             </div>
-
-             {embedUrl ? (
-               <iframe
-                 src={embedUrl}
-                 class="absolute inset-0 w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-1000"
-                 allowfullscreen=""
-                 loading="lazy"
-                 referrerpolicy="no-referrer-when-downgrade"
-                 title="Service Area Map"
-               ></iframe>
-             ) : (
-               <div class="absolute inset-0 bg-[var(--brand-primary)]/5"></div>
              )}
-
-             <div class="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-[200%] bg-[radial-gradient(circle_at_center,transparent_40%,rgba(var(--brand-primary-rgb),0.02)_60%,transparent_70%)] animate-radar"></div>
-             </div>
-          </div>
-
-          <div class="absolute bottom-8 right-8 z-20 hidden md:block">
-             <div class="bg-[var(--brand-primary)] text-white p-8 rounded-[3rem] shadow-2xl border border-white/10 transition-all duration-500 hover:scale-105">
-                <div class="flex items-center gap-4 mb-4">
-                   <div class="w-12 h-12 rounded-2xl bg-[var(--brand-highlight)] flex items-center justify-center text-[var(--brand-primary)]">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                   </div>
-                   <div class="flex flex-col">
-                      <span class="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--brand-highlight)] opacity-60">Regional Hub</span>
-                      <span class="text-xs font-black uppercase tracking-widest text-white">Headquarters</span>
-                   </div>
-                </div>
-                <p class="text-sm font-bold opacity-90 leading-relaxed max-w-[200px]">{mapAddress}</p>
-             </div>
           </div>
         </div>
-      </div>
 
-    </div>
+        <div class="lg:col-span-6 reveal-on-scroll" data-animate-delay="200">
+           <div class="relative aspect-square lg:aspect-auto lg:h-[500px] group">
+              <div class="absolute -inset-6 bg-[var(--brand-highlight)]/10 rounded-[4rem] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+              
+              <div class="relative h-full w-full rounded-[3.5rem] lg:rounded-[4.5rem] overflow-hidden bg-gray-100 shadow-2xl border-8 border-white transition-all duration-700">
+                 {embedUrl ? (
+                   <iframe
+                     src={embedUrl}
+                     class="absolute inset-0 w-full h-full border-0 transition-all duration-1000"
+                     allowfullscreen=""
+                     loading="lazy"
+                     referrerpolicy="no-referrer-when-downgrade"
+                     title="Service Area Map"
+                   ></iframe>
+                 ) : (
+                    <div class="absolute inset-0 bg-gray-100"></div>
+                 )}
+                 
+                 <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
+
+                 <div class="absolute bottom-8 right-8 left-8 z-20">
+                    <div class="bg-white/90 backdrop-blur-xl p-6 rounded-[2.5rem] shadow-xl border border-white flex items-center justify-between gap-4">
+                       <div class="flex items-center gap-4">
+                          <div class="w-12 h-12 rounded-2xl bg-[var(--brand-primary)] flex items-center justify-center text-[var(--brand-highlight)]">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                          </div>
+                          <div class="flex flex-col">
+                             <span class="text-[0.6rem] font-black uppercase tracking-[0.2em] text-[var(--brand-primary)] opacity-50">Headquarters</span>
+                             <span class="text-xs font-black uppercase text-[var(--brand-primary)] truncate max-w-[150px]">{mapAddress}</span>
+                          </div>
+                       </div>
+                       <div class="w-10 h-10 rounded-full bg-[var(--brand-highlight)]/10 flex items-center justify-center text-[var(--brand-highlight)] animate-bounce">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m18 15-6-6-6 6"/></svg>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+      </div>
+    )}
   </div>
 </section>
 
 <style>
   .reveal-on-scroll {
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 1.2s cubic-bezier(0.25, 1, 0.3, 1);
+    transform: translateY(40px);
+    transition: all 1.2s cubic-bezier(0.2, 1, 0.2, 1);
   }
   
   .reveal-on-scroll.is-revealed {
@@ -195,14 +262,6 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
     animation: radar 8s infinite linear;
   }
 
-  .sa-toggle-input:checked ~ .sa-collapsible-trigger .sa-chevron-icon {
-    transform: rotate(180deg);
-  }
-  
-  .sa-toggle-input:checked ~ .sa-collapsible-content {
-    max-height: 1500px;
-    opacity: 1;
-  }
 
   .sa-custom-scroll::-webkit-scrollbar {
     width: 4px;
@@ -214,9 +273,6 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
   .sa-custom-scroll::-webkit-scrollbar-thumb {
     background: var(--brand-highlight);
     border-radius: 10px;
-  }
-  .sa-custom-scroll::-webkit-scrollbar-thumb:hover {
-    background: var(--brand-primary);
   }
 </style>
 

@@ -160,15 +160,10 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
       if (track.dataset.init === 'true') return;
       track.dataset.init = 'true';
 
-      const slides = track.querySelectorAll<HTMLElement>('.tm-slide');
+      let slides = Array.from(track.querySelectorAll<HTMLElement>('.tm-slide'));
       const totalSlides = slides.length;
-      let currentIndex = 0;
-      let autoplayInterval: any = null;
+      if (totalSlides === 0) return;
 
-      if (totalCountLabel) {
-        totalCountLabel.textContent = totalSlides.toString().padStart(2, '0');
-      }
-      
       const getPerView = () => {
         if (window.innerWidth >= 1024) return 3;
         if (window.innerWidth >= 768) return 2;
@@ -176,21 +171,54 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
       };
 
       let perView = getPerView();
-      const maxIndex = () => Math.max(0, totalSlides - perView);
+      let currentIndex = perView; // Start at first real slide
+      let isTransitioning = false;
+      let autoplayInterval: any = null;
 
-      function updateUI() {
+      // Clone slides for infinite effect
+      const clonesBefore = slides.slice(-perView).map(s => s.cloneNode(true) as HTMLElement);
+      const clonesAfter = slides.slice(0, perView).map(s => s.cloneNode(true) as HTMLElement);
+      
+      clonesBefore.reverse().forEach(clone => track.insertBefore(clone, track.firstChild));
+      clonesAfter.forEach(clone => track.appendChild(clone));
+
+      const allSlides = Array.from(track.querySelectorAll<HTMLElement>('.tm-slide'));
+
+      if (totalCountLabel) {
+        totalCountLabel.textContent = totalSlides.toString().padStart(2, '0');
+      }
+      
+      function updateUI(smooth = true) {
         const gap = window.innerWidth >= 1024 ? 24 : 20;
-        const slideWidth = slides[0].offsetWidth + gap;
+        const slideWidth = (slides[0] as HTMLElement).offsetWidth + gap;
+        
+        track!.style.transition = smooth ? 'transform 0.8s cubic-bezier(0.25, 1, 0.3, 1)' : 'none';
         track!.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
         
-        const progress = maxIndex() === 0 ? 100 : (currentIndex / maxIndex()) * 100;
+        let realIndex = (currentIndex - perView + totalSlides) % totalSlides;
+        const progress = (realIndex / (totalSlides - 1)) * 100;
         progressFill!.style.width = `${Math.max(5, progress)}%`;
       }
 
+      function handleTransitionEnd() {
+        isTransitioning = false;
+        const slideCount = allSlides.length;
+        
+        if (currentIndex >= slideCount - perView) {
+          currentIndex = perView;
+          updateUI(false);
+        } else if (currentIndex < perView) {
+          currentIndex = slideCount - perView * 2;
+          updateUI(false);
+        }
+      }
+
+      track.addEventListener('transitionend', handleTransitionEnd);
+
       function goTo(index: number) {
-        currentIndex = Math.max(0, Math.min(index, maxIndex()));
-        if (currentIndex === maxIndex() && index > maxIndex()) currentIndex = 0;
-        if (currentIndex === 0 && index < 0) currentIndex = maxIndex();
+        if (isTransitioning) return;
+        isTransitioning = true;
+        currentIndex = index;
         updateUI();
       }
 
@@ -213,7 +241,8 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
 
       window.addEventListener('resize', () => {
         perView = getPerView();
-        goTo(Math.min(currentIndex, maxIndex()));
+        currentIndex = perView;
+        updateUI(false);
       });
 
       const observer = new IntersectionObserver((entries) => {
@@ -228,8 +257,7 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
       }, { threshold: 0.1 });
 
       observer.observe(carousel);
-
-      updateUI();
+      setTimeout(() => updateUI(false), 50);
     });
   }
 
