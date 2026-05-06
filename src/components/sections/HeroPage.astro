@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
-import { siteConfig, getLocationText } from "@/config/site"
+import { siteConfig, getLocationText } from "@/config/site";
+import Button from "@/components/ui/Button.astro";
 
 interface Props {
   title: string;
@@ -28,107 +29,160 @@ const title = getLocationText(rawTitle);
 const subtitle = rawSubtitle ? getLocationText(rawSubtitle) : undefined;
 const trustIndicators = rawTrustIndicators.map(getLocationText);
 const bgSrc = backgroundImage || image || "/images/bg2.jpg";
-const isRemoteImage = bgSrc.startsWith('http://') || bgSrc.startsWith('https://');
+const isRemoteImage =
+  bgSrc.startsWith("http://") || bgSrc.startsWith("https://");
 ---
 
-<section class="hp-hero relative w-full overflow-hidden min-h-[60vh] lg:min-h-[80vh] flex items-center bg-[var(--brand-primary)]">
-  
+<section
+  class="hp-hero relative w-full overflow-hidden min-h-[60vh] lg:min-h-[80vh] flex items-center bg-[var(--brand-primary)]"
+>
   <!-- Cinematic Background Layer -->
   <div class="absolute inset-0 z-0">
-    {isRemoteImage ? (
-      <Image
-        src={bgSrc}
-        alt={imageAlt}
-        class="hp-bg-img absolute inset-0 w-full h-full object-cover scale-105"
-        loading="eager"
-        fetchpriority="high"
-        width={1920}
-        height={1080}
-        format="webp"
-        quality={75}
-      />
-    ) : (
-      <img
-        src={bgSrc}
-        alt={imageAlt}
-        class="hp-bg-img absolute inset-0 w-full h-full object-cover scale-105"
-        loading="eager"
-        fetchpriority="high"
-        width="1920"
-        height="1080"
-      />
-    )}
-    
+    {
+      isRemoteImage ? (
+        <Image
+          src={bgSrc}
+          alt={imageAlt}
+          class="hp-bg-img absolute inset-0 w-full h-full object-cover scale-105"
+          loading="eager"
+          fetchpriority="high"
+          width={1920}
+          height={1080}
+          format="webp"
+          quality={75}
+        />
+      ) : (
+        <img
+          src={bgSrc}
+          alt={imageAlt}
+          class="hp-bg-img absolute inset-0 w-full h-full object-cover scale-105"
+          loading="eager"
+          fetchpriority="high"
+          width="1920"
+          height="1080"
+        />
+      )
+    }
+
     <!-- Multi-layered Cinematic Overlays -->
-    <div class="absolute inset-0 bg-gradient-to-b from-[var(--brand-primary)]/90 via-[var(--brand-primary)]/40 to-[var(--brand-primary)]/90 mix-blend-multiply z-[1]"></div>
+    <div
+      class="absolute inset-0 bg-gradient-to-b from-[var(--brand-primary)]/90 via-[var(--brand-primary)]/40 to-[var(--brand-primary)]/90 mix-blend-multiply z-[1]"
+    >
+    </div>
     <div class="absolute inset-0 bg-black/30 z-[1]"></div>
-    <div class="absolute inset-0 bg-gradient-to-r from-[var(--brand-primary)] via-[var(--brand-primary)]/20 to-transparent z-[1] opacity-80"></div>
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-[var(--brand-primary)] via-[var(--brand-primary)]/20 to-transparent z-[1] opacity-80"
+    >
+    </div>
   </div>
 
   <!-- Bento Grid Container -->
-  <div class="relative z-10 container mx-auto px-6 md:px-12 lg:px-16 py-20 lg:py-24">
+  <div
+    class="relative z-10 container mx-auto px-6 md:px-12 lg:px-16 py-20 lg:py-24"
+  >
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-      
       <!-- Left Column: Primary Content -->
-      <div class="lg:col-span-7 xl:col-span-8 reveal-on-scroll" data-animate-delay="0">
-        
+      <div
+        class="lg:col-span-7 xl:col-span-8 reveal-on-scroll"
+        data-animate-delay="0"
+      >
         <!-- Elegant Accented Eyebrow -->
-        {subtitle && (
-          <div class="flex items-center gap-4 mb-8">
-            <div class="w-1 lg:w-1.5 h-10 lg:h-12 bg-[var(--brand-highlight)] rounded-full shadow-[0_0_15px_rgba(var(--brand-highlight-rgb),0.4)]"></div>
-            <span class="text-[0.7rem] lg:text-[0.8rem] font-black text-white/60 uppercase tracking-[0.25em] leading-tight max-w-xl">
-              {subtitle}
-            </span>
-          </div>
-        )}
+        {
+          subtitle && (
+            <div class="flex items-center gap-4 mb-8">
+              <div class="w-1 lg:w-1.5 h-10 lg:h-12 bg-[var(--brand-highlight)] rounded-full shadow-[0_0_15px_rgba(var(--brand-highlight-rgb),0.4)]" />
+              <span class="text-[0.7rem] lg:text-[0.8rem] font-black text-white/60 uppercase tracking-[0.25em] leading-tight max-w-xl">
+                {subtitle}
+              </span>
+            </div>
+          )
+        }
 
         <!-- Cinematic Responsive Title -->
-        <h1 class="hp-title font-black text-white uppercase tracking-tighter leading-[0.95] drop-shadow-2xl">
+        <h1
+          class="hp-title font-black text-white uppercase tracking-tighter leading-[0.95] drop-shadow-2xl"
+        >
           {title}
         </h1>
       </div>
 
       <!-- Right Column: Action Bento Card -->
-      <div class="lg:col-span-5 xl:col-span-4 reveal-on-scroll" data-animate-delay="200">
+      <div
+        class="lg:col-span-5 xl:col-span-4 reveal-on-scroll"
+        data-animate-delay="200"
+      >
         <div class="relative group">
-          <div class="absolute -inset-0.5 bg-gradient-to-br from-white/20 to-transparent rounded-[2rem] blur opacity-30"></div>
-          
-          <div class="relative bg-white/5 backdrop-blur-3xl border border-white/10 p-7 lg:p-9 rounded-[2rem] shadow-2xl overflow-hidden">
+          <div
+            class="absolute -inset-0.5 bg-gradient-to-br from-white/20 to-transparent rounded-[2rem] blur opacity-30"
+          >
+          </div>
+
+          <div
+            class="relative bg-white/5 backdrop-blur-3xl border border-white/10 p-7 lg:p-9 rounded-[2rem] shadow-2xl overflow-hidden"
+          >
             <!-- Action Cluster -->
             <div class="relative z-10 flex flex-col gap-5">
-              <a href={buttonHref} class="group/btn relative flex items-center justify-between w-full p-1.5 pl-6 bg-[var(--brand-highlight)] text-[var(--brand-primary)] font-black text-[0.8rem] uppercase tracking-widest rounded-xl transition-all duration-300 hover:shadow-2xl hover:shadow-[var(--brand-highlight)]/40 hover:-translate-y-1">
-                <span>{buttonText}</span>
-                <div class="w-10 h-10 bg-[var(--brand-primary)] text-white rounded-lg flex items-center justify-center transition-transform duration-500 group-hover/btn:rotate-45">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </a>
+              <Button
+                href={buttonHref}
+                variant="white"
+                showArrow={true}
+                size="lg"
+                className="w-full"
+              >
+                {buttonText}
+              </Button>
 
-              <a href={`tel:${siteConfig.contact.phone}`} class="group/phone flex items-center gap-4 px-6 py-4 bg-white/5 border border-white/10 rounded-xl text-white font-black text-[0.8rem] uppercase tracking-widest transition-all duration-300 hover:bg-white/10">
-                <div class="w-9 h-9 bg-white/10 rounded-full flex items-center justify-center text-[var(--brand-highlight)] transition-colors duration-300 group-hover/phone:bg-[var(--brand-highlight)] group-hover/phone:text-[var(--brand-primary)]">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+              <Button
+                href={`tel:${siteConfig.contact.phone}`}
+                variant="outline"
+                size="lg"
+                className="w-full"
+              >
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-4 h-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                  >
+                    <path
+                      d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"
+                    ></path>
                   </svg>
                 </div>
-                <span>{siteConfig.contact.phoneFormatted}</span>
-              </a>
+                {siteConfig.contact.phoneFormatted}
+              </Button>
 
               <!-- Trust List inside Card -->
-              {trustIndicators.length > 0 && (
-                <div class="flex flex-col gap-3.5 mt-4 pt-6 border-t border-white/10">
-                  {trustIndicators.map((indicator) => (
-                    <div class="flex items-center gap-3 group/item">
-                      <div class="w-5 h-5 rounded bg-[var(--brand-highlight)]/10 flex items-center justify-center text-[var(--brand-highlight)] transition-all duration-300 group-hover/item:bg-[var(--brand-highlight)] group-hover/item:text-[var(--brand-primary)]">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-                          <path d="M20 6 9 17l-5-5"/>
-                        </svg>
+              {
+                trustIndicators.length > 0 && (
+                  <div class="flex flex-col gap-3.5 mt-4 pt-6 border-t border-white/10">
+                    {trustIndicators.map((indicator) => (
+                      <div class="flex items-center gap-3 group/item">
+                        <div class="w-5 h-5 rounded bg-[var(--brand-highlight)]/10 flex items-center justify-center text-[var(--brand-highlight)] transition-all duration-300 group-hover/item:bg-[var(--brand-highlight)] group-hover/item:text-[var(--brand-primary)]">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-3 h-3"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="4"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path d="M20 6 9 17l-5-5" />
+                          </svg>
+                        </div>
+                        <span class="text-[0.6rem] lg:text-[0.65rem] font-black text-white/40 uppercase tracking-widest transition-colors duration-300 group-hover/item:text-white leading-tight">
+                          {indicator}
+                        </span>
                       </div>
-                      <span class="text-[0.6rem] lg:text-[0.65rem] font-black text-white/40 uppercase tracking-widest transition-colors duration-300 group-hover/item:text-white leading-tight">{indicator}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
+                    ))}
+                  </div>
+                )
+              }
             </div>
           </div>
         </div>
@@ -151,7 +205,7 @@ const isRemoteImage = bgSrc.startsWith('http://') || bgSrc.startsWith('https://'
     filter: brightness(0.6) contrast(1.1);
     transition: transform 10s ease-out;
   }
-  
+
   .hp-hero:hover .hp-bg-img {
     transform: scale(1);
   }
@@ -161,7 +215,7 @@ const isRemoteImage = bgSrc.startsWith('http://') || bgSrc.startsWith('https://'
     transform: translateY(20px);
     transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  
+
   .reveal-on-scroll.is-revealed {
     opacity: 1;
     transform: translateY(0);
@@ -170,22 +224,26 @@ const isRemoteImage = bgSrc.startsWith('http://') || bgSrc.startsWith('https://'
 
 <script>
   function initHeroReveal() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-revealed");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
 
-    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+    document
+      .querySelectorAll(".reveal-on-scroll")
+      .forEach((el) => observer.observe(el));
   }
 
   initHeroReveal();
-  document.addEventListener('astro:page-load', initHeroReveal);
+  document.addEventListener("astro:page-load", initHeroReveal);
 </script>
-
 
 <style>
   .hp-hero {
@@ -201,7 +259,7 @@ const isRemoteImage = bgSrc.startsWith('http://') || bgSrc.startsWith('https://'
     filter: brightness(0.6) contrast(1.1);
     transition: transform 10s ease-out;
   }
-  
+
   .hp-hero:hover .hp-bg-img {
     transform: scale(1);
   }
@@ -211,7 +269,7 @@ const isRemoteImage = bgSrc.startsWith('http://') || bgSrc.startsWith('https://'
     transform: translateY(20px);
     transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  
+
   .reveal-on-scroll.is-revealed {
     opacity: 1;
     transform: translateY(0);
@@ -220,22 +278,26 @@ const isRemoteImage = bgSrc.startsWith('http://') || bgSrc.startsWith('https://'
 
 <script>
   function initHeroReveal() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-revealed");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
 
-    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+    document
+      .querySelectorAll(".reveal-on-scroll")
+      .forEach((el) => observer.observe(el));
   }
 
   initHeroReveal();
-  document.addEventListener('astro:page-load', initHeroReveal);
+  document.addEventListener("astro:page-load", initHeroReveal);
 </script>
-
 
 <style>
   .hp-bg-img {
@@ -247,7 +309,7 @@ const isRemoteImage = bgSrc.startsWith('http://') || bgSrc.startsWith('https://'
     transform: translateY(30px);
     transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  
+
   .reveal-on-scroll.is-revealed {
     opacity: 1;
     transform: translateY(0);
@@ -255,29 +317,33 @@ const isRemoteImage = bgSrc.startsWith('http://') || bgSrc.startsWith('https://'
 
   @media (max-width: 1024px) {
     .hp-hero {
-       min-height: auto;
+      min-height: auto;
     }
   }
 </style>
 
 <script>
   function initHeroReveal() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-revealed");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
 
-    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+    document
+      .querySelectorAll(".reveal-on-scroll")
+      .forEach((el) => observer.observe(el));
   }
 
   initHeroReveal();
-  document.addEventListener('astro:page-load', initHeroReveal);
+  document.addEventListener("astro:page-load", initHeroReveal);
 </script>
-
 
 <style>
   .hp-bg-img {
@@ -289,7 +355,7 @@ const isRemoteImage = bgSrc.startsWith('http://') || bgSrc.startsWith('https://'
     transform: translateY(20px);
     transition: all 0.8s cubic-bezier(0.25, 1, 0.3, 1);
   }
-  
+
   .reveal-on-scroll.is-revealed {
     opacity: 1;
     transform: translateY(0);
@@ -298,20 +364,23 @@ const isRemoteImage = bgSrc.startsWith('http://') || bgSrc.startsWith('https://'
 
 <script>
   function initHeroReveal() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-revealed");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 },
+    );
 
-    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+    document
+      .querySelectorAll(".reveal-on-scroll")
+      .forEach((el) => observer.observe(el));
   }
 
   initHeroReveal();
-  document.addEventListener('astro:page-load', initHeroReveal);
+  document.addEventListener("astro:page-load", initHeroReveal);
 </script>
-
-

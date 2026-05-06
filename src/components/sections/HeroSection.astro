@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import Button from "../ui/Button.astro";
 import bg2Img from "/public/images/bg2.jpg";
 import { getLocationText } from "@/config/site"
 
@@ -225,7 +226,7 @@ const isSlider = variant === "slider";
     </h1>
     
     {subpageSubtitle && (
-      <p class="hero-subtitle text-xl md:text-2xl leading-relaxed text-gray-200 font-medium max-w-3xl mx-auto drop-shadow-lg">
+      <p class="hero-subtitle text-xl md:text-2xl leading-relaxed text-gray-200 font-medium max-w-3xl mx-auto drop-shadow-lg mb-10">
         {getLocationText(subpageSubtitle)}
       </p>
     )}

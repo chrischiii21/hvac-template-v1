@@ -1,43 +1,77 @@
 ---
-import { siteConfig } from "@/config/site"
+import Button from "./ui/Button.astro";
+import { siteConfig } from "@/config/site";
 
-const currentYear = new Date().getFullYear()
+const currentYear = new Date().getFullYear();
 
 const quickLinks = [
   { title: "HOME", href: "/" },
   { title: "SERVICE AREAS", href: "/service-areas" },
   { title: "SCHEDULE NOW", href: "/contact" },
-]
+];
 
 const airConditioningServices = [
   { title: "AC Repair", href: "/air-conditioning/ac-repair" },
-  { title: "AC Tune-Up/ Maintenance", href: "/air-conditioning/ac-tune-up-maintenance" },
-  { title: "AC Installation and Replacement", href: "/air-conditioning/ac-installation-replacement" },
+  {
+    title: "AC Tune-Up/ Maintenance",
+    href: "/air-conditioning/ac-tune-up-maintenance",
+  },
+  {
+    title: "AC Installation and Replacement",
+    href: "/air-conditioning/ac-installation-replacement",
+  },
   { title: "Mini-Split Systems", href: "/air-conditioning/mini-split-systems" },
   { title: "HVAC Brands", href: "/air-conditioning/hvac-brands" },
   { title: "HVAC Warranties", href: "/air-conditioning/hvac-warranties" },
   { title: "Thermostats", href: "/air-conditioning/thermostats" },
-]
+];
 
 const heatingServices = [
   { title: "Furnace Repair", href: "/heating/furnace-repair" },
-  { title: "Furnace Tune Up/ Maintenance", href: "/heating/furnace-tune-up-maintenance" },
-  { title: "Furnace Installation and Replacement", href: "/heating/furnace-installation-replacement" },
-  { title: "Boilers Installation and Replacement", href: "/heating/boilers-installation-replacement" },
-]
+  {
+    title: "Furnace Tune Up/ Maintenance",
+    href: "/heating/furnace-tune-up-maintenance",
+  },
+  {
+    title: "Furnace Installation and Replacement",
+    href: "/heating/furnace-installation-replacement",
+  },
+  {
+    title: "Boilers Installation and Replacement",
+    href: "/heating/boilers-installation-replacement",
+  },
+];
 
 const indoorAirQualityServices = [
-  { title: "Air Filtration Systems", href: "/indoor-air-quality/air-filtration-systems" },
-  { title: "Duct Cleaning and Sealing", href: "/indoor-air-quality/duct-cleaning-sealing" },
-  { title: "Duct Repair and Replacement", href: "/indoor-air-quality/duct-repair-replacement" },
-  { title: "Attic Insulation and Ventilation", href: "/indoor-air-quality/attic-insulation-ventilation" },
-]
+  {
+    title: "Air Filtration Systems",
+    href: "/indoor-air-quality/air-filtration-systems",
+  },
+  {
+    title: "Duct Cleaning and Sealing",
+    href: "/indoor-air-quality/duct-cleaning-sealing",
+  },
+  {
+    title: "Duct Repair and Replacement",
+    href: "/indoor-air-quality/duct-repair-replacement",
+  },
+  {
+    title: "Attic Insulation and Ventilation",
+    href: "/indoor-air-quality/attic-insulation-ventilation",
+  },
+];
 
 const emergencyServices = [
   { title: "24/7 AC Repairs", href: "/emergency/24-7-ac-repairs" },
-  { title: "24/7 Heating and Cooling Repairs", href: "/emergency/24-7-heating-cooling-repairs" },
-  { title: "24/7 Emergency Repairs", href: "/emergency/24-7-emergency-repairs" },
-]
+  {
+    title: "24/7 Heating and Cooling Repairs",
+    href: "/emergency/24-7-heating-cooling-repairs",
+  },
+  {
+    title: "24/7 Emergency Repairs",
+    href: "/emergency/24-7-emergency-repairs",
+  },
+];
 ---
 
 <footer class="ft-footer">
@@ -47,7 +81,6 @@ const emergencyServices = [
 
   <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
     <div class="ft-bento-grid" data-animate-stagger>
-      
       <!-- ─── Brand & CTA Bento Block ─── -->
       <div class="ft-card ft-card--brand">
         <div class="ft-card-inner">
@@ -64,22 +97,46 @@ const emergencyServices = [
               />
               <span class="ft-logo-text">{siteConfig.business.name}</span>
             </a>
-            <p class="ft-tagline">Trusted HVAC experts serving {siteConfig.location.city} and surrounding areas.</p>
+            <p class="ft-tagline">
+              Trusted HVAC experts serving {siteConfig.location.city} and surrounding
+              areas.
+            </p>
           </div>
-          
+
           <div class="ft-top-actions">
-            <a href={`tel:${siteConfig.contact.phone}`} class="ft-phone-btn group">
+            <a
+              href={`tel:${siteConfig.contact.phone}`}
+              class="ft-phone-btn group"
+            >
               <div class="ft-phone-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="w-5 h-5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  ><path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+                  ></path></svg
+                >
               </div>
               <div class="ft-phone-details">
-                <span class="ft-phone-number">{siteConfig.contact.phoneFormatted}</span>
+                <span class="ft-phone-number"
+                  >{siteConfig.contact.phoneFormatted}</span
+                >
               </div>
             </a>
-            <a href="/contact" class="ft-schedule-btn cta-pulse">
-              <span>Schedule Service</span>
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 ml-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
-            </a>
+            <Button
+              href="/contact"
+              variant="outline"
+              size="lg"
+              className="w-full"
+            >
+              Schedule Service
+            </Button>
           </div>
         </div>
       </div>
@@ -88,36 +145,60 @@ const emergencyServices = [
       <div class="ft-card ft-card--services ft-card--ac">
         <h3 class="ft-heading">Air Conditioning Services</h3>
         <ul class="ft-link-list">
-          {airConditioningServices.map((service) => (
-            <li><a href={service.href} class="ft-link">{service.title}</a></li>
-          ))}
+          {
+            airConditioningServices.map((service) => (
+              <li>
+                <a href={service.href} class="ft-link">
+                  {service.title}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
 
       <div class="ft-card ft-card--services ft-card--heating">
         <h3 class="ft-heading">Heating Services</h3>
         <ul class="ft-link-list">
-          {heatingServices.map((service) => (
-            <li><a href={service.href} class="ft-link">{service.title}</a></li>
-          ))}
+          {
+            heatingServices.map((service) => (
+              <li>
+                <a href={service.href} class="ft-link">
+                  {service.title}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
 
       <div class="ft-card ft-card--services ft-card--iaq">
         <h3 class="ft-heading">Indoor Air Quality</h3>
         <ul class="ft-link-list">
-          {indoorAirQualityServices.map((service) => (
-            <li><a href={service.href} class="ft-link">{service.title}</a></li>
-          ))}
+          {
+            indoorAirQualityServices.map((service) => (
+              <li>
+                <a href={service.href} class="ft-link">
+                  {service.title}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
 
       <div class="ft-card ft-card--services ft-card--emergency">
         <h3 class="ft-heading">Emergency Services</h3>
         <ul class="ft-link-list">
-          {emergencyServices.map((service) => (
-            <li><a href={service.href} class="ft-link">{service.title}</a></li>
-          ))}
+          {
+            emergencyServices.map((service) => (
+              <li>
+                <a href={service.href} class="ft-link">
+                  {service.title}
+                </a>
+              </li>
+            ))
+          }
         </ul>
       </div>
 
@@ -131,19 +212,49 @@ const emergencyServices = [
               <div class="ft-contact-items-grid">
                 <p class="ft-contact-item">
                   <span class="ft-contact-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      ><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"
+                      ></path><circle cx="12" cy="10" r="3"></circle></svg
+                    >
                   </span>
                   {siteConfig.location.fullAddress}
                 </p>
                 <p class="ft-contact-item">
                   <span class="ft-contact-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      ><rect width="20" height="16" x="2" y="4" rx="2"
+                      ></rect><path
+                        d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
+                      ></path></svg
+                    >
                   </span>
                   {siteConfig.contact.email}
                 </p>
                 <p class="ft-contact-item">
                   <span class="ft-contact-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="w-4 h-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      ><path
+                        d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+                      ></path></svg
+                    >
                   </span>
                   {siteConfig.contact.phoneFormatted}
                 </p>
@@ -154,23 +265,31 @@ const emergencyServices = [
           <div class="ft-info-section">
             <h3 class="ft-heading">Quick Links</h3>
             <div class="ft-quick-grid">
-              {quickLinks.map((link) => (
-                <a href={link.href} class="ft-quick-btn">
-                  <span>{link.title}</span>
-                </a>
-              ))}
+              {
+                quickLinks.map((link) => (
+                  <Button
+                    href={link.href}
+                    variant="glass"
+                    size="md"
+                    rounded="2xl"
+                    className="w-full"
+                  >
+                    {link.title}
+                  </Button>
+                ))
+              }
             </div>
           </div>
         </div>
       </div>
-
     </div>
 
     <!-- ─── Bottom bar ─── -->
     <div class="ft-bottom">
       <div class="ft-bottom-inner">
         <p class="ft-copyright">
-          &copy; {currentYear} {siteConfig.business.name}. All rights reserved.
+          &copy; {currentYear}
+          {siteConfig.business.name}. All rights reserved.
         </p>
         <div class="ft-bottom-links">
           <a href="/privacy-policy" class="ft-bottom-link">Privacy Policy</a>
@@ -199,9 +318,17 @@ const emergencyServices = [
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
-      radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--brand-secondary) 15%, transparent) 0%, transparent 40%),
-      radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--brand-accent-secondary) 10%, transparent) 0%, transparent 40%);
+    background:
+      radial-gradient(
+        circle at 0% 0%,
+        color-mix(in srgb, var(--brand-secondary) 15%, transparent) 0%,
+        transparent 40%
+      ),
+      radial-gradient(
+        circle at 100% 100%,
+        color-mix(in srgb, var(--brand-accent-secondary) 10%, transparent) 0%,
+        transparent 40%
+      );
     opacity: 0.6;
     pointer-events: none;
   }
@@ -213,7 +340,11 @@ const emergencyServices = [
     transform: translateX(-50%);
     width: 120%;
     height: 40%;
-    background: radial-gradient(circle at 50% 100%, color-mix(in srgb, var(--brand-secondary) 15%, transparent), transparent 70%);
+    background: radial-gradient(
+      circle at 50% 100%,
+      color-mix(in srgb, var(--brand-secondary) 15%, transparent),
+      transparent 70%
+    );
     pointer-events: none;
   }
 
@@ -242,15 +373,20 @@ const emergencyServices = [
     background: rgba(255, 255, 255, 0.05);
     border-color: color-mix(in srgb, var(--brand-secondary) 40%, transparent);
     transform: translateY(-4px);
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5),
-                0 0 20px color-mix(in srgb, var(--brand-secondary) 15%, transparent);
+    box-shadow:
+      0 20px 40px -10px rgba(0, 0, 0, 0.5),
+      0 0 20px color-mix(in srgb, var(--brand-secondary) 15%, transparent);
   }
 
   /* ─── Specific Cards ─── */
   .ft-card--brand {
     grid-column: span 2;
     grid-row: span 1;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
   }
 
   .ft-card--services {
@@ -300,7 +436,9 @@ const emergencyServices = [
     height: 48px;
     width: 48px;
     object-fit: contain;
-    filter: drop-shadow(0 0 10px color-mix(in srgb, var(--brand-secondary) 50%, transparent));
+    filter: drop-shadow(
+      0 0 10px color-mix(in srgb, var(--brand-secondary) 50%, transparent)
+    );
   }
 
   .ft-logo-text {
@@ -376,27 +514,10 @@ const emergencyServices = [
     color: #fff;
   }
 
-  .ft-schedule-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.85rem 1.5rem;
-    background: var(--brand-secondary);
+  .ft-phone-number {
+    font-size: 1.15rem;
+    font-weight: 700;
     color: #fff;
-    font-size: 0.85rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    border-radius: 1rem;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 20px -5px color-mix(in srgb, var(--brand-secondary) 40%, transparent);
-  }
-
-  .ft-schedule-btn:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 15px 30px -5px color-mix(in srgb, var(--brand-secondary) 50%, transparent);
-    background: var(--brand-accent-secondary);
   }
 
   /* ─── Headings ─── */
@@ -413,10 +534,14 @@ const emergencyServices = [
   }
 
   .ft-heading::after {
-    content: '';
+    content: "";
     height: 1px;
     flex-grow: 1;
-    background: linear-gradient(to right, color-mix(in srgb, var(--brand-secondary) 30%, transparent), transparent);
+    background: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--brand-secondary) 30%, transparent),
+      transparent
+    );
   }
 
   /* ─── Lists ─── */
@@ -484,26 +609,10 @@ const emergencyServices = [
     gap: 0.75rem;
   }
 
-  .ft-quick-btn {
+  .ft-quick-grid {
     display: flex;
-    align-items: center;
-    padding: 0.75rem 1rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 0.75rem;
-    color: rgba(255, 255, 255, 0.6);
-    text-decoration: none;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    transition: all 0.3s ease;
-  }
-
-  .ft-quick-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: scale(1.02);
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
   /* ─── Bottom Bar ─── */
@@ -573,7 +682,9 @@ const emergencyServices = [
     .ft-bento-grid {
       grid-template-columns: 1fr;
     }
-    .ft-card--brand, .ft-card--services, .ft-card--info {
+    .ft-card--brand,
+    .ft-card--services,
+    .ft-card--info {
       grid-column: span 1;
       grid-row: auto;
     }

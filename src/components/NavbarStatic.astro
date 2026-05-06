@@ -1,4 +1,5 @@
 ---
+import Button from "./ui/Button.astro";
 import { siteConfig } from "@/config/site"
 import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation"
 ---
@@ -12,18 +13,13 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
       
       <!-- ── Row 1: Utility & Actions (Desktop) ── -->
       <div class="nb-top-row">
-        <div class="nb-quick-actions">
-          {quickActions.map((action) => (
-            <a href={action.href} class="nb-action-highlight">
-              {action.icon === "settings" ? (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-              ) : (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-              )}
-              {action.title}
-            </a>
-          ))}
-        </div>
+         <div class="nb-quick-actions">
+           {quickActions.map((action) => (
+             <Button href={action.href} variant="outline" size="sm" rounded="2xl">
+               {action.title}
+             </Button>
+           ))}
+         </div>
 
         <nav class="nb-utility-nav" aria-label="Utility navigation">
           {utilityNavItems.map((item) => (
@@ -137,9 +133,9 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     <!-- Quick actions (Fixed at top) -->
     <div class="nb-drawer-actions nb-drawer-actions--sticky">
       {quickActions.map((action) => (
-        <a href={action.href} class="nb-drawer-action-btn">
+        <Button href={action.href} variant="secondary" size="sm" rounded="2xl" className="w-full">
           {action.title}
-        </a>
+        </Button>
       ))}
     </div>
 
@@ -286,33 +282,10 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     gap: 1.5rem;
   }
 
-  .nb-action-highlight {
+  .nb-utility-nav {
     display: flex;
     align-items: center;
-    gap: 0.375rem;
-    font-size: 0.6875rem;
-    font-weight: 800;
-    letter-spacing: 0.05em;
-    color: var(--brand-secondary);
-    background: color-mix(in srgb, var(--brand-highlight) 15%, transparent);
-    border: 1px solid color-mix(in srgb, var(--brand-highlight) 30%, transparent);
-    padding: 0.375rem 0.875rem;
-    border-radius: 2rem;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .dark .nb-action-highlight {
-    color: var(--brand-highlight);
-    background: color-mix(in srgb, var(--brand-highlight) 10%, transparent);
-  }
-  .nb-action-highlight svg { width: 14px; height: 14px; }
-  .nb-action-highlight:hover { 
-    background: var(--brand-highlight); 
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px -4px color-mix(in srgb, var(--brand-highlight) 60%, transparent);
-    border-color: var(--brand-highlight);
+    gap: 1.5rem;
   }
 
   .nb-util-link {
@@ -717,29 +690,15 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
     padding: 1.5rem;
   }
+  .nb-drawer-actions {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    padding: 1.5rem;
+  }
   .nb-drawer-actions--sticky {
     border-bottom: 1px solid var(--border);
     background: var(--background);
     padding: 1rem 1.5rem;
     z-index: 10;
-  }
-  .nb-drawer-action-btn {
-    display: flex; align-items: center; justify-content: center; text-align: center;
-    padding: 0.875rem 0.5rem; font-size: 0.75rem; font-weight: 800; text-transform: uppercase;
-    background: color-mix(in srgb, var(--brand-highlight) 15%, transparent);
-    border: 1px solid color-mix(in srgb, var(--brand-highlight) 30%, transparent);
-    border-radius: 0.5rem;
-    color: var(--brand-secondary); text-decoration: none; transition: all 0.3s;
-    box-shadow: 0 4px 12px -2px color-mix(in srgb, var(--brand-highlight) 30%, transparent);
-  }
-  .dark .nb-drawer-action-btn {
-    color: var(--brand-highlight);
-  }
-  .nb-drawer-action-btn:hover { 
-    background: var(--brand-highlight); 
-    color: #fff; 
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px -4px color-mix(in srgb, var(--brand-highlight) 50%, transparent);
   }
 
   .nb-drawer-footer {

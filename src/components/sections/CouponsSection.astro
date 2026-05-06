@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import Button from "../ui/Button.astro";
 import { getLocationText } from "@/config/site"
 
 interface Coupon {
@@ -107,16 +108,16 @@ const defaultBackgrounds = [
               </p>
               
               <div class="mt-auto">
-                <a href={coupon.buttonHref || "/contact"} class="cpn-btn relative w-full group/btn inline-flex items-center justify-center gap-3 bg-white text-[var(--brand-primary)] py-4 px-8 rounded-[1rem] font-black text-sm uppercase tracking-widest transition-all duration-300 overflow-hidden shadow-[0_10px_20px_-5px_rgba(255,255,255,0.2)] hover:shadow-[0_15px_30px_-5px_rgba(var(--brand-highlight-rgb),0.4)] hover:-translate-y-1">
-                  <!-- Hover effect background -->
-                  <div class="absolute inset-0 w-0 bg-[var(--brand-highlight)] transition-all duration-500 ease-out group-hover/btn:w-full z-[0]"></div>
-                  
-                  <span class="relative z-[1] transition-colors duration-300">{coupon.buttonText || "GET OFFER"}</span>
-                  
-                  <svg xmlns="http://www.w3.org/2000/svg" class="relative z-[1] w-5 h-5 transition-transform duration-300 group-hover/btn:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </a>
+                <Button 
+                  href={coupon.buttonHref || "/contact"} 
+                  variant="white" 
+                  rounded="2xl" 
+                  size="lg"
+                  className="w-full"
+                  showArrow={true}
+                >
+                  {coupon.buttonText || "GET OFFER"}
+                </Button>
               </div>
             </div>
           </div>

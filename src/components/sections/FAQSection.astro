@@ -1,4 +1,5 @@
 ---
+import Button from "../ui/Button.astro";
 import { getLocationText } from "@/config/site";
 
 interface FAQItem {
@@ -178,26 +179,15 @@ const faqs = rawFaqs.map((faq) => ({
               to our team directly.
             </p>
 
-            <a
+            <Button
               href="/contact"
-              class="group/btn relative inline-flex items-center justify-between w-full p-1.5 pl-6 bg-white/5 border border-white/10 rounded-full text-white font-black text-[0.65rem] lg:text-[0.7rem] uppercase tracking-[0.2em] transition-all duration-500 hover:bg-[var(--brand-highlight)] hover:text-[var(--brand-primary)] hover:border-[var(--brand-highlight)]"
+              variant="white"
+              rounded="2xl"
+              size="lg"
+              className="w-full"
             >
-              <span>Contact Us</span>
-              <div
-                class="w-9 h-9 bg-[var(--brand-highlight)] text-[var(--brand-primary)] rounded-full flex items-center justify-center group-hover/btn:bg-[var(--brand-primary)] group-hover/btn:text-white transition-all duration-500"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="w-4 h-4"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="3"
-                >
-                  <path d="M5 12h14M12 5l7 7-7 7"></path>
-                </svg>
-              </div>
-            </a>
+              Contact Us
+            </Button>
           </div>
         </div>
       </div>

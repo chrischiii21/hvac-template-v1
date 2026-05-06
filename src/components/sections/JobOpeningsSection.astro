@@ -1,4 +1,5 @@
 ---
+import Button from "../ui/Button.astro";
 import { getLocationText } from "@/config/site"
 
 interface JobOpening {
@@ -95,10 +96,9 @@ const introDescription = rawIntroDescription ? getLocationText(rawIntroDescripti
               </div>
 
               <div class="jo-job-footer">
-                <a href={job.buttonHref || "/contact"} class="jo-apply-link">
-                  <span>{job.buttonText || "APPLY NOW"}</span>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </a>
+                <Button href={job.buttonHref || "/contact"} variant="primary" size="lg">
+                  {job.buttonText || "APPLY NOW"}
+                </Button>
               </div>
             </div>
             <div class="jo-job-number">{String(i + 1).padStart(2, '0')}</div>
@@ -245,12 +245,7 @@ const introDescription = rawIntroDescription ? getLocationText(rawIntroDescripti
   .jo-job-resp { font-size: 1rem; line-height: 1.5; color: color-mix(in srgb, var(--brand-primary), black 40%); font-weight: 500; }
   .jo-resp-label { font-weight: 800; color: var(--brand-primary); font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
 
-  .jo-apply-link {
-    display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 1.75rem;
-    background: var(--brand-primary); color: white; border-radius: 12px;
-    font-size: 0.8rem; font-weight: 800; text-transform: uppercase; transition: all 0.3s ease;
-  }
-  .jo-apply-link:hover { background: var(--brand-secondary); transform: scale(1.05); }
+  .jo-resp-label { font-weight: 800; color: var(--brand-primary); font-size: 0.8rem; text-transform: uppercase; display: block; margin-bottom: 0.5rem; }
 
   .jo-job-number {
     position: absolute; bottom: -0.5rem; right: 1rem; font-size: 7rem; font-weight: 900;

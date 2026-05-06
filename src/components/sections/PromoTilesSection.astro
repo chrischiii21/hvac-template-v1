@@ -1,4 +1,5 @@
 ---
+import Button from "../ui/Button.astro";
 import { Image } from "astro:assets";
 import { siteConfig, getLocationText } from "@/config/site"
 
@@ -176,15 +177,9 @@ const tiles = rawTiles.map(tile => ({
 
             <!-- Action Hub (Creative CTA) -->
             <div class="mt-12 flex flex-col gap-6">
-              <a href={tile.buttonHref || "/contact"} class="group/btn relative flex items-center justify-between w-full p-2 pl-7 bg-white/[0.03] border border-white/10 text-white font-black text-[0.8rem] uppercase tracking-widest rounded-2xl overflow-hidden transition-all duration-500 hover:bg-[var(--brand-highlight)] hover:text-[var(--brand-primary)] hover:shadow-[0_0_40px_rgba(var(--brand-highlight-rgb),0.3)] hover:-translate-y-1">
-                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover/btn:translate-x-full transition-transform duration-1000"></div>
-                <span class="relative z-10">{tile.buttonText}</span>
-                <div class="relative z-10 w-11 h-11 bg-white/10 rounded-xl flex items-center justify-center transition-all duration-500 group-hover/btn:bg-[var(--brand-primary)] group-hover/btn:text-white group-hover/btn:rotate-45">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <path d="M5 12h14M12 5l7 7-7 7"/>
-                  </svg>
-                </div>
-              </a>
+              <Button href={tile.buttonHref || "/contact"} variant="white" rounded="2xl" size="lg" className="w-full">
+                {tile.buttonText}
+              </Button>
 
               <a href={`tel:${tile.phone.replace(/[^0-9]/g, '')}`} class="flex items-center justify-center gap-3 text-[0.7rem] font-black text-white/20 uppercase tracking-[0.25em] transition-all duration-300 hover:text-[var(--brand-highlight)] hover:tracking-[0.3em]">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
