@@ -50,10 +50,13 @@ const { delay = 3000, showOnce = true, triggerId = "open-popup" } = Astro.props;
             src="https://johnh967.sg-host.com/wp-content/uploads/sb-instagram-feed-images/466555884_570355772412079_4111747127252492406_nfull.webp"
             alt="HVAC Special"
             class="hero-img"
-            width={450}
-            height={600}
+            widths={[300, 450, 600, 900]}
+            sizes="(max-width: 900px) 100vw, 450px"
+            inferSize={true}
             format="webp"
-            quality={80}
+            quality={60}
+            loading="lazy"
+            fetchpriority="low"
           />
           <div class="hero-overlay"></div>
         </div>
