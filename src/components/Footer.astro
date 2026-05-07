@@ -80,6 +80,7 @@ const emergencyServices = [
   <div class="ft-bg-glow"></div>
 
   <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
+    <h2 class="sr-only">Footer Navigation</h2>
     <div class="ft-bento-grid" data-animate-stagger>
       <!-- ─── Brand & CTA Bento Block ─── -->
       <div class="ft-card ft-card--brand">
@@ -107,6 +108,7 @@ const emergencyServices = [
             <a
               href={`tel:${siteConfig.contact.phone}`}
               class="ft-phone-btn group"
+              aria-label={`Call us at ${siteConfig.contact.phoneFormatted}`}
             >
               <div class="ft-phone-icon">
                 <svg
@@ -593,7 +595,7 @@ const emergencyServices = [
     align-items: flex-start;
     gap: 0.75rem;
     font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.8);
     margin: 0;
     line-height: 1.5;
   }
