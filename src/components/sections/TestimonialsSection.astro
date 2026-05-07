@@ -116,10 +116,10 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
 
         {/* Arrow Navigation */}
         <div class="flex gap-4">
-          <button class="tm-arrow tm-arrow--prev group w-16 h-16 rounded-none border border-gray-200 flex items-center justify-center transition-all duration-500 hover:bg-[var(--brand-primary)] hover:border-[var(--brand-primary)] hover:text-white">
+          <button aria-label="Previous Testimonial" class="tm-arrow tm-arrow--prev group w-16 h-16 rounded-none border border-gray-200 flex items-center justify-center transition-all duration-500 hover:bg-[var(--brand-primary)] hover:border-[var(--brand-primary)] hover:text-white">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-transform duration-500 group-hover:-translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
           </button>
-          <button class="tm-arrow tm-arrow--next group w-16 h-16 rounded-none border border-gray-200 flex items-center justify-center transition-all duration-500 hover:bg-[var(--brand-primary)] hover:border-[var(--brand-primary)] hover:text-white">
+          <button aria-label="Next Testimonial" class="tm-arrow tm-arrow--next group w-16 h-16 rounded-none border border-gray-200 flex items-center justify-center transition-all duration-500 hover:bg-[var(--brand-primary)] hover:border-[var(--brand-primary)] hover:text-white">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-transform duration-500 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
         </div>
