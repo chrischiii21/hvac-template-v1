@@ -33,7 +33,7 @@ const {
       <!-- Professional Accented Eyebrow -->
       {subtitle && (
         <div class="inline-flex flex-col items-center gap-5 mb-12">
-          <div class="w-16 h-1.5 bg-[var(--brand-primary)] rounded-full shadow-lg shadow-black/5"></div>
+          <div class="w-16 h-1.5 bg-[var(--brand-primary)] rounded-none shadow-lg shadow-black/5"></div>
           <span class="text-[0.75rem] md:text-[0.85rem] font-black text-[var(--brand-primary)] uppercase tracking-[0.4em] leading-tight">
             {subtitle}
           </span>
@@ -117,3 +117,4 @@ const {
   initPlaceholderReveal();
   document.addEventListener('astro:page-load', initPlaceholderReveal);
 </script>
+

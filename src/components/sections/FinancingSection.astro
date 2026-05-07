@@ -38,7 +38,7 @@ const {
   >
   </div>
   <div
-    class="absolute bottom-0 left-0 w-64 h-64 bg-[var(--brand-highlight)]/10 rounded-full blur-[120px] pointer-events-none"
+    class="absolute bottom-0 left-0 w-64 h-64 bg-[var(--brand-highlight)]/10 rounded-none blur-[120px] pointer-events-none"
   >
   </div>
 
@@ -46,10 +46,10 @@ const {
     <!-- Balanced Dark Header -->
     <div class="max-w-4xl mb-16 lg:mb-20 reveal-on-scroll">
       <div
-        class="inline-flex items-center gap-3 px-4 py-1.5 bg-white/5 rounded-full border border-white/10 mb-6"
+        class="inline-flex items-center gap-3 px-4 py-1.5 bg-white/5 rounded-none border border-white/10 mb-6"
       >
         <span
-          class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] animate-pulse"
+          class="w-2.5 h-2.5 rounded-none bg-[var(--brand-highlight)] animate-pulse"
         ></span>
         <span
           class="text-[0.65rem] font-black text-white/80 uppercase tracking-[0.25em]"
@@ -73,7 +73,7 @@ const {
     <div class="grid lg:grid-cols-2 gap-6 lg:gap-8 mb-20 lg:mb-28">
       <!-- List 1: Why Choose -->
       <div
-        class="group relative bg-white/[0.03] backdrop-blur-sm rounded-[2.5rem] p-10 lg:p-12 transition-all duration-700 hover:bg-white/[0.06] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3)] border border-white/5 hover:border-white/10 overflow-hidden reveal-on-scroll"
+        class="group relative bg-white/[0.03] backdrop-blur-sm rounded-none p-10 lg:p-12 transition-all duration-700 hover:bg-white/[0.06] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3)] border border-white/5 hover:border-white/10 overflow-hidden reveal-on-scroll"
         style="transition-delay: 100ms;"
       >
         <div
@@ -86,7 +86,7 @@ const {
           <h3
             class="text-lg font-black uppercase text-white tracking-widest mb-8 pb-4 border-b border-white/10 flex items-center gap-4"
           >
-            <span class="w-1.5 h-5 bg-[var(--brand-highlight)] rounded-full"
+            <span class="w-1.5 h-5 bg-[var(--brand-highlight)] rounded-none"
             ></span>
             Why Choose Our Financing?
           </h3>
@@ -95,7 +95,7 @@ const {
             {
               paymentPlans.map((plan) => (
                 <li class="flex items-center gap-4 text-white/70 font-bold group/item">
-                  <div class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[var(--brand-highlight)] shadow-sm transition-all duration-300 group-hover/item:bg-[var(--brand-highlight)] group-hover/item:text-[var(--brand-primary)] group-hover/item:scale-110">
+                  <div class="w-8 h-8 rounded-none bg-white/5 border border-white/10 flex items-center justify-center text-[var(--brand-highlight)] shadow-sm transition-all duration-300 group-hover/item:bg-[var(--brand-highlight)] group-hover/item:text-[var(--brand-primary)] group-hover/item:scale-110">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="w-4 h-4"
@@ -119,7 +119,7 @@ const {
 
       <!-- List 2: What Can You Finance -->
       <div
-        class="group relative bg-white/[0.03] backdrop-blur-sm rounded-[2.5rem] p-10 lg:p-12 transition-all duration-700 hover:bg-white/[0.06] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3)] border border-white/5 hover:border-white/10 overflow-hidden reveal-on-scroll"
+        class="group relative bg-white/[0.03] backdrop-blur-sm rounded-none p-10 lg:p-12 transition-all duration-700 hover:bg-white/[0.06] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.3)] border border-white/5 hover:border-white/10 overflow-hidden reveal-on-scroll"
         style="transition-delay: 300ms;"
       >
         <div
@@ -132,7 +132,7 @@ const {
           <h3
             class="text-lg font-black uppercase text-white tracking-widest mb-8 pb-4 border-b border-white/10 flex items-center gap-4"
           >
-            <span class="w-1.5 h-5 bg-[var(--brand-highlight)] rounded-full"
+            <span class="w-1.5 h-5 bg-[var(--brand-highlight)] rounded-none"
             ></span>
             What Can You Finance?
           </h3>
@@ -141,7 +141,7 @@ const {
             {
               financingOptions.map((option) => (
                 <li class="flex items-center gap-4 text-white/70 font-bold group/item">
-                  <div class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[var(--brand-highlight)] shadow-sm transition-all duration-300 group-hover/item:bg-[var(--brand-highlight)] group-hover/item:text-[var(--brand-primary)] group-hover/item:scale-110">
+                  <div class="w-8 h-8 rounded-none bg-white/5 border border-white/10 flex items-center justify-center text-[var(--brand-highlight)] shadow-sm transition-all duration-300 group-hover/item:bg-[var(--brand-highlight)] group-hover/item:text-[var(--brand-primary)] group-hover/item:scale-110">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="w-4 h-4"
@@ -179,7 +179,7 @@ const {
               style={`transition-delay: ${i * 150}ms;`}
             >
               <div class="flex items-center gap-5 mb-6 lg:mb-10">
-                <div class="w-20 h-20 bg-white/5 border border-white/10 rounded-[2rem] flex items-center justify-center text-white font-black text-2xl shadow-sm transition-all duration-700 group-hover:bg-[var(--brand-highlight)] group-hover:text-[var(--brand-primary)] group-hover:scale-110 group-hover:rotate-6">
+                <div class="w-20 h-20 bg-white/5 border border-white/10 rounded-none flex items-center justify-center text-white font-black text-2xl shadow-sm transition-all duration-700 group-hover:bg-[var(--brand-highlight)] group-hover:text-[var(--brand-primary)] group-hover:scale-110 group-hover:rotate-6">
                   0{i + 1}
                 </div>
                 <div class="lg:hidden h-px flex-grow bg-white/10" />
@@ -253,3 +253,4 @@ const {
   initFinancingAnimations();
   document.addEventListener("astro:page-load", initFinancingAnimations);
 </script>
+

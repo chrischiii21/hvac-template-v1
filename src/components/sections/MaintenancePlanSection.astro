@@ -25,8 +25,8 @@ const { title, description, includedItems, benefits, buttonText = "VIEW PLANS", 
     <div class="grid lg:grid-cols-12 gap-10 items-end mb-16 lg:mb-20" data-animate="fade-up">
       <div class="lg:col-span-8">
         {eyebrow && (
-          <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-gray-50 rounded-full border border-gray-100 mb-6">
-            <span class="w-2 h-2 rounded-full bg-[var(--brand-highlight)] shadow-[0_0_8px_rgba(var(--brand-highlight-rgb),0.4)] animate-pulse"></span>
+          <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-gray-50 rounded-none border border-gray-100 mb-6">
+            <span class="w-2 h-2 rounded-none bg-[var(--brand-highlight)] shadow-[0_0_8px_rgba(var(--brand-highlight-rgb),0.4)] animate-pulse"></span>
             <span class="text-[0.65rem] font-black text-[var(--brand-primary)] uppercase tracking-[0.3em]">{eyebrow}</span>
           </div>
         )}
@@ -53,7 +53,7 @@ const { title, description, includedItems, benefits, buttonText = "VIEW PLANS", 
         const colSpan = (index === 0 || index === 3) ? 'md:col-span-7' : 'md:col-span-5';
 
         return (
-          <a href={buttonHref} class={`${colSpan} group relative bg-[#fafafa] rounded-[2rem] p-10 lg:p-12 transition-all duration-700 hover:bg-white hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] hover:-translate-y-2 border border-transparent hover:border-gray-100 overflow-hidden flex flex-col justify-between h-full no-underline`}>
+          <a href={buttonHref} class={`${colSpan} group relative bg-[#fafafa] rounded-none p-10 lg:p-12 transition-all duration-700 hover:bg-white hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] hover:-translate-y-2 border border-transparent hover:border-gray-100 overflow-hidden flex flex-col justify-between h-full no-underline`}>
             
             <!-- Dynamic Large Scale Accent -->
             <div class="absolute top-[-5%] right-[-2%] text-[10rem] font-black text-[var(--brand-primary)]/[0.02] group-hover:text-[var(--brand-highlight)]/[0.05] transition-colors duration-700 leading-none select-none pointer-events-none">
@@ -62,7 +62,7 @@ const { title, description, includedItems, benefits, buttonText = "VIEW PLANS", 
 
             <div class="relative z-10">
               <div class="flex items-center justify-between mb-8">
-                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-[var(--brand-primary)] shadow-sm transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-[var(--brand-highlight)] group-hover:text-white">
+                <div class="w-16 h-16 bg-white rounded-none flex items-center justify-center text-[var(--brand-primary)] shadow-sm transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:bg-[var(--brand-highlight)] group-hover:text-white">
                   <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <Fragment set:html={icons[index % icons.length]} />
                   </svg>
@@ -70,7 +70,7 @@ const { title, description, includedItems, benefits, buttonText = "VIEW PLANS", 
                 <!-- View Details Indicator -->
                 <div class="flex items-center gap-2 opacity-0 -translate-x-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0">
                   <span class="text-[0.6rem] font-black uppercase tracking-widest text-[var(--brand-primary)]">VIEW DETAILS</span>
-                  <div class="w-7 h-7 rounded-full bg-[var(--brand-primary)] text-white flex items-center justify-center">
+                  <div class="w-7 h-7 rounded-none bg-[var(--brand-primary)] text-white flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
@@ -85,7 +85,7 @@ const { title, description, includedItems, benefits, buttonText = "VIEW PLANS", 
 
             <div class="relative z-10">
               <p class="text-gray-500 text-sm font-medium leading-relaxed max-w-[90%]" set:html={item.description} />
-              <div class="w-8 h-1 bg-gray-200 mt-8 rounded-full group-hover:w-full group-hover:bg-[var(--brand-highlight)] transition-all duration-700"></div>
+              <div class="w-8 h-1 bg-gray-200 mt-8 rounded-none group-hover:w-full group-hover:bg-[var(--brand-highlight)] transition-all duration-700"></div>
             </div>
           </a>
         );
@@ -97,9 +97,9 @@ const { title, description, includedItems, benefits, buttonText = "VIEW PLANS", 
     <div class="mt-16 flex flex-col md:flex-row items-center justify-between gap-8" data-animate="fade-up">
       <div class="flex items-center gap-6">
         <div class="flex -space-x-4">
-          <div class="w-12 h-12 rounded-full border-4 border-white bg-gray-100 flex items-center justify-center text-[var(--brand-primary)] font-black text-xs">A</div>
-          <div class="w-12 h-12 rounded-full border-4 border-white bg-[var(--brand-primary)] flex items-center justify-center text-white font-black text-xs">B</div>
-          <div class="w-12 h-12 rounded-full border-4 border-white bg-[var(--brand-highlight)] flex items-center justify-center text-[var(--brand-primary)] font-black text-xs">C</div>
+          <div class="w-12 h-12 rounded-none border-4 border-white bg-gray-100 flex items-center justify-center text-[var(--brand-primary)] font-black text-xs">A</div>
+          <div class="w-12 h-12 rounded-none border-4 border-white bg-[var(--brand-primary)] flex items-center justify-center text-white font-black text-xs">B</div>
+          <div class="w-12 h-12 rounded-none border-4 border-white bg-[var(--brand-highlight)] flex items-center justify-center text-[var(--brand-primary)] font-black text-xs">C</div>
         </div>
         <div class="h-10 w-px bg-gray-200"></div>
         <p class="text-[0.6rem] font-black uppercase tracking-[0.4em] text-[var(--brand-primary)]/30 max-w-[150px] leading-relaxed">
@@ -113,3 +113,4 @@ const { title, description, includedItems, benefits, buttonText = "VIEW PLANS", 
     </div>
   </div>
 </section>
+

@@ -30,11 +30,11 @@ const calloutText = getLocationText(rawCalloutText);
 >
   {/* Cinematic Background Accents */}
   <div
-    class="absolute top-0 right-0 w-[400px] h-[400px] bg-white/5 rounded-full blur-[100px] translate-x-1/4 -translate-y-1/4"
+    class="absolute top-0 right-0 w-[400px] h-[400px] bg-white/5 rounded-none blur-[100px] translate-x-1/4 -translate-y-1/4"
   >
   </div>
   <div
-    class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[var(--brand-highlight)]/10 rounded-full blur-[80px] -translate-x-1/4 translate-y-1/4"
+    class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[var(--brand-highlight)]/10 rounded-none blur-[80px] -translate-x-1/4 translate-y-1/4"
   >
   </div>
 
@@ -45,10 +45,10 @@ const calloutText = getLocationText(rawCalloutText);
       {/* Content Area */}
       <div class="lg:col-span-7 xl:col-span-8 text-center lg:text-left">
         <div
-          class="inline-flex items-center gap-3 px-4 py-1.5 bg-white/5 backdrop-blur-xl rounded-full border border-white/10 mb-6"
+          class="inline-flex items-center gap-3 px-4 py-1.5 bg-white/5 backdrop-blur-xl rounded-none border border-white/10 mb-6"
         >
           <span
-            class="w-2 h-2 rounded-full bg-[var(--brand-highlight)] animate-pulse"
+            class="w-2 h-2 rounded-none bg-[var(--brand-highlight)] animate-pulse"
           ></span>
           <span
             class="text-[0.6rem] font-black text-white uppercase tracking-[0.2em]"
@@ -75,7 +75,7 @@ const calloutText = getLocationText(rawCalloutText);
         <Button
           href={`tel:${phone.replace(/[^0-9]/g, "")}`}
           variant="glass"
-          rounded="2xl"
+          rounded-none="2xl"
           size="lg"
           className="w-full sm:w-[300px]"
         >
@@ -96,7 +96,7 @@ const calloutText = getLocationText(rawCalloutText);
         <Button
           href={buttonHref}
           variant="white"
-          rounded="2xl"
+          rounded-none="2xl"
           size="lg"
           className="w-full sm:w-[300px]"
         >
@@ -141,3 +141,4 @@ const calloutText = getLocationText(rawCalloutText);
   initSignupAnimations();
   document.addEventListener("astro:page-load", initSignupAnimations);
 </script>
+

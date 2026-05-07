@@ -15,7 +15,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
       <div class="nb-top-row">
          <div class="nb-quick-actions">
            {quickActions.map((action) => (
-             <Button href={action.href} variant="outline" size="sm" rounded="2xl">
+             <Button href={action.href} variant="outline" size="sm" rounded-none="2xl">
                {action.title}
              </Button>
            ))}
@@ -133,7 +133,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     <!-- Quick actions (Fixed at top) -->
     <div class="nb-drawer-actions nb-drawer-actions--sticky">
       {quickActions.map((action) => (
-        <Button href={action.href} variant="secondary" size="sm" rounded="2xl" className="w-full">
+        <Button href={action.href} variant="secondary" size="sm" rounded-none="2xl" className="w-full">
           {action.title}
         </Button>
       ))}
@@ -247,7 +247,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
   .nb-glass-card {
     background: transparent;
     border: 1px solid transparent;
-    border-radius: 1.25rem;
+    border-radius: 0;
     display: flex;
     flex-direction: column;
     overflow: visible;
@@ -329,7 +329,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     background: var(--nav-glass-bg);
     backdrop-filter: blur(30px);
     border: 1px solid var(--nav-glass-border);
-    border-radius: 0.75rem;
+    border-radius: 0;
     padding: 0.5rem;
     min-width: 180px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -341,7 +341,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     font-weight: 600;
     color: var(--mega-text);
     text-decoration: none;
-    border-radius: 0.375rem;
+    border-radius: 0;
     transition: all 0.2s;
   }
   .nb-dropdown-item:hover {
@@ -373,7 +373,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     width: 40px; height: 40px;
     display: flex; align-items: center; justify-content: center;
     background: var(--brand-secondary);
-    border-radius: 0.5rem;
+    border-radius: 0;
     padding: 0.25rem;
   }
   .nb-logo-img {
@@ -417,7 +417,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     font-weight: 700;
     color: var(--nav-text);
     text-decoration: none;
-    border-radius: 2rem;
+    border-radius: 0;
     transition: all 0.2s;
   }
   .nb-nav-item:hover .nb-nav-link {
@@ -454,7 +454,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(40px);
     border: 1px solid var(--nav-glass-border);
-    border-radius: 1.25rem;
+    border-radius: 0;
     box-shadow: 0 20px 50px -10px rgba(0,0,0,0.15);
     padding: 2rem;
     overflow: hidden;
@@ -485,11 +485,11 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     color: var(--mega-text);
     text-decoration: none;
     padding: 0.5rem;
-    border-radius: 0.5rem;
+    border-radius: 0;
     transition: all 0.2s;
   }
   .nb-mega-dot {
-    width: 6px; height: 6px; border-radius: 50%;
+    width: 6px; height: 6px; border-radius: 0;
     background: var(--mega-text-muted);
     transition: all 0.2s;
   }
@@ -537,7 +537,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     background: var(--brand-secondary);
     color: #fff;
     padding: 0.375rem 1rem 0.375rem 0.375rem;
-    border-radius: 2rem;
+    border-radius: 0;
     text-decoration: none;
     transition: all 0.3s;
     border: 1px solid transparent;
@@ -555,7 +555,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     width: 36px; height: 36px;
     background: #fff;
     color: var(--brand-secondary);
-    border-radius: 50%;
+    border-radius: 0;
     display: flex; align-items: center; justify-content: center;
     transition: all 0.3s;
   }
@@ -579,7 +579,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     justify-content: center;
     width: 44px; height: 44px;
     background: color-mix(in srgb, var(--nav-text) 5%, transparent);
-    border-radius: 0.75rem;
+    border-radius: 0;
     cursor: pointer;
     transition: all 0.2s;
   }
@@ -589,7 +589,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
   .nb-ham-box { width: 20px; height: 14px; position: relative; }
   .nb-ham-line {
     position: absolute; left: 0; width: 100%; height: 2px;
-    background: var(--nav-text); border-radius: 2px;
+    background: var(--nav-text); border-radius: 0;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .nb-ham-line.top { top: 0; }
@@ -632,12 +632,12 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     display: flex; align-items: center; gap: 0.75rem;
     font-weight: 800; font-size: 1rem; color: var(--foreground);
   }
-  .nb-drawer-logo img { border-radius: 0.375rem; background: var(--brand-secondary); padding: 0.2rem; filter: brightness(0) invert(1); }
+  .nb-drawer-logo img { border-radius: 0; background: var(--brand-secondary); padding: 0.2rem; filter: brightness(0) invert(1); }
   
   .nb-drawer-close {
     width: 36px; height: 36px;
     display: flex; align-items: center; justify-content: center;
-    background: var(--muted); border-radius: 50%;
+    background: var(--muted); border-radius: 0;
     color: var(--foreground); cursor: pointer;
     transition: all 0.2s;
   }
@@ -707,7 +707,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
   }
   .nb-drawer-phone-btn {
     display: flex; align-items: center; justify-content: center; gap: 0.75rem;
-    width: 100%; padding: 1rem; border-radius: 0.75rem;
+    width: 100%; padding: 1rem; border-radius: 0;
     background: var(--brand-secondary); color: #fff;
     font-size: 1.125rem; font-weight: 800; text-decoration: none;
     transition: background 0.2s; box-shadow: 0 10px 20px -5px color-mix(in srgb, var(--brand-secondary) 40%, transparent);
@@ -736,3 +736,4 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
   initNavbarScroll();
   document.addEventListener('astro:page-load', initNavbarScroll);
 </script>
+

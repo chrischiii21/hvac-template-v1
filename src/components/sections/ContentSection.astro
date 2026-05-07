@@ -69,19 +69,19 @@ const isRight = imagePosition === "right";
         <div class="relative max-w-[540px] mx-auto lg:mx-0 group">
           <!-- Decorative Offset Border -->
           <div
-            class="absolute inset-0 border-2 border-[var(--brand-highlight)] rounded-[2.5rem] translate-x-4 translate-y-4 lg:translate-x-6 lg:translate-y-6 z-0 transition-transform duration-500 group-hover:translate-x-2 group-hover:translate-y-2"
+            class="absolute inset-0 border-2 border-[var(--brand-highlight)] rounded-none translate-x-4 translate-y-4 lg:translate-x-6 lg:translate-y-6 z-0 transition-transform duration-500 group-hover:translate-x-2 group-hover:translate-y-2"
           >
           </div>
 
           <!-- Background Glow -->
           <div
-            class="absolute -inset-10 bg-[var(--brand-primary)]/10 rounded-full blur-[60px] z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+            class="absolute -inset-10 bg-[var(--brand-primary)]/10 rounded-none blur-[60px] z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
           >
           </div>
 
           <!-- Main Image Container -->
           <div
-            class="relative z-10 rounded-[2rem] overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.2)] aspect-[4/5] sm:aspect-square lg:aspect-[4/5]"
+            class="relative z-10 rounded-none overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.2)] aspect-[4/5] sm:aspect-square lg:aspect-[4/5]"
           >
             {
               mainImage ? (
@@ -105,11 +105,11 @@ const isRight = imagePosition === "right";
 
             <!-- Bottom Glassmorphic Card (Visual Only) -->
             <div
-              class="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8 md:right-8 bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-white/40 shadow-xl z-20 transition-all duration-500 group-hover:-translate-y-2"
+              class="absolute bottom-6 left-6 right-6 md:bottom-8 md:left-8 md:right-8 bg-white/90 backdrop-blur-md p-4 rounded-none border border-white/40 shadow-xl z-20 transition-all duration-500 group-hover:-translate-y-2"
             >
               <div class="flex items-center gap-4">
                 <div
-                  class="flex-shrink-0 w-10 h-10 bg-[var(--brand-primary)] rounded-xl flex items-center justify-center text-[var(--brand-highlight)] shadow-lg shadow-[var(--brand-primary)]/20"
+                  class="flex-shrink-0 w-10 h-10 bg-[var(--brand-primary)] rounded-none flex items-center justify-center text-[var(--brand-highlight)] shadow-lg shadow-[var(--brand-primary)]/20"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -125,7 +125,7 @@ const isRight = imagePosition === "right";
                   </svg>
                 </div>
                 <div
-                  class="w-full h-2 bg-[var(--brand-primary)]/10 rounded-full"
+                  class="w-full h-2 bg-[var(--brand-primary)]/10 rounded-none"
                 >
                 </div>
               </div>
@@ -144,8 +144,8 @@ const isRight = imagePosition === "right";
           {
             badge && (
               <div class="mb-6 lg:mb-8">
-                <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-full border border-[var(--brand-primary)]/10 shadow-sm">
-                  <span class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] shadow-[0_0_8px_rgba(var(--brand-highlight-rgb),0.5)] animate-pulse" />
+                <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-none border border-[var(--brand-primary)]/10 shadow-sm">
+                  <span class="w-2.5 h-2.5 rounded-none bg-[var(--brand-highlight)] shadow-[0_0_8px_rgba(var(--brand-highlight-rgb),0.5)] animate-pulse" />
                   <span class="text-xs font-black text-[var(--brand-primary)] uppercase tracking-[0.2em]">
                     {badge}
                   </span>
@@ -161,7 +161,7 @@ const isRight = imagePosition === "right";
           </h2>
 
           <div
-            class="w-16 h-1.5 bg-[var(--brand-highlight)] mb-8 shadow-[0_4px_10px_rgba(var(--brand-highlight-rgb),0.3)] rounded-full"
+            class="w-16 h-1.5 bg-[var(--brand-highlight)] mb-8 shadow-[0_4px_10px_rgba(var(--brand-highlight-rgb),0.3)] rounded-none"
           >
           </div>
 
@@ -177,8 +177,8 @@ const isRight = imagePosition === "right";
                 data-animate-stagger
               >
                 {features.map((feature) => (
-                  <div class="group flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-2xl shadow-sm transition-all duration-300 hover:border-gray-200 hover:shadow-md hover:-translate-y-1">
-                    <span class="w-2 h-2 rounded-full bg-[var(--brand-highlight)] shadow-[0_0_8px_rgba(var(--brand-highlight-rgb),0.5)] flex-shrink-0 transition-transform duration-300 group-hover:scale-150" />
+                  <div class="group flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-none shadow-sm transition-all duration-300 hover:border-gray-200 hover:shadow-md hover:-translate-y-1">
+                    <span class="w-2 h-2 rounded-none bg-[var(--brand-highlight)] shadow-[0_0_8px_rgba(var(--brand-highlight-rgb),0.5)] flex-shrink-0 transition-transform duration-300 group-hover:scale-150" />
                     <span
                       class="text-[var(--brand-primary)] font-bold text-xs md:text-sm leading-tight"
                       set:html={feature}
@@ -215,3 +215,4 @@ const isRight = imagePosition === "right";
     font-weight: 800;
   }
 </style>
+
