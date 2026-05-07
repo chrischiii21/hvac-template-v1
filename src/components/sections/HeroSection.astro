@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import Button from "../ui/Button.astro";
-import bg2Img from "/public/images/bg2.jpg";
+const bg2Img = "/images/bg2.jpg";
 import { getLocationText } from "@/config/site"
 
 const defaultHeroImages = [
@@ -92,11 +92,12 @@ const isSlider = variant === "slider";
             class="absolute inset-0 w-full h-full object-cover scale-105"
             loading={i === 0 ? "eager" : "lazy"}
             fetchpriority={i === 0 ? "high" : "auto"}
+            decoding={i === 0 ? "sync" : "async"}
             widths={[480, 800, 1200, 1920]}
             sizes="100vw"
             inferSize={true}
             format="webp"
-            quality={i === 0 ? 70 : 60}
+            quality={i === 0 ? 80 : 60}
           />
         ) : (
           <img
@@ -104,6 +105,10 @@ const isSlider = variant === "slider";
             alt="HVAC background"
             class="absolute inset-0 w-full h-full object-cover scale-105"
             loading={i === 0 ? "eager" : "lazy"}
+            fetchpriority={i === 0 ? "high" : "auto"}
+            decoding={i === 0 ? "sync" : "async"}
+            width="1920"
+            height="1080"
           />
         )}
       </div>
@@ -129,46 +134,38 @@ const isSlider = variant === "slider";
       ))}
     </div>
 
-    <!-- Glass HUD Dashboard (Pill) now close to text -->
-    <div class="z-[10] w-full max-w-fit flex justify-center">
-      <div class="hud-slider-grid w-full">
-        {slides.map((slide, i) => (
-          <div class={`hud-slide transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${i === 0 ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-8 pointer-events-none'}`} data-index={i}>
-            
-            <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-none md:rounded-none py-3 md:py-4 px-5 md:px-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] flex flex-col md:flex-row items-center gap-4 md:gap-10 w-full mx-auto">
-              
-              <!-- Hook / Stat -->
-              <div class="flex items-center gap-3 md:gap-4 text-left w-full justify-center md:justify-start">
-                <div class="bg-[var(--brand-highlight)] text-[var(--brand-primary)] font-black text-2xl md:text-4xl px-4 md:px-5 py-1.5 md:py-2.5 rounded-none md:rounded-none shadow-xl transform -rotate-3 transition-transform duration-500 hover:rotate-0">
-                  {slide.statNumber}
-                </div>
-                <div>
-                  <h3 class="text-white font-black text-base md:text-xl uppercase tracking-widest drop-shadow-sm whitespace-nowrap">{slide.statLabel}</h3>
-                </div>
+    <!-- Glass HUD Dashboard (Pill) - Persistent -->
+    <div class="z-[10] w-full max-w-fit flex justify-center mt-auto">
+      <div class="bg-white/10 backdrop-blur-lg border border-white/20 rounded-none md:rounded-none py-3 md:py-4 px-5 md:px-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] flex flex-col md:flex-row items-center gap-4 md:gap-10 w-full mx-auto">
+        
+        <!-- Animated Stat Section -->
+        <div class="relative h-14 md:h-20 w-full md:min-w-[350px] overflow-hidden">
+          {slides.map((slide, i) => (
+            <div class={`stat-slide absolute inset-0 flex items-center justify-center md:justify-start gap-3 md:gap-4 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${i === 0 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} data-index={i}>
+              <div class="bg-[var(--brand-highlight)] text-[var(--brand-primary)] font-black text-2xl md:text-4xl px-4 md:px-5 py-1.5 md:py-2.5 rounded-none md:rounded-none shadow-xl transform -rotate-3 shrink-0">
+                {slide.statNumber}
               </div>
-              
-              <!-- Controls inside HUD -->
-              <div class="flex flex-row items-center justify-between md:justify-start gap-4 md:gap-5 border-t md:border-t-0 md:border-l border-white/20 pt-3 md:pt-0 md:pl-8 w-full md:w-auto">
-                <div class="flex gap-4 md:gap-5">
-                  {slides.map((_, dotIndex) => (
-                    <button 
-                      class={`hud-dot group relative flex items-center justify-center w-8 h-8 -m-2 transition-all duration-300`}
-                      data-index={dotIndex} 
-                      aria-label={`Slide ${dotIndex + 1}`}
-                    >
-                      <span class={`visual-dot w-2 h-2 md:w-2.5 md:h-2.5 rounded-none transition-all duration-300 ${dotIndex === i ? 'bg-[var(--brand-highlight)] scale-150 shadow-[0_0_10px_var(--brand-highlight)]' : 'bg-white/30 group-hover:bg-white/60'}`}></span>
-                    </button>
-                  ))}
-                </div>
-                <div class="progress-track w-16 md:w-24 h-1.5 bg-white/10 rounded-none overflow-hidden">
-                  <div class="progress-fill h-full bg-[var(--brand-highlight)] rounded-none w-full origin-left scale-x-0"></div>
-                </div>
+              <div>
+                <h3 class="text-white font-black text-base md:text-xl uppercase tracking-widest drop-shadow-sm whitespace-nowrap">{slide.statLabel}</h3>
               </div>
-
             </div>
-
+          ))}
+        </div>
+        
+        <!-- Persistent Controls -->
+        <div class="flex flex-row items-center justify-between md:justify-start gap-4 md:gap-5 border-t md:border-t-0 md:border-l border-white/20 pt-3 md:pt-0 md:pl-8 w-full md:w-auto">
+          <div class="flex gap-4 md:gap-5">
+            {slides.map((_, dotIndex) => (
+              <button 
+                class="hud-dot group relative flex items-center justify-center w-8 h-8 -m-2"
+                data-index={dotIndex} 
+                aria-label={`Slide ${dotIndex + 1}`}
+              >
+                <span class={`visual-dot w-2 h-2 md:w-2.5 md:h-2.5 rounded-none transition-all duration-300 ${dotIndex === 0 ? 'bg-[var(--brand-highlight)] scale-150 shadow-[0_0_10px_var(--brand-highlight)]' : 'bg-white/30 group-hover:bg-white/60'}`}></span>
+              </button>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   </div>
@@ -186,11 +183,12 @@ const isSlider = variant === "slider";
         class="absolute inset-0 w-full h-full object-cover scale-105"
         loading="eager"
         fetchpriority="high"
+        decoding="sync"
         widths={[480, 800, 1200, 1920]}
         sizes="100vw"
         inferSize={true}
         format="webp"
-        quality={70}
+        quality={80}
       />
     ) : subpageImage ? (
       <img
@@ -198,18 +196,24 @@ const isSlider = variant === "slider";
         alt={imageAlt}
         class="absolute inset-0 w-full h-full object-cover scale-105"
         loading="eager"
+        fetchpriority="high"
+        decoding="sync"
+        width="1920"
+        height="1080"
       />
     ) : (
       <Image
         src={bg2Img}
         alt="HVAC background"
         format="webp"
-        quality={70}
+        quality={80}
         widths={[480, 800, 1200, 1920]}
         sizes="100vw"
         class="absolute inset-0 w-full h-full object-cover scale-105"
         loading="eager"
         fetchpriority="high"
+        decoding="sync"
+        inferSize={true}
       />
     )}
   </div>
@@ -268,11 +272,6 @@ const isSlider = variant === "slider";
     grid-area: stack;
   }
 
-  /* Progress bar */
-  .progress-fill {
-    transform: scaleX(0);
-  }
-
   /* Image gentle zoom effect on slider */
   .img-slide img {
     transform: scale(1.05);
@@ -317,76 +316,49 @@ const isSlider = variant === "slider";
       heroTimer = undefined;
     }
 
-    var textSlides = document.querySelectorAll('.text-slide');
-    var imgSlides = document.querySelectorAll('.img-slide');
-    var hudSlides = document.querySelectorAll('.hud-slide');
+    var dots = document.querySelectorAll('.hud-dot');
     var visualDots = document.querySelectorAll('.visual-dot');
-    var fills = document.querySelectorAll('.progress-fill');
     
-    if (!textSlides.length || !imgSlides.length || !hudSlides.length || !dots.length || !visualDots.length) return;
+    if (!textSlides.length || !imgSlides.length || !statSlides.length || !dots.length) return;
 
     var current = 0;
 
     function goTo(index) {
-      // Hide current
-      textSlides[current].classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
-      textSlides[current].classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-      
-      hudSlides[current].classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
-      hudSlides[current].classList.add('opacity-0', 'translate-y-12', 'pointer-events-none');
-      
-      imgSlides[current].classList.remove('opacity-100');
-      imgSlides[current].classList.add('opacity-0');
-      
-      // Reset dot styles for current
-      visualDots.forEach((vDot, idx) => {
-        if(idx === current) {
-           vDot.classList.remove('bg-[var(--brand-highlight)]', 'scale-150', 'shadow-[0_0_10px_var(--brand-highlight)]');
-           vDot.classList.add('bg-white/30');
-        }
+      // 1. Reset all states
+      textSlides.forEach(s => {
+        s.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
+        s.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+      });
+      imgSlides.forEach(s => s.classList.remove('opacity-100'));
+      statSlides.forEach(s => {
+        s.classList.remove('opacity-100', 'translate-y-0');
+        s.classList.add('opacity-0', 'translate-y-8');
+      });
+      visualDots.forEach(d => {
+        d.classList.remove('bg-[var(--brand-highlight)]', 'scale-150', 'shadow-[0_0_10px_var(--brand-highlight)]');
+        d.classList.add('bg-white/30');
       });
 
-      // Update index
+      // 2. Update index
       current = index;
 
-      // Show new
-      textSlides[current].classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+      // 3. Show current
       textSlides[current].classList.add('opacity-100', 'scale-100', 'pointer-events-auto');
-
-      hudSlides[current].classList.remove('opacity-0', 'translate-y-12', 'pointer-events-none');
-      hudSlides[current].classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
-
-      imgSlides[current].classList.remove('opacity-0');
+      textSlides[current].classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+      
       imgSlides[current].classList.add('opacity-100');
+      imgSlides[current].classList.remove('opacity-0');
+      
+      statSlides[current].classList.add('opacity-100', 'translate-y-0');
+      statSlides[current].classList.remove('opacity-0', 'translate-y-8');
+      
+      visualDots[current].classList.add('bg-[var(--brand-highlight)]', 'scale-150', 'shadow-[0_0_10px_var(--brand-highlight)]');
+      visualDots[current].classList.remove('bg-white/30');
 
-      // Set dot styles for new
-      visualDots.forEach((vDot, idx) => {
-        if(idx === current) {
-           vDot.classList.remove('bg-white/30');
-           vDot.classList.add('bg-[var(--brand-highlight)]', 'scale-150', 'shadow-[0_0_10px_var(--brand-highlight)]');
-        }
-      });
-
-      startProgress();
+      resetTimer();
     }
 
-    function startProgress() {
-      if (fills.length > 0) {
-        fills.forEach(f => {
-          f.style.transition = 'none';
-          f.style.transform = 'scaleX(0)';
-        });
-        
-        var fill = fills[current];
-        if (fill) {
-          requestAnimationFrame(function() {
-            requestAnimationFrame(function() {
-              fill.style.transition = 'transform ' + HERO_INTERVAL + 'ms linear';
-              fill.style.transform = 'scaleX(1)';
-            });
-          });
-        }
-      }
+    function resetTimer() {
       if (heroTimer) clearInterval(heroTimer);
       heroTimer = setInterval(function() { goTo((current + 1) % textSlides.length); }, HERO_INTERVAL);
     }
@@ -396,7 +368,9 @@ const isSlider = variant === "slider";
         goTo(parseInt(dot.getAttribute('data-index'))); 
       }); 
     });
-    startProgress();
+
+    // Start initial animation
+    resetTimer();
   }
 
   initHeroSlider();

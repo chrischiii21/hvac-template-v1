@@ -103,16 +103,7 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
       <!-- High-End Progress Bar Controls -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-10 mt-16 lg:mt-24">
         
-        {/* Progress Bar Container */}
-        <div class="flex-1 max-w-2xl relative">
-          <div class="h-1 w-full bg-gray-200 rounded-none overflow-hidden">
-             <div class="tm-progress-fill h-full w-full bg-[var(--brand-highlight)] transition-all duration-300 ease-out origin-left scale-x-0"></div>
-          </div>
-          <div class="mt-4 flex justify-between items-center text-[0.65rem] font-black text-[var(--brand-primary)]/40 uppercase tracking-[0.2em]">
-             <span>01</span>
-             <span class="tm-total-count">03</span>
-          </div>
-        </div>
+        <div class="hidden md:block flex-1"></div>
 
         {/* Arrow Navigation */}
         <div class="flex gap-4">
@@ -145,7 +136,7 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
       const progressFill = carousel.querySelector<HTMLElement>('.tm-progress-fill');
       const totalCountLabel = carousel.querySelector<HTMLElement>('.tm-total-count');
       
-      if (!viewport || !track || !prevBtn || !nextBtn || !progressFill) return;
+      if (!viewport || !track || !prevBtn || !nextBtn) return;
       if (track.dataset.init === 'true') return;
       track.dataset.init = 'true';
 
@@ -184,9 +175,11 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
         track!.style.transition = smooth ? 'transform 0.8s cubic-bezier(0.25, 1, 0.3, 1)' : 'none';
         track!.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
         
-        let realIndex = (currentIndex - perView + totalSlides) % totalSlides;
-        const progress = (realIndex / (totalSlides - 1));
-        progressFill!.style.transform = `scaleX(${Math.max(0.05, progress)})`;
+        if (progressFill) {
+          let realIndex = (currentIndex - perView + totalSlides) % totalSlides;
+          const progress = (realIndex / (totalSlides - 1));
+          progressFill.style.transform = `scaleX(${Math.max(0.05, progress)})`;
+        }
       }
 
       function handleTransitionEnd() {
