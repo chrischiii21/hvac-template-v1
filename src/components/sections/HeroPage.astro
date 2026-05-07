@@ -46,10 +46,11 @@ const isRemoteImage =
           class="hp-bg-img absolute inset-0 w-full h-full object-cover scale-105"
           loading="eager"
           fetchpriority="high"
-          width={1920}
-          height={1080}
+          widths={[480, 800, 1200, 1920]}
+          sizes="100vw"
+          inferSize={true}
           format="webp"
-          quality={75}
+          quality={80}
         />
       ) : (
         <img
@@ -118,7 +119,7 @@ const isRemoteImage =
           </div>
 
           <div
-            class="relative bg-white/5 backdrop-blur-3xl border border-white/10 p-7 lg:p-9 rounded-none shadow-2xl overflow-hidden"
+            class="relative bg-white/5 backdrop-blur-xl border border-white/10 p-7 lg:p-9 rounded-none shadow-2xl overflow-hidden"
           >
             <!-- Action Cluster -->
             <div class="relative z-10 flex flex-col gap-5">
@@ -204,6 +205,7 @@ const isRemoteImage =
   .hp-bg-img {
     filter: brightness(0.6) contrast(1.1);
     transition: transform 10s ease-out;
+    will-change: transform;
   }
 
   .hp-hero:hover .hp-bg-img {
@@ -214,100 +216,7 @@ const isRemoteImage =
     opacity: 0;
     transform: translateY(20px);
     transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .reveal-on-scroll.is-revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>
-
-<script>
-  function initHeroReveal() {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-revealed");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 },
-    );
-
-    document
-      .querySelectorAll(".reveal-on-scroll")
-      .forEach((el) => observer.observe(el));
-  }
-
-  initHeroReveal();
-  document.addEventListener("astro:page-load", initHeroReveal);
-</script>
-
-<style>
-  .hp-hero {
-    /* Responsive title sizing */
-    --title-size: clamp(2.5rem, 8vw, 6rem);
-  }
-
-  .hp-title {
-    font-size: var(--title-size);
-  }
-
-  .hp-bg-img {
-    filter: brightness(0.6) contrast(1.1);
-    transition: transform 10s ease-out;
-  }
-
-  .hp-hero:hover .hp-bg-img {
-    transform: scale(1);
-  }
-
-  .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .reveal-on-scroll.is-revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>
-
-<script>
-  function initHeroReveal() {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-revealed");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 },
-    );
-
-    document
-      .querySelectorAll(".reveal-on-scroll")
-      .forEach((el) => observer.observe(el));
-  }
-
-  initHeroReveal();
-  document.addEventListener("astro:page-load", initHeroReveal);
-</script>
-
-<style>
-  .hp-bg-img {
-    filter: brightness(0.6) contrast(1.1) grayscale(0.2);
-  }
-
-  .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity;
   }
 
   .reveal-on-scroll.is-revealed {
@@ -337,47 +246,7 @@ const isRemoteImage =
     );
 
     document
-      .querySelectorAll(".reveal-on-scroll")
-      .forEach((el) => observer.observe(el));
-  }
-
-  initHeroReveal();
-  document.addEventListener("astro:page-load", initHeroReveal);
-</script>
-
-<style>
-  .hp-bg-img {
-    filter: brightness(0.7) contrast(1.1);
-  }
-
-  .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.8s cubic-bezier(0.25, 1, 0.3, 1);
-  }
-
-  .reveal-on-scroll.is-revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>
-
-<script>
-  function initHeroReveal() {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-revealed");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 },
-    );
-
-    document
-      .querySelectorAll(".reveal-on-scroll")
+      .querySelectorAll(".hp-hero .reveal-on-scroll")
       .forEach((el) => observer.observe(el));
   }
 

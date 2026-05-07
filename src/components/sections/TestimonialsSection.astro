@@ -31,7 +31,7 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
   <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
     
     <!-- Maximized Header Cluster -->
-    <div class="mb-16 lg:mb-20 reveal-on-scroll">
+    <div class="mb-16 lg:mb-20" data-animate="fade-up">
       {badge && (
         <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-none border border-[var(--brand-primary)]/10 mb-10">
           <span class="w-2.5 h-2.5 rounded-none bg-[var(--brand-highlight)] animate-pulse"></span>
@@ -58,7 +58,7 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
     </div>
 
     <!-- Cinematic Carousel with Progress Bar -->
-    <div class="tm-carousel reveal-on-scroll" data-animate-delay="100">
+    <div class="tm-carousel" data-animate="fade-up">
       <div class="tm-viewport overflow-visible">
         <div class="tm-track flex gap-5 lg:gap-6 cursor-grab active:cursor-grabbing select-none">
           {testimonials.map((t) => (
@@ -106,7 +106,7 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
         {/* Progress Bar Container */}
         <div class="flex-1 max-w-2xl relative">
           <div class="h-1 w-full bg-gray-200 rounded-none overflow-hidden">
-             <div class="tm-progress-fill h-full w-0 bg-[var(--brand-highlight)] transition-all duration-300 ease-out"></div>
+             <div class="tm-progress-fill h-full w-full bg-[var(--brand-highlight)] transition-all duration-300 ease-out origin-left scale-x-0"></div>
           </div>
           <div class="mt-4 flex justify-between items-center text-[0.65rem] font-black text-[var(--brand-primary)]/40 uppercase tracking-[0.2em]">
              <span>01</span>
@@ -129,17 +129,6 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
 </section>
 
 <style>
-  .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 1s cubic-bezier(0.25, 1, 0.3, 1);
-  }
-  
-  .reveal-on-scroll.is-revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
   .tm-track {
     transition: transform 0.8s cubic-bezier(0.25, 1, 0.3, 1);
     will-change: transform;
@@ -196,8 +185,8 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
         track!.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
         
         let realIndex = (currentIndex - perView + totalSlides) % totalSlides;
-        const progress = (realIndex / (totalSlides - 1)) * 100;
-        progressFill!.style.width = `${Math.max(5, progress)}%`;
+        const progress = (realIndex / (totalSlides - 1));
+        progressFill!.style.transform = `scaleX(${Math.max(0.05, progress)})`;
       }
 
       function handleTransitionEnd() {
@@ -248,7 +237,6 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('is-revealed');
             startAutoplay();
           } else {
             stopAutoplay();
