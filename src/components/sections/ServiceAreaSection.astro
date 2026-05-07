@@ -42,8 +42,8 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
 <section class="sa-section relative bg-white py-12 lg:py-20 overflow-hidden">
   
   {/* Abstract Background Accents */}
-  <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-[var(--brand-primary)]/5 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2"></div>
-  <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[var(--brand-highlight)]/5 rounded-full blur-[100px] translate-x-1/4 translate-y-1/4"></div>
+  <div class="absolute top-0 left-0 w-[500px] h-[500px] bg-[var(--brand-primary)]/5 rounded-none blur-[120px] -translate-x-1/2 -translate-y-1/2"></div>
+  <div class="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[var(--brand-highlight)]/5 rounded-none blur-[100px] translate-x-1/4 translate-y-1/4"></div>
 
   <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
     
@@ -51,8 +51,8 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
       <>
         <!-- Standard Header Cluster -->
         <div class="mb-8 lg:mb-12 reveal-on-scroll">
-          <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-full border border-[var(--brand-primary)]/10 mb-6">
-            <span class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] animate-pulse"></span>
+          <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-none border border-[var(--brand-primary)]/10 mb-6">
+            <span class="w-2.5 h-2.5 rounded-none bg-[var(--brand-highlight)] animate-pulse"></span>
             <span class="text-xs font-black text-[var(--brand-primary)] uppercase tracking-[0.2em]">Service Area</span>
           </div>
           
@@ -64,7 +64,7 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
             </div>
             <div class="lg:col-span-5">
               <div class="relative">
-                 <div class="absolute -left-8 top-0 bottom-0 w-1 bg-[var(--brand-highlight)] rounded-full hidden lg:block"></div>
+                 <div class="absolute -left-8 top-0 bottom-0 w-1 bg-[var(--brand-highlight)] rounded-none hidden lg:block"></div>
                  <p class="text-[1.05rem] text-[var(--brand-secondary)] lg:text-lg leading-relaxed font-medium" set:html={description} />
               </div>
             </div>
@@ -78,9 +78,9 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
             <div class="lg:col-span-5 reveal-on-scroll" data-animate-delay="100">
               <div class="h-full flex flex-col">
                  
-                 <div class="w-full flex items-center justify-between p-6 bg-[var(--brand-primary)] rounded-[2rem] shadow-xl mb-6">
+                 <div class="w-full flex items-center justify-between p-6 bg-[var(--brand-primary)] rounded-none shadow-xl mb-6">
                     <div class="flex items-center gap-4">
-                       <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-[var(--brand-highlight)]">
+                       <div class="w-12 h-12 bg-white/10 rounded-none flex items-center justify-center text-[var(--brand-highlight)]">
                           <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                        </div>
                        <div class="flex flex-col items-start">
@@ -96,8 +96,8 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
                  <div class="flex-1 min-h-0">
                     <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-3 max-h-[420px] overflow-y-auto px-2 py-2 sa-custom-scroll">
                       {areas.map((area) => (
-                        <div class="group flex items-center gap-3 p-3 bg-gray-50 rounded-xl transition-all duration-500 hover:bg-[var(--brand-primary)] hover:translate-x-1 hover:scale-[1.02]">
-                           <span class="w-1.5 h-1.5 rounded-full bg-[var(--brand-highlight)] group-hover:scale-150 transition-transform"></span>
+                        <div class="group flex items-center gap-3 p-3 bg-gray-50 rounded-none transition-all duration-500 hover:bg-[var(--brand-primary)] hover:translate-x-1 hover:scale-[1.02]">
+                           <span class="w-1.5 h-1.5 rounded-none bg-[var(--brand-highlight)] group-hover:scale-150 transition-transform"></span>
                            <span class="text-[0.65rem] font-bold text-[var(--brand-primary)] uppercase tracking-wide group-hover:text-white transition-colors leading-tight">{area}</span>
                         </div>
                       ))}
@@ -105,7 +105,7 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
                  </div>
                  
                  <div class="pt-8">
-                   <Button href={buttonHref} variant="outline" rounded="2xl" size="lg" className="w-full">
+                   <Button href={buttonHref} variant="outline" rounded-none="2xl" size="lg" className="w-full">
                      {buttonText}
                    </Button>
                  </div>
@@ -116,12 +116,12 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
           {/* Cinematic Map Column */}
           <div class={`${areas && areas.length > 0 ? 'lg:col-span-7' : 'lg:col-span-12'} reveal-on-scroll`} data-animate-delay="200">
             <div class="relative h-full min-h-[400px] lg:min-h-[450px] group">
-              <div class="absolute -inset-4 bg-[var(--brand-primary)]/5 rounded-[4.5rem] blur-2xl transition-all duration-700"></div>
+              <div class="absolute -inset-4 bg-[var(--brand-primary)]/5 rounded-none blur-2xl transition-all duration-700"></div>
               
-              <div class="relative h-full w-full rounded-[3.5rem] lg:rounded-[4.5rem] overflow-hidden bg-gray-100 shadow-xl border-8 border-white transition-all duration-700 group-hover:shadow-2xl">
+              <div class="relative h-full w-full rounded-none lg:rounded-none overflow-hidden bg-gray-100 shadow-xl border-8 border-white transition-all duration-700 group-hover:shadow-2xl">
                  <div class="absolute top-8 left-8 z-20 pointer-events-none">
-                    <div class="flex items-center gap-3 px-5 py-2.5 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white">
-                       <div class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] animate-pulse"></div>
+                    <div class="flex items-center gap-3 px-5 py-2.5 bg-white/90 backdrop-blur-md rounded-none shadow-xl border border-white">
+                       <div class="w-2.5 h-2.5 rounded-none bg-[var(--brand-highlight)] animate-pulse"></div>
                        <span class="text-[0.65rem] font-black text-[var(--brand-primary)] uppercase tracking-wider">Service Coverage Active</span>
                     </div>
                  </div>
@@ -147,9 +147,9 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
               </div>
 
               <div class="absolute bottom-8 right-8 z-20 hidden md:block">
-                 <div class="bg-[var(--brand-primary)]/95 backdrop-blur-xl text-white p-8 rounded-[3rem] shadow-2xl border border-white/20 transition-all duration-500 group/card">
+                 <div class="bg-[var(--brand-primary)]/95 backdrop-blur-xl text-white p-8 rounded-none shadow-2xl border border-white/20 transition-all duration-500 group/card">
                     <div class="flex items-center gap-4 mb-4">
-                       <div class="w-12 h-12 rounded-2xl bg-[var(--brand-highlight)] flex items-center justify-center text-[var(--brand-primary)] shadow-lg transition-transform duration-500 group-hover/card:rotate-12">
+                       <div class="w-12 h-12 rounded-none bg-[var(--brand-highlight)] flex items-center justify-center text-[var(--brand-primary)] shadow-lg transition-transform duration-500 group-hover/card:rotate-12">
                           <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                        </div>
                        <div class="flex flex-col">
@@ -168,8 +168,8 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
       <!-- Compact Variant: Side-by-Side Text and Map -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center">
         <div class="lg:col-span-6 reveal-on-scroll">
-          <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-full border border-[var(--brand-primary)]/10 mb-8">
-            <span class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] animate-pulse"></span>
+          <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-none border border-[var(--brand-primary)]/10 mb-8">
+            <span class="w-2.5 h-2.5 rounded-none bg-[var(--brand-highlight)] animate-pulse"></span>
             <span class="text-xs font-black text-[var(--brand-primary)] uppercase tracking-[0.2em]">Service Area</span>
           </div>
           
@@ -178,17 +178,17 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
           </h2>
 
           <div class="relative mb-8">
-             <div class="absolute -left-8 top-0 bottom-0 w-1 bg-[var(--brand-highlight)] rounded-full hidden lg:block"></div>
+             <div class="absolute -left-8 top-0 bottom-0 w-1 bg-[var(--brand-highlight)] rounded-none hidden lg:block"></div>
              <p class="text-[1.05rem] text-[var(--brand-secondary)] lg:text-lg leading-relaxed font-medium" set:html={description} />
           </div>
 
           <div class="flex flex-wrap gap-4">
-             <Button href={buttonHref} variant="primary" rounded="2xl" size="lg">
+             <Button href={buttonHref} variant="primary" rounded-none="2xl" size="lg">
                 {buttonText}
              </Button>
              
              {areas && areas.length > 0 && (
-                <div class="flex items-center gap-3 px-6 py-4 bg-gray-50 rounded-[2rem] border border-gray-100">
+                <div class="flex items-center gap-3 px-6 py-4 bg-gray-50 rounded-none border border-gray-100">
                    <span class="text-xs font-bold text-[var(--brand-primary)] uppercase tracking-wider">{areas.length} Locations Served</span>
                 </div>
              )}
@@ -197,9 +197,9 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
 
         <div class="lg:col-span-6 reveal-on-scroll" data-animate-delay="200">
            <div class="relative aspect-square lg:aspect-auto lg:h-[500px] group">
-              <div class="absolute -inset-6 bg-[var(--brand-highlight)]/10 rounded-[4rem] blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+              <div class="absolute -inset-6 bg-[var(--brand-highlight)]/10 rounded-none blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
               
-              <div class="relative h-full w-full rounded-[3.5rem] lg:rounded-[4.5rem] overflow-hidden bg-gray-100 shadow-2xl border-8 border-white transition-all duration-700">
+              <div class="relative h-full w-full rounded-none lg:rounded-none overflow-hidden bg-gray-100 shadow-2xl border-8 border-white transition-all duration-700">
                  {embedUrl ? (
                    <iframe
                      src={embedUrl}
@@ -216,9 +216,9 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
 
                  <div class="absolute bottom-8 right-8 left-8 z-20">
-                    <div class="bg-white/90 backdrop-blur-xl p-6 rounded-[2.5rem] shadow-xl border border-white flex items-center justify-between gap-4">
+                    <div class="bg-white/90 backdrop-blur-xl p-6 rounded-none shadow-xl border border-white flex items-center justify-between gap-4">
                        <div class="flex items-center gap-4">
-                          <div class="w-12 h-12 rounded-2xl bg-[var(--brand-primary)] flex items-center justify-center text-[var(--brand-highlight)]">
+                          <div class="w-12 h-12 rounded-none bg-[var(--brand-primary)] flex items-center justify-center text-[var(--brand-highlight)]">
                              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                           </div>
                           <div class="flex flex-col">
@@ -226,7 +226,7 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
                              <span class="text-xs font-black uppercase text-[var(--brand-primary)] truncate max-w-[150px]">{mapAddress}</span>
                           </div>
                        </div>
-                       <div class="w-10 h-10 rounded-full bg-[var(--brand-highlight)]/10 flex items-center justify-center text-[var(--brand-highlight)] animate-bounce">
+                       <div class="w-10 h-10 rounded-none bg-[var(--brand-highlight)]/10 flex items-center justify-center text-[var(--brand-highlight)] animate-bounce">
                           <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m18 15-6-6-6 6"/></svg>
                        </div>
                     </div>
@@ -267,11 +267,11 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
   }
   .sa-custom-scroll::-webkit-scrollbar-track {
     background: #f3f4f6;
-    border-radius: 10px;
+    border-radius: 0;
   }
   .sa-custom-scroll::-webkit-scrollbar-thumb {
     background: var(--brand-highlight);
-    border-radius: 10px;
+    border-radius: 0;
   }
 </style>
 
@@ -291,3 +291,4 @@ const embedUrl = mapEmbed || (mapAddress ? getMapEmbedUrl(mapAddress) : null);
   initServiceAreaAnimations();
   document.addEventListener('astro:page-load', initServiceAreaAnimations);
 </script>
+

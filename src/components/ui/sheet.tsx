@@ -70,7 +70,7 @@ function SheetContent({
         {...props}
       >
         {children}
-        <SheetPrimitive.Close className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-[var(--brand-primary)] hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-[var(--brand-highlight)] disabled:pointer-events-none">
+        <SheetPrimitive.Close className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-none bg-gray-100 text-gray-500 hover:bg-[var(--brand-primary)] hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-[var(--brand-highlight)] disabled:pointer-events-none">
           <XIcon className="h-5 w-5" />
           <span className="sr-only">Close</span>
         </SheetPrimitive.Close>
@@ -135,3 +135,4 @@ export {
   SheetTitle,
   SheetDescription,
 }
+

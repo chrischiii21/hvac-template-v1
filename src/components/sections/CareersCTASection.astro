@@ -61,7 +61,7 @@ const description = rawDescription ? getLocationText(rawDescription) : undefined
         )}
 
         <div class="banner-actions">
-          <Button href={buttonHref} variant="white" rounded="2xl" size="lg">
+          <Button href={buttonHref} variant="white" rounded-none="2xl" size="lg">
             {buttonText}
           </Button>
         </div>
@@ -88,7 +88,7 @@ const description = rawDescription ? getLocationText(rawDescription) : undefined
       var(--brand-primary);
   }
   .banner-blobs { position: absolute; inset: 0; filter: blur(100px); opacity: 0.15; }
-  .banner-blob { position: absolute; border-radius: 50%; animation: bannerBlob 30s infinite alternate ease-in-out; }
+  .banner-blob { position: absolute; border-radius: 0; animation: bannerBlob 30s infinite alternate ease-in-out; }
   .banner-blob-1 { width: 40vw; height: 40vw; background: var(--brand-highlight); top: -10%; left: -10%; }
   .banner-blob-2 { width: 30vw; height: 30vw; background: white; bottom: -5%; right: 20%; animation-delay: -5s; }
 
@@ -149,11 +149,11 @@ const description = rawDescription ? getLocationText(rawDescription) : undefined
     display: inline-flex; align-items: center; gap: 0.6rem; padding: 0.4rem 1.25rem;
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    border-radius: 99px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+    border-radius: 0; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
     letter-spacing: 0.2em; color: var(--brand-highlight);
   }
   .banner-badge-pulse { 
-    width: 6px; height: 6px; background: var(--brand-highlight); border-radius: 50%; 
+    width: 6px; height: 6px; background: var(--brand-highlight); border-radius: 0; 
     box-shadow: 0 0 10px var(--brand-highlight);
     animation: b-pulse 2s infinite;
   }
@@ -189,4 +189,5 @@ const description = rawDescription ? getLocationText(rawDescription) : undefined
     .banner-description { margin-left: auto; margin-right: auto; }
   }
 </style>
+
 

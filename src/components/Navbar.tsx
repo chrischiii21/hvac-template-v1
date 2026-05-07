@@ -57,7 +57,7 @@ function UtilityDropdown({ item }: { item: (typeof utilityNavItems)[0] }) {
                 href={child.href}
                 className="group flex items-center gap-2.5 px-5 py-3 text-xs tracking-[0.08em] uppercase text-white/60 hover:text-brand-highlight hover:bg-white/5 transition-colors font-medium"
               >
-                <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-brand-highlight transition-colors flex-shrink-0" />
+                <span className="w-1 h-1 rounded-none bg-white/20 group-hover:bg-brand-highlight transition-colors flex-shrink-0" />
                 {child.title}
               </a>
             ))}
@@ -114,7 +114,7 @@ function MegaMenuPanel({ item }: { item: MegaMenuItem }) {
                   href={service.href}
                   className="group flex items-center gap-3 py-2.5 text-sm text-brand-secondary hover:text-brand-primary transition-all"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-brand-secondary/30 group-hover:bg-brand-highlight group-hover:scale-150 transition-all flex-shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-none bg-brand-secondary/30 group-hover:bg-brand-highlight group-hover:scale-150 transition-all flex-shrink-0" />
                   {service.title}
                 </a>
               ))}
@@ -393,3 +393,4 @@ function MobileNav({ onClose }: { onClose: () => void }) {
     </div>
   )
 }
+

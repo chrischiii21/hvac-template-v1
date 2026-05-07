@@ -200,16 +200,16 @@ export function ServicesSection({ title, description, categories }: Props) {
   return (
     <section ref={sectionRef} className="relative overflow-hidden bg-white py-20 md:py-32">
       {/* Subtle Background Accents */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--brand-primary)]/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[var(--brand-highlight)]/5 rounded-full blur-[100px] pointer-events-none z-0"></div>
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--brand-primary)]/5 rounded-none blur-[100px] pointer-events-none z-0"></div>
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[var(--brand-highlight)]/5 rounded-none blur-[100px] pointer-events-none z-0"></div>
 
       <div className="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
 
         {/* Premium Header */}
         <div className={`transition-all duration-1000 ease-out mb-16 lg:mb-20 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
           <div className="mb-8">
-            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-full border border-[var(--brand-primary)]/10 shadow-sm">
-              <span className="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] shadow-[0_0_8px_rgba(var(--brand-highlight-rgb),0.5)] animate-pulse"></span>
+            <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-none border border-[var(--brand-primary)]/10 shadow-sm">
+              <span className="w-2.5 h-2.5 rounded-none bg-[var(--brand-highlight)] shadow-[0_0_8px_rgba(var(--brand-highlight-rgb),0.5)] animate-pulse"></span>
               <span className="text-xs font-black text-[var(--brand-primary)] uppercase tracking-[0.2em]">Our Services</span>
             </div>
           </div>
@@ -231,7 +231,7 @@ export function ServicesSection({ title, description, categories }: Props) {
               <button
                 key={i}
                 onClick={() => setActiveTab(i)}
-                className={`group relative px-6 py-3 rounded-full font-black text-[0.7rem] uppercase tracking-widest transition-all duration-300 ${
+                className={`group relative px-6 py-3 rounded-none font-black text-[0.7rem] uppercase tracking-widest transition-all duration-300 ${
                   activeTab === i 
                     ? 'bg-[var(--brand-primary)] text-white shadow-lg shadow-[var(--brand-primary)]/20 translate-y-[-2px]' 
                     : 'bg-white text-gray-400 border border-gray-100 hover:border-[var(--brand-highlight)] hover:text-[var(--brand-primary)]'
@@ -239,7 +239,7 @@ export function ServicesSection({ title, description, categories }: Props) {
               >
                 {cat.title}
                 {activeTab === i && (
-                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[var(--brand-highlight)] rounded-full"></span>
+                  <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[var(--brand-highlight)] rounded-none"></span>
                 )}
               </button>
             ))}
@@ -256,15 +256,15 @@ export function ServicesSection({ title, description, categories }: Props) {
               <Tag
                 key={`${activeTab}-${i}`}
                 {...(isLink ? { href: service.href } : {})}
-                className={`group relative bg-white rounded-[2rem] p-8 border border-gray-100 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] transition-all duration-500 ease-out hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] hover:-translate-y-2 hover:border-[var(--brand-highlight)]/50 no-underline text-inherit flex flex-col h-full ${
+                className={`group relative bg-white rounded-none p-8 border border-gray-100 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.05)] transition-all duration-500 ease-out hover:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.12)] hover:-translate-y-2 hover:border-[var(--brand-highlight)]/50 no-underline text-inherit flex flex-col h-full ${
                   isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
                 }`}
                 style={{ transitionDelay: `${i * 100}ms` }}
               >
                 {/* Animated Accent Line */}
-                <div className="absolute top-0 left-0 right-0 h-[4px] bg-[var(--brand-highlight)] scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100 rounded-t-full"></div>
+                <div className="absolute top-0 left-0 right-0 h-[4px] bg-[var(--brand-highlight)] scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100 rounded-none"></div>
                 
-                <div className="w-14 h-14 bg-[var(--brand-primary)]/5 rounded-2xl flex items-center justify-center text-[var(--brand-primary)] mb-6 transition-all duration-500 group-hover:bg-[var(--brand-highlight)] group-hover:scale-110 group-hover:rotate-3 shadow-sm group-hover:shadow-lg group-hover:shadow-[var(--brand-highlight)]/20">
+                <div className="w-14 h-14 bg-[var(--brand-primary)]/5 rounded-none flex items-center justify-center text-[var(--brand-primary)] mb-6 transition-all duration-500 group-hover:bg-[var(--brand-highlight)] group-hover:scale-110 group-hover:rotate-3 shadow-sm group-hover:shadow-lg group-hover:shadow-[var(--brand-highlight)]/20">
                   {getIconForService(service.title)}
                 </div>
 
@@ -275,7 +275,7 @@ export function ServicesSection({ title, description, categories }: Props) {
 
                 {isLink && (
                   <div className="mt-auto self-start">
-                    <div className="w-10 h-10 bg-[var(--brand-primary)]/5 rounded-xl flex items-center justify-center text-[var(--brand-primary)] transition-all duration-500 group-hover:bg-[var(--brand-primary)] group-hover:text-white group-hover:translate-x-1 group-hover:shadow-lg group-hover:shadow-[var(--brand-primary)]/20">
+                    <div className="w-10 h-10 bg-[var(--brand-primary)]/5 rounded-none flex items-center justify-center text-[var(--brand-primary)] transition-all duration-500 group-hover:bg-[var(--brand-primary)] group-hover:text-white group-hover:translate-x-1 group-hover:shadow-lg group-hover:shadow-[var(--brand-primary)]/20">
                       <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7" />
                       </svg>
@@ -292,3 +292,4 @@ export function ServicesSection({ title, description, categories }: Props) {
 }
 
 export default ServicesSection;
+

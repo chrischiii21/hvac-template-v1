@@ -38,13 +38,13 @@ const defaultBackgrounds = [
 <section class="cpn-section relative overflow-hidden py-20 md:py-32 bg-[var(--brand-primary)]">
   <!-- Dynamic Background Glow -->
   <div class="absolute inset-0 bg-gradient-to-b from-[var(--brand-primary)]/80 via-transparent to-[var(--brand-primary)] mix-blend-multiply z-[1] pointer-events-none"></div>
-  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--brand-highlight)]/10 rounded-full blur-[120px] pointer-events-none z-[1]"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[var(--brand-highlight)]/10 rounded-none blur-[120px] pointer-events-none z-[1]"></div>
 
   <div class="relative z-[2] container mx-auto px-4 md:px-8 lg:px-12">
     <!-- Section header -->
     <div class="flex flex-col items-center gap-5 mb-20 text-center" data-animate="fade-scale">
-      <div class="inline-flex items-center gap-3 px-5 py-2 bg-[var(--brand-highlight)]/10 backdrop-blur-xl rounded-full border border-[var(--brand-highlight)]/30 shadow-[0_0_20px_rgba(var(--brand-highlight-rgb),0.2)]">
-        <span class="w-2.5 h-2.5 rounded-full bg-[var(--brand-highlight)] shadow-[0_0_10px_var(--brand-highlight)] animate-pulse"></span>
+      <div class="inline-flex items-center gap-3 px-5 py-2 bg-[var(--brand-highlight)]/10 backdrop-blur-xl rounded-none border border-[var(--brand-highlight)]/30 shadow-[0_0_20px_rgba(var(--brand-highlight-rgb),0.2)]">
+        <span class="w-2.5 h-2.5 rounded-none bg-[var(--brand-highlight)] shadow-[0_0_10px_var(--brand-highlight)] animate-pulse"></span>
         <span class="text-xs tracking-[0.25em] font-black text-white uppercase drop-shadow-md">Limited Time</span>
       </div>
       <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70 uppercase tracking-tight leading-[1.1] drop-shadow-2xl">
@@ -60,7 +60,7 @@ const defaultBackgrounds = [
           <div class:list={["cpn-coupon group", { "cpn-coupon--featured": i === centerIndex }]}>
             
             <!-- Top: Image Strip -->
-            <div class="relative h-56 rounded-t-[1.5rem] overflow-hidden">
+            <div class="relative h-56 rounded-none overflow-hidden">
               <div class="absolute inset-0 transition-transform duration-1000 ease-out group-hover:scale-110">
                 <Image
                   src={cardBg}
@@ -97,7 +97,7 @@ const defaultBackgrounds = [
             </div>
 
             <!-- Bottom: Coupon Details -->
-            <div class="flex flex-col flex-1 p-8 pt-4 relative bg-[#0a0f1a] rounded-b-[1.5rem] z-[2]">
+            <div class="flex flex-col flex-1 p-8 pt-4 relative bg-[#0a0f1a] rounded-none z-[2]">
               <div class="mb-4">
                 <span class="font-black text-5xl lg:text-7xl leading-none text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-[var(--brand-highlight)] tracking-tighter drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] block">
                   {coupon.discount}
@@ -111,7 +111,7 @@ const defaultBackgrounds = [
                 <Button 
                   href={coupon.buttonHref || "/contact"} 
                   variant="white" 
-                  rounded="2xl" 
+                  rounded-none="2xl" 
                   size="lg"
                   className="w-full"
                   showArrow={true}
@@ -148,7 +148,7 @@ const defaultBackgrounds = [
     display: flex;
     flex-direction: column;
     position: relative;
-    border-radius: 1.5rem;
+    border-radius: 0;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
     box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
     background: #0a0f1a;
@@ -159,7 +159,7 @@ const defaultBackgrounds = [
     content: '';
     position: absolute;
     inset: -2px;
-    border-radius: calc(1.5rem + 2px);
+    border-radius: 0;
     background: linear-gradient(135deg, color-mix(in srgb, var(--brand-highlight) 80%, transparent), rgba(255,255,255,0.1) 40%, rgba(255,255,255,0.05) 60%, color-mix(in srgb, var(--brand-highlight) 30%, transparent));
     z-index: -1;
     opacity: 0.6;
@@ -189,7 +189,7 @@ const defaultBackgrounds = [
     content: '';
     position: absolute;
     inset: -2px;
-    border-radius: calc(1.5rem + 2px);
+    border-radius: 0;
     background: var(--brand-highlight);
     z-index: -2;
     filter: blur(20px);
@@ -227,3 +227,4 @@ const defaultBackgrounds = [
     }
   }
 </style>
+

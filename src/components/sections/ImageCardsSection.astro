@@ -18,7 +18,7 @@ const { cards } = Astro.props;
   <div class="container mx-auto px-4">
     <div class="grid md:grid-cols-3 gap-6" data-animate-stagger>
       {cards.map((card) => (
-        <div class="rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-card border-2 border-transparent hover:border-brand-highlight">
+        <div class="rounded-none overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-card border-2 border-transparent hover:border-brand-highlight">
           <div class="aspect-[4/3] overflow-hidden">
             <Image 
               src={card.image} 
@@ -43,3 +43,4 @@ const { cards } = Astro.props;
     </div>
   </div>
 </section>
+

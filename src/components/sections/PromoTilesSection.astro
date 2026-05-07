@@ -48,14 +48,14 @@ const tiles = rawTiles.map(tile => ({
         <div class="pt-bento-card group relative flex flex-col h-full reveal-on-scroll" data-animate-delay={index * 150}>
           
           <!-- Iridescent Glow (The "Set Apart" FX) -->
-          <div class="absolute -inset-[2px] bg-gradient-to-br from-[var(--brand-highlight)]/40 via-transparent to-blue-500/20 rounded-[2.5rem] opacity-0 group-hover:opacity-100 blur-[2px] transition-all duration-700 z-0"></div>
+          <div class="absolute -inset-[2px] bg-gradient-to-br from-[var(--brand-highlight)]/40 via-transparent to-blue-500/20 rounded-none opacity-0 group-hover:opacity-100 blur-[2px] transition-all duration-700 z-0"></div>
           
           <!-- Glass Panel Foundation -->
-          <div class="absolute inset-0 bg-[#0F0F0F]/90 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] transition-all duration-500 group-hover:bg-[#121212] group-hover:border-[var(--brand-highlight)]/50 z-[1] shadow-2xl"></div>
+          <div class="absolute inset-0 bg-[#0F0F0F]/90 backdrop-blur-3xl border border-white/10 rounded-none transition-all duration-500 group-hover:bg-[#121212] group-hover:border-[var(--brand-highlight)]/50 z-[1] shadow-2xl"></div>
           
           {/* Parallax Depth Layer */}
           {tile.bgImage && (
-            <div class="absolute inset-0 rounded-[2.5rem] overflow-hidden z-[1] opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-1000">
+            <div class="absolute inset-0 rounded-none overflow-hidden z-[1] opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-1000">
               <Image
                 src={tile.bgImage}
                 alt=""
@@ -73,7 +73,7 @@ const tiles = rawTiles.map(tile => ({
             <div class="flex items-start justify-between mb-10">
               <div class="flex flex-col gap-1">
                 <div class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-[var(--brand-highlight)] shadow-[0_0_12px_rgba(var(--brand-highlight-rgb),1)]"></span>
+                  <span class="w-2 h-2 rounded-none bg-[var(--brand-highlight)] shadow-[0_0_12px_rgba(var(--brand-highlight-rgb),1)]"></span>
                   <span class="text-[0.6rem] font-black text-white/30 uppercase tracking-[0.3em]">
                     {tile.tag || (tile.type === "maintenance" && "Plan") || (tile.type === "financing" && "Financing") || (tile.type === "emergency" && "Special")}
                   </span>
@@ -81,7 +81,7 @@ const tiles = rawTiles.map(tile => ({
                 <span class="text-[0.5rem] font-black text-[var(--brand-highlight)] uppercase tracking-widest pl-4 opacity-0 group-hover:opacity-100 transition-opacity duration-500">Live Status: Verified</span>
               </div>
               
-              <div class="w-10 h-10 flex items-center justify-center bg-white/[0.03] border border-white/10 rounded-xl text-[var(--brand-highlight)] group-hover:bg-[var(--brand-highlight)] group-hover:text-[var(--brand-primary)] group-hover:rotate-[360deg] transition-all duration-1000 shadow-xl">
+              <div class="w-10 h-10 flex items-center justify-center bg-white/[0.03] border border-white/10 rounded-none text-[var(--brand-highlight)] group-hover:bg-[var(--brand-highlight)] group-hover:text-[var(--brand-primary)] group-hover:rotate-[360deg] transition-all duration-1000 shadow-xl">
                 {tile.type === "maintenance" && (
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
                 )}
@@ -102,7 +102,7 @@ const tiles = rawTiles.map(tile => ({
                     <h3 class="text-3xl lg:text-4xl font-black text-white uppercase tracking-tighter leading-[0.9] border-l-4 border-[var(--brand-highlight)] pl-6">{tile.title}</h3>
                   )}
                   {tile.priceLabel && (
-                    <div class="relative p-6 bg-white/[0.02] border border-white/[0.05] rounded-3xl group-hover:bg-[var(--brand-highlight)]/[0.03] transition-all duration-500">
+                    <div class="relative p-6 bg-white/[0.02] border border-white/[0.05] rounded-none group-hover:bg-[var(--brand-highlight)]/[0.03] transition-all duration-500">
                       <span class="block text-[0.6rem] font-black text-white/20 uppercase tracking-[0.25em] mb-2">{tile.priceLabel[0]}</span>
                       <div class="flex items-baseline gap-2">
                         <span class="text-6xl lg:text-7xl font-black text-white tracking-tighter drop-shadow-2xl">{tile.priceLabel[1]}</span>
@@ -127,15 +127,15 @@ const tiles = rawTiles.map(tile => ({
                     </div>
                   )}
                   {tile.subtext && (
-                    <p class="inline-block px-3 py-1 bg-[var(--brand-highlight)]/10 text-[var(--brand-highlight)] text-[0.6rem] font-black uppercase tracking-widest rounded-md self-start">{tile.subtext}</p>
+                    <p class="inline-block px-3 py-1 bg-[var(--brand-highlight)]/10 text-[var(--brand-highlight)] text-[0.6rem] font-black uppercase tracking-widest rounded-none self-start">{tile.subtext}</p>
                   )}
-                  <div class="grid grid-cols-1 gap-3 p-6 bg-white/[0.02] border border-white/[0.05] rounded-3xl group-hover:border-[var(--brand-highlight)]/20 transition-all duration-500">
+                  <div class="grid grid-cols-1 gap-3 p-6 bg-white/[0.02] border border-white/[0.05] rounded-none group-hover:border-[var(--brand-highlight)]/20 transition-all duration-500">
                     <div class="flex items-center gap-3 text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">
-                      <div class="w-1.5 h-1.5 bg-[var(--brand-highlight)] rounded-sm rotate-45"></div>
+                      <div class="w-1.5 h-1.5 bg-[var(--brand-highlight)] rounded-none rotate-45"></div>
                       <span>Quick approval process</span>
                     </div>
                     <div class="flex items-center gap-3 text-[0.65rem] font-bold text-white/40 uppercase tracking-widest">
-                      <div class="w-1.5 h-1.5 bg-[var(--brand-highlight)] rounded-sm rotate-45"></div>
+                      <div class="w-1.5 h-1.5 bg-[var(--brand-highlight)] rounded-none rotate-45"></div>
                       <span>Flexible payment options</span>
                     </div>
                   </div>
@@ -156,7 +156,7 @@ const tiles = rawTiles.map(tile => ({
                       </div>
                     )}
                   </div>
-                  <div class="flex flex-col gap-3 p-6 bg-white/[0.03] border border-white/10 rounded-3xl">
+                  <div class="flex flex-col gap-3 p-6 bg-white/[0.03] border border-white/10 rounded-none">
                     <div class="flex items-center justify-between text-[0.65rem] font-bold text-white/50 uppercase tracking-widest border-b border-white/5 pb-2">
                       <span>System inspection</span>
                       <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-[var(--brand-highlight)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><path d="M20 6L9 17l-5-5"/></svg>
@@ -177,7 +177,7 @@ const tiles = rawTiles.map(tile => ({
 
             <!-- Action Hub (Creative CTA) -->
             <div class="mt-12 flex flex-col gap-6">
-              <Button href={tile.buttonHref || "/contact"} variant="white" rounded="2xl" size="lg" className="w-full">
+              <Button href={tile.buttonHref || "/contact"} variant="white" rounded-none="2xl" size="lg" className="w-full">
                 {tile.buttonText}
               </Button>
 
@@ -188,7 +188,7 @@ const tiles = rawTiles.map(tile => ({
             </div>
 
             <!-- Light Sweep FX -->
-            <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.01] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[3s] pointer-events-none rounded-[2.5rem]"></div>
+            <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.01] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-[3s] pointer-events-none rounded-none"></div>
           </div>
         </div>
       ))}
@@ -233,3 +233,4 @@ const tiles = rawTiles.map(tile => ({
   initPromoReveal();
   document.addEventListener('astro:page-load', initPromoReveal);
 </script>
+

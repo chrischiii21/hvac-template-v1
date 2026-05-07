@@ -14,7 +14,7 @@ const {
   type = "button",
   variant = "primary",
   size = "md",
-  rounded = "2xl",
+  rounded = "none",
   className = "",
   showArrow = false,
 } = Astro.props;
@@ -54,8 +54,8 @@ const sizes = {
 };
 
 const rounding = {
-  full: "rounded-full",
-  "2xl": "rounded-2xl",
+  full: "rounded-none",
+  "2xl": "rounded-none",
   none: "rounded-none",
 };
 
@@ -105,3 +105,4 @@ const Tag = href ? "a" : "button";
     }
   </span>
 </Tag>
+
