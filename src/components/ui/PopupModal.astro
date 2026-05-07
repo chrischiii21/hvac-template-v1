@@ -9,12 +9,16 @@ interface Props {
   triggerId?: string;
 }
 
-const { delay = 3000, showOnce = true, triggerId = "open-popup" } = Astro.props;
+const {
+  delay = 3000,
+  showOnce = false,
+  triggerId = "open-popup",
+} = Astro.props;
 ---
 
 <div
   id="promo-popup"
-  class="popup-overlay hidden"
+  class="popup-overlay"
   data-delay={delay}
   data-show-once={showOnce}
   data-trigger-id={triggerId}
@@ -183,7 +187,9 @@ const { delay = 3000, showOnce = true, triggerId = "open-popup" } = Astro.props;
                 Licensed & Insured
               </span>
             </div>
-            <button id="close-popup-bottom" class="popup-dismiss">No thanks, maybe later</button>
+            <button id="close-popup-bottom" class="popup-dismiss"
+              >No thanks, maybe later</button
+            >
           </div>
         </div>
       </div>
@@ -203,7 +209,9 @@ const { delay = 3000, showOnce = true, triggerId = "open-popup" } = Astro.props;
     padding: 1rem;
     opacity: 0;
     visibility: hidden;
-    transition: visibility 0.3s, opacity 0.3s ease-out;
+    transition:
+      visibility 0.3s,
+      opacity 0.3s ease-out;
   }
   .popup-overlay.show {
     opacity: 1;
@@ -467,7 +475,7 @@ const { delay = 3000, showOnce = true, triggerId = "open-popup" } = Astro.props;
     border-top: 1px solid
       color-mix(in srgb, var(--brand-primary) 10%, transparent);
   }
-  
+
   .popup-trust {
     display: flex;
     gap: 1.5rem;
@@ -568,68 +576,132 @@ const { delay = 3000, showOnce = true, triggerId = "open-popup" } = Astro.props;
 </style>
 
 <script is:inline>
-  function setupPopup() {
-    const popup = document.getElementById("promo-popup");
-    const closeBtn = document.getElementById("close-popup");
-    const dismissBtn = document.getElementById("close-popup-bottom");
-    if (!popup || !closeBtn) return;
+  (function () {
+    console.log("PopupModal: Script loaded");
 
-    const delay = parseInt(popup.getAttribute("data-delay") || "3000");
-    const showOnce = popup.getAttribute("data-show-once") === "true";
+    function setupPopup() {
+      console.log(
+        "PopupModal: setupPopup called, readyState:",
+        document.readyState,
+      );
 
-    const getCookie = (name) => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop().split(";").shift();
-    };
+      var popup = document.getElementById("promo-popup");
+      var closeBtn = document.getElementById("close-popup");
+      var dismissBtn = document.getElementById("close-popup-bottom");
 
-    const setCookie = (name, value, days) => {
-      let expires = "";
-      if (days) {
-        const date = new Date();
-        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-        expires = `; expires=${date.toUTCString()}`;
+      console.log("PopupModal: Elements found:", {
+        popup: !!popup,
+        closeBtn: !!closeBtn,
+        dismissBtn: !!dismissBtn,
+      });
+
+      if (!popup || !closeBtn) {
+        console.warn("PopupModal: Required elements not found");
+        return;
       }
-      document.cookie = `${name}=${value || ""}${expires}; path=/`;
-    };
 
-    const showPopup = () => {
-      if (showOnce && getCookie("promo_popup_viewed")) return;
-      setTimeout(() => {
-        popup.classList.add("show");
-        document.body.style.overflow = "hidden";
-      }, delay);
-    };
+      var delay = parseInt(popup.getAttribute("data-delay") || "3000", 10);
+      var showOnce = popup.getAttribute("data-show-once") === "true";
 
-    const hidePopup = () => {
-      popup.classList.remove("show");
-      document.body.style.overflow = "";
-      if (showOnce) setCookie("promo_popup_viewed", "true", 30);
-    };
+      console.log("PopupModal: Configuration", {
+        delay: delay,
+        showOnce: showOnce,
+      });
 
-    closeBtn.addEventListener("click", hidePopup);
-    if (dismissBtn) dismissBtn.addEventListener("click", hidePopup);
-    
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && popup.classList.contains("show")) hidePopup();
-    });
-    popup.querySelector(".popup-backdrop").addEventListener("click", hidePopup);
+      function getCookie(name) {
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length === 2) {
+          var part = parts.pop();
+          return part ? part.split(";").shift() : undefined;
+        }
+        return undefined;
+      }
 
-    const externalTriggerId = popup.getAttribute("data-trigger-id");
-    if (externalTriggerId) {
-      const trigger = document.getElementById(externalTriggerId);
-      if (trigger) {
-        trigger.addEventListener("click", (e) => {
-          e.preventDefault();
+      function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+          var date = new Date();
+          date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+          expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+      }
+
+      function showPopup() {
+        var hasViewed = getCookie("promo_popup_viewed");
+        console.log("PopupModal: showPopup called", {
+          showOnce: showOnce,
+          hasViewed: hasViewed,
+        });
+
+        if (showOnce && hasViewed) {
+          console.log("PopupModal: Already viewed, skipping");
+          return;
+        }
+
+        console.log("PopupModal: Will show popup in " + delay + "ms");
+        setTimeout(function () {
+          console.log("PopupModal: Showing popup now");
           popup.classList.add("show");
           document.body.style.overflow = "hidden";
-        });
+        }, delay);
       }
+
+      function hidePopup() {
+        console.log("PopupModal: Hiding popup");
+        popup.classList.remove("show");
+        document.body.style.overflow = "";
+        if (showOnce) setCookie("promo_popup_viewed", "true", 30);
+      }
+
+      closeBtn.addEventListener("click", hidePopup);
+      if (dismissBtn) dismissBtn.addEventListener("click", hidePopup);
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && popup.classList.contains("show")) {
+          hidePopup();
+        }
+      });
+
+      var backdrop = popup.querySelector(".popup-backdrop");
+      if (backdrop) {
+        backdrop.addEventListener("click", hidePopup);
+      }
+
+      var externalTriggerId = popup.getAttribute("data-trigger-id");
+      if (externalTriggerId) {
+        var trigger = document.getElementById(externalTriggerId);
+        console.log("PopupModal: External trigger", {
+          externalTriggerId: externalTriggerId,
+          trigger: !!trigger,
+        });
+        if (trigger) {
+          trigger.addEventListener("click", function (e) {
+            e.preventDefault();
+            console.log("PopupModal: External trigger clicked");
+            popup.classList.add("show");
+            document.body.style.overflow = "hidden";
+          });
+        }
+      }
+
+      showPopup();
     }
 
-    showPopup();
-  }
+    // Run on initial load
+    if (document.readyState === "loading") {
+      console.log("PopupModal: Waiting for DOMContentLoaded");
+      document.addEventListener("DOMContentLoaded", setupPopup);
+    } else {
+      console.log("PopupModal: DOM already loaded, running immediately");
+      setupPopup();
+    }
 
-  document.addEventListener("astro:page-load", setupPopup);
-  setupPopup();
+    // Run on Astro page transitions
+    document.addEventListener("astro:page-load", function () {
+      console.log("PopupModal: astro:page-load event fired");
+      setupPopup();
+    });
+  })();
 </script>
