@@ -2,9 +2,21 @@
 import { getEntry } from "astro:content"
 import BaseLayout from "@/layouts/BaseLayout.astro"
 import SectionRenderer from "@/components/SectionRenderer.astro"
+import { getImage } from "astro:assets"
 
 const page = await getEntry("pages", "index")
 if (!page) throw new Error("index.json not found in src/content/pages/")
+
+// Pre-optimize the LCP image for the preload link
+const heroImageSrc = "https://www.superiorcomforthvac.com/wp-content/uploads/2024/05/ac-repair-brownstown-mi.jpg";
+const optimizedHero = await getImage({
+  src: heroImageSrc,
+  widths: [390, 640, 800],
+  sizes: "(max-width: 768px) 100vw, 100vw",
+  inferSize: true,
+  format: 'avif',
+  quality: 50
+});
 ---
 
 <BaseLayout
@@ -16,8 +28,8 @@ if (!page) throw new Error("index.json not found in src/content/pages/")
   <link 
     rel="preload" 
     as="image" 
-    href="https://www.superiorcomforthvac.com/wp-content/uploads/2024/05/ac-repair-brownstown-mi.jpg" 
-    imagesrcset="https://www.superiorcomforthvac.com/wp-content/uploads/2024/05/ac-repair-brownstown-mi.jpg?w=390 390w, https://www.superiorcomforthvac.com/wp-content/uploads/2024/05/ac-repair-brownstown-mi.jpg?w=640 640w, https://www.superiorcomforthvac.com/wp-content/uploads/2024/05/ac-repair-brownstown-mi.jpg?w=800 800w"
+    href={optimizedHero.src}
+    imagesrcset={optimizedHero.srcSet.attribute}
     imagesizes="(max-width: 768px) 100vw, 100vw"
     fetchpriority="high"
     slot="head"
