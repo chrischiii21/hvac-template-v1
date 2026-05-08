@@ -79,32 +79,13 @@ const canonical = new URL(Astro.url.pathname, siteConfig.seo.siteUrl).href
         "addressLocality": siteConfig.location.city,
         "addressRegion": siteConfig.location.state,
         "addressCountry": "US"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "0", 
-        "longitude": "0"
-      },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday"
-        ],
-        "opens": "00:00",
-        "closes": "23:59"
       }
     })} />
     
     <!-- DNS Prefetch for Remote Assets -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-    <link rel="dns-prefetch" href="https://www.superiorcomforthvac.com" />
+    <link rel="preconnect" href="https://www.superiorcomforthvac.com" crossorigin />
     <link rel="dns-prefetch" href="https://healthinnovation-kss.com" />
     <link rel="dns-prefetch" href="https://ultimateheatingandair.com" />
     
@@ -120,6 +101,9 @@ const canonical = new URL(Astro.url.pathname, siteConfig.seo.siteUrl).href
     <noscript>
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     </noscript>
+    <style is:inline define:vars={{ primary: siteConfig.colors.primary, highlight: siteConfig.colors.highlight }}>
+      :root { --brand-primary: var(--primary); --brand-highlight: var(--highlight); }
+    </style>
     
     <ClientRouter />
     <ThemeProvider />
