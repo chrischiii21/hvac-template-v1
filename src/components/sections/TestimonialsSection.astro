@@ -168,12 +168,16 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
         totalCountLabel.textContent = totalSlides.toString().padStart(2, '0');
       }
       
+      let cachedSlideWidth = 0;
+      
       function updateUI(smooth = true) {
-        const gap = window.innerWidth >= 1024 ? 24 : 20;
-        const slideWidth = (slides[0] as HTMLElement).offsetWidth + gap;
+        if (!cachedSlideWidth) {
+          const gap = window.innerWidth >= 1024 ? 24 : 20;
+          cachedSlideWidth = (slides[0] as HTMLElement).offsetWidth + gap;
+        }
         
         track!.style.transition = smooth ? 'transform 0.8s cubic-bezier(0.25, 1, 0.3, 1)' : 'none';
-        track!.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+        track!.style.transform = `translateX(-${currentIndex * cachedSlideWidth}px)`;
         
         if (progressFill) {
           let realIndex = (currentIndex - perView + totalSlides) % totalSlides;
@@ -224,6 +228,7 @@ const testimonials = rawTestimonials.map(t => ({ ...t, content: getLocationText(
       window.addEventListener('resize', () => {
         perView = getPerView();
         currentIndex = perView;
+        cachedSlideWidth = 0;
         updateUI(false);
       });
 

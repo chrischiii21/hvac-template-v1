@@ -179,6 +179,11 @@
     content-visibility: visible !important;
     contain-intrinsic-size: none !important;
   }
+
+  .tm-section, .rv-section, .svc-section, .pf-section, .cpn-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 800px;
+  }
 }
 
 /* Mobile Performance Layer */
