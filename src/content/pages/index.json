@@ -1,6 +1,6 @@
 {
   "title": "Home",
-  "description": "{business} - Expert heating and cooling services in {city} and surrounding areas",
+  "description": "{business} - Your trusted local experts for AC repair, furnace installation, and complete HVAC maintenance in {city}. Certified technicians and 24/7 emergency support.",
   "sections": [
     {
       "component": "HeroSection",

@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import Button from "../ui/Button.astro";
 const bg2Img = "/images/bg2.jpg";
 import { getLocationText } from "@/config/site"
@@ -76,7 +76,37 @@ const slides = [
 ];
 
 const isSlider = variant === "slider";
+
+// Preload the first hero image for LCP optimization
+const firstSlideImage = isSlider 
+  ? await getImage({
+      src: slides[0].bgImage,
+      width: 1920,
+      height: 1080,
+      format: 'avif',
+      quality: 85,
+      inferSize: true
+    })
+  : subpageImage 
+    ? await getImage({
+        src: subpageImage,
+        width: 1920,
+        height: 1080,
+        format: 'avif',
+        quality: 85,
+        inferSize: true
+      })
+    : await getImage({
+        src: bg2Img,
+        width: 1920,
+        height: 1080,
+        format: 'avif',
+        quality: 85,
+        inferSize: true
+      });
 ---
+
+<link rel="preload" href={firstSlideImage.src} as="image" slot="head" fetchpriority="high" />
 
 {isSlider ? (
 <section class="hero-cinematic relative w-full overflow-hidden min-h-[90vh] flex flex-col justify-center items-center bg-[var(--brand-primary)]">
@@ -96,8 +126,8 @@ const isSlider = variant === "slider";
             widths={[480, 800, 1200, 1920]}
             sizes="100vw"
             inferSize={true}
-            format="webp"
-            quality={i === 0 ? 80 : 60}
+            format="avif"
+            quality={i === 0 ? 85 : 65}
           />
         ) : (
           <img
@@ -120,40 +150,46 @@ const isSlider = variant === "slider";
   <div class="absolute inset-0 bg-black/30 z-[1]"></div>
 
   <!-- Center Text Slider & HUD -->
-  <div class="relative z-[2] container mx-auto px-4 md:px-6 flex-1 flex flex-col justify-center items-center text-center pt-24 pb-24 md:pb-32 lg:pb-40">
-    <div class="text-slider-grid w-full max-w-5xl mx-auto mb-8 md:mb-12">
+  <div class="relative z-[2] container mx-auto px-4 md:px-6 flex-1 flex flex-col justify-center items-center text-center pt-32 pb-32 lg:pt-40 lg:pb-40">
+    <div class="text-slider-grid w-full max-w-5xl mx-auto mb-6 md:mb-10">
       {slides.map((slide, i) => (
         <div class={`text-slide transition-all duration-700 ease-out ${i === 0 ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`} data-index={i}>
-          <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-black leading-[0.95] mb-5 md:mb-8 uppercase tracking-tight text-white drop-shadow-2xl">
-            {getLocationText(slide.title)}
-          </h1>
+          {i === 0 ? (
+            <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-black leading-[0.95] mb-3 md:mb-4 uppercase tracking-tight text-white drop-shadow-2xl">
+              {getLocationText(slide.title)}
+            </h1>
+          ) : (
+            <div class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-[5.5rem] font-black leading-[0.95] mb-3 md:mb-4 uppercase tracking-tight text-white drop-shadow-2xl">
+              {getLocationText(slide.title)}
+            </div>
+          )}
           <p class="hero-subtitle text-base sm:text-lg md:text-2xl leading-relaxed text-white/80 font-medium max-w-3xl mx-auto drop-shadow-lg px-4">
-            {slide.subtitle}
+            {getLocationText(slide.subtitle)}
           </p>
         </div>
       ))}
     </div>
 
     <!-- Glass HUD Dashboard (Pill) - Persistent -->
-    <div class="z-[10] w-full max-w-[95%] md:max-w-fit flex justify-center mt-auto">
-      <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-none md:rounded-none py-4 md:py-4 px-6 md:px-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] flex flex-col md:flex-row items-center gap-4 md:gap-10 w-full mx-auto">
+    <div class="z-[10] w-full max-w-[95%] md:max-w-fit flex justify-center">
+      <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-none md:rounded-none py-2 md:py-4 px-4 md:px-10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)] flex flex-row items-center justify-center gap-4 md:gap-10 w-auto mx-auto">
         
         <!-- Animated Stat Section -->
-        <div class="relative h-16 md:h-20 w-full md:min-w-[380px] overflow-hidden">
+        <div class="relative h-14 md:h-20 w-auto min-w-[280px] md:min-w-[360px] overflow-hidden">
           {slides.map((slide, i) => (
-            <div class={`stat-slide absolute inset-0 flex items-center justify-center md:justify-start gap-3 md:gap-5 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${i === 0 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} data-index={i}>
+            <div class={`stat-slide absolute inset-0 flex items-center justify-start gap-3 md:gap-5 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${i === 0 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} data-index={i}>
               <div class="bg-[var(--brand-highlight)] text-[var(--brand-primary)] font-black text-2xl md:text-4xl px-4 md:px-5 py-2 md:py-2.5 rounded-none md:rounded-none shadow-xl transform -rotate-3 shrink-0">
                 {slide.statNumber}
               </div>
               <div class="flex flex-col items-center md:items-start text-center md:text-left">
-                <h3 class="text-white font-black text-base md:text-xl uppercase tracking-widest drop-shadow-sm leading-tight">{slide.statLabel}</h3>
+                <h3 class="text-white font-black text-sm md:text-xl uppercase tracking-wider drop-shadow-sm leading-tight whitespace-nowrap">{getLocationText(slide.statLabel)}</h3>
               </div>
             </div>
           ))}
         </div>
         
         <!-- Persistent Controls -->
-        <div class="flex flex-row items-center justify-center md:justify-start gap-4 md:gap-5 border-t border-white/10 md:border-t-0 md:border-l md:border-white/20 pt-4 md:pt-0 md:pl-8 w-full md:w-auto">
+        <div class="flex flex-row items-center justify-center gap-3 md:gap-5 border-l border-white/20 pl-4 md:pl-8 w-auto">
           <div class="flex gap-4 md:gap-6">
             {slides.map((_, dotIndex) => (
               <button 
@@ -205,8 +241,8 @@ const isSlider = variant === "slider";
       <Image
         src={bg2Img}
         alt="HVAC background"
-        format="webp"
-        quality={80}
+        format="avif"
+        quality={85}
         widths={[480, 800, 1200, 1920]}
         sizes="100vw"
         class="absolute inset-0 w-full h-full object-cover scale-105"

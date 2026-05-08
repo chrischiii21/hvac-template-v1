@@ -55,13 +55,13 @@ export const siteConfig = {
 
   // SEO
   seo: {
-    siteName: "Acme Inc.",
-    defaultTitle: "Acme Inc. | Digital Marketing in Denver",
-    defaultDescription: "Denver's trusted digital marketing agency. Indoor billboard ads, web design, PPC, social media & Connected TV. Free consultation!",
-    keywords: "digital marketing Denver, local advertising Denver, indoor billboard advertising, website design Denver, PPC advertising, social media management, Connected TV advertising, OTT ads, geofencing, local SEO Denver",
-    siteUrl: "https://acmeinc.com", // Update with actual domain
-    ogImage: "https://acmeinc.com/og-image.jpg", // Update with actual OG image
-    twitterHandle: "@acmeinc",
+    siteName: "HVAC Template",
+    defaultTitle: "Expert HVAC Services | Heating, Cooling & IAQ Solutions",
+    defaultDescription: "Professional HVAC services including AC repair, furnace installation, and indoor air quality solutions. Trusted local experts for residential and commercial comfort.",
+    keywords: "hvac repair, ac installation, furnace service, heating and cooling, indoor air quality, emergency hvac, commercial hvac",
+    siteUrl: "https://hvac-template.com", 
+    ogImage: "https://hvac-template.com/og-image.jpg",
+    twitterHandle: "@hvactemplate",
   },
 
   // Template Info

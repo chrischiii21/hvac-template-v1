@@ -1,11 +1,11 @@
-# Robots.txt for Acme Inc.
-# https://acmeinc.com
+# Robots.txt for HVAC Template
+# https://hvac-template.com
 
 User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://acmeinc.com/sitemap-index.xml
+Sitemap: https://hvac-template.com/sitemap-index.xml
 
 # Disallow admin/private areas
 Disallow: /api/

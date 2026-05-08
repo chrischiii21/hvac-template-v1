@@ -1,11 +1,11 @@
 {
-  "name": "Acme Inc. - Digital Marketing",
-  "short_name": "Acme Inc.",
-  "description": "Denver's trusted digital marketing agency",
+  "name": "HVAC Template - Heating and Cooling",
+  "short_name": "HVAC Template",
+  "description": "Professional HVAC services including AC repair and furnace installation",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#110133",
+  "theme_color": "#1F1F1F",
   "icons": [
     {
       "src": "/favicon-192x192.png",

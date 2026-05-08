@@ -1,4 +1,5 @@
 ---
+import { Image } from "astro:assets";
 import Button from "./ui/Button.astro";
 import { siteConfig } from "@/config/site"
 import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation"
@@ -49,7 +50,16 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
         <!-- Logo -->
         <a href="/" class="nb-logo" aria-label={`${siteConfig.business.name} - Home`}>
           <div class="nb-logo-icon-wrapper">
-            <img src={siteConfig.logo.src} alt={siteConfig.logo.alt} class="nb-logo-img" width="44" height="44" decoding="async" loading="eager" />
+            <Image 
+              src={siteConfig.logo.src} 
+              alt={siteConfig.logo.alt} 
+              class="nb-logo-img" 
+              width={44} 
+              height={44} 
+              decoding="sync" 
+              loading="eager" 
+              format="avif"
+            />
           </div>
           <span class="nb-logo-name">{siteConfig.business.name}</span>
         </a>
@@ -122,7 +132,7 @@ import { utilityNavItems, mainNavItems, quickActions } from "@/config/navigation
     <!-- Drawer Header -->
     <div class="nb-drawer-header">
       <div class="nb-drawer-logo">
-        <img src={siteConfig.logo.src} alt={siteConfig.logo.alt} width="32" height="32" />
+        <Image src={siteConfig.logo.src} alt={siteConfig.logo.alt} width={32} height={32} format="avif" loading="lazy" />
         <span>{siteConfig.business.name}</span>
       </div>
       <label for="nb-mobile-toggle" class="nb-drawer-close">

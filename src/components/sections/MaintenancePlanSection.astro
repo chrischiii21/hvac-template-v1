@@ -35,7 +35,10 @@ const { title, description, includedItems, benefits, buttonText = "VIEW PLANS", 
         </h2>
       </div>
       <div class="lg:col-span-4">
-        <div class="text-gray-500 text-base md:text-lg font-medium leading-relaxed mb-10 border-l-2 border-[var(--brand-highlight)] pl-6" set:html={description} />
+        <div class="relative">
+          <div class="absolute -left-8 top-0 bottom-0 w-1 bg-[var(--brand-highlight)] rounded-none hidden lg:block"></div>
+          <p class="text-[1.05rem] text-[var(--brand-secondary)] lg:text-lg leading-relaxed font-medium max-w-2xl" set:html={description} />
+        </div>
       </div>
     </div>
 

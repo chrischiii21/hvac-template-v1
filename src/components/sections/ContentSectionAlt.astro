@@ -67,8 +67,9 @@ const isRight = imagePosition === "right";
               class="csa-image-fit"
               width={1000}
               height={1000}
-              format="webp"
+              format="avif"
               quality={85}
+              fetchpriority="low"
             />
           ) : (
             <div class="csa-placeholder"><span>Image</span></div>
@@ -94,7 +95,9 @@ const isRight = imagePosition === "right";
             )}
           </h2>
 
-          <p class="csa-description" set:html={description} />
+          <div class="mb-12">
+            <p class="csa-description !mb-0" set:html={description} />
+          </div>
 
           <!-- High-Density Features Grid -->
           {features.length > 0 && (

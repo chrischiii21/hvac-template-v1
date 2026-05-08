@@ -92,9 +92,10 @@ const isRight = imagePosition === "right";
                   loading="lazy"
                   width={800}
                   height={1000}
-                  format="webp"
+                  format="avif"
                   quality={85}
                   decoding="async"
+                  fetchpriority="low"
                 />
               ) : (
                 <div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
@@ -160,15 +161,9 @@ const isRight = imagePosition === "right";
             {title}
           </h2>
 
-          <div
-            class="w-16 h-1.5 bg-[var(--brand-highlight)] mb-8 shadow-[0_4px_10px_rgba(var(--brand-highlight-rgb),0.3)] rounded-none"
-          >
+          <div class="mb-10">
+            <p class="text-[1.05rem] text-[var(--brand-secondary)] lg:text-lg leading-relaxed font-medium" set:html={description} />
           </div>
-
-          <div
-            class="text-gray-600 text-base md:text-lg font-medium leading-relaxed mb-10"
-            set:html={description}
-          />
 
           {
             features.length > 0 && (

@@ -9,7 +9,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://acmeinc.com', // Update with actual domain
+  site: 'https://hvac-template.com', // Update with actual domain
   
   vite: {
     plugins: [

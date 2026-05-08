@@ -3,7 +3,7 @@
 // Only visible on desktop (md and up)
 ---
 
-<div id="free-scan-wrapper" class="hidden md:block fixed bottom-8 right-8 z-40">
+<div id="free-scan-wrapper" class="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-40">
   <button
     id="free-scan-trigger"
     class="fab-btn group"
@@ -35,15 +35,18 @@
     display: flex;
     align-items: center;
     gap: 0.85rem;
-    padding: 0.65rem 1.75rem 0.65rem 0.65rem;
-    background: rgba(10, 15, 26, 0.85);
+    padding: 0.5rem 1.25rem 0.5rem 0.5rem;
+    @media (min-width: 768px) {
+      padding: 0.65rem 1.75rem 0.65rem 0.65rem;
+    }
+    background: rgba(10, 15, 26, 0.9);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 0;
     color: #fff;
     cursor: pointer;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px color-mix(in srgb, var(--brand-secondary) 30%, transparent);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -80,8 +83,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2.75rem;
-    height: 2.75rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    @media (min-width: 768px) {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
     background: var(--brand-highlight);
     border-radius: 0;
     color: var(--brand-primary);
@@ -110,7 +117,10 @@
   }
   .fab-value {
     font-weight: 900;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
+    @media (min-width: 768px) {
+      font-size: 1.1rem;
+    }
     letter-spacing: 0.02em;
     color: transparent;
     background: linear-gradient(to right, #fff, rgba(255,255,255,0.7));
