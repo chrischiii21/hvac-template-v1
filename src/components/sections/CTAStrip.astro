@@ -106,17 +106,17 @@ const iconSvgs: Record<string, string> = {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 200%;
+    height: 100%;
     background: linear-gradient(110deg, transparent 20%, rgba(255,255,255,0.05) 45%, rgba(255,255,255,0.05) 55%, transparent 80%);
-    background-size: 200% 100%;
-    animation: shine 8s infinite linear;
+    animation: shine-v2 8s infinite linear;
     pointer-events: none;
+    will-change: transform;
   }
 
-  @keyframes shine {
-    0% { background-position: 100% 0; }
-    100% { background-position: -100% 0; }
+  @keyframes shine-v2 {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
   }
 </style>
 

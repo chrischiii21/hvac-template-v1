@@ -43,7 +43,7 @@ const faqs = rawFaqs.map((faq) => ({
 
   <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
     <!-- Unified Dynamic Header -->
-    <div class="mb-12 lg:mb-16 reveal-on-scroll">
+    <div class="mb-12 lg:mb-16" data-animate="fade-up">
       {
         badge && (
           <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-none border border-[var(--brand-primary)]/10 mb-8">
@@ -71,7 +71,8 @@ const faqs = rawFaqs.map((faq) => ({
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
       <!-- Left Column: Premium Accordion List -->
       <div
-        class="lg:col-span-8 flex flex-col gap-4 reveal-on-scroll"
+        class="lg:col-span-8 flex flex-col gap-4"
+        data-animate="fade-right"
         data-animate-delay="100"
       >
         {
@@ -127,7 +128,8 @@ const faqs = rawFaqs.map((faq) => ({
 
       <!-- Right Column: Cinematic Call-to-Action Card -->
       <div
-        class="lg:col-span-4 lg:sticky lg:top-32 reveal-on-scroll"
+        class="lg:col-span-4 lg:sticky lg:top-32"
+        data-animate="fade-left"
         data-animate-delay="200"
       >
         <div
@@ -196,17 +198,6 @@ const faqs = rawFaqs.map((faq) => ({
 </section>
 
 <style>
-  .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 1s cubic-bezier(0.25, 1, 0.3, 1);
-  }
-
-  .reveal-on-scroll.is-revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
   .fq-item.is-open {
     border-color: var(--brand-highlight);
     box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.08);
@@ -244,25 +235,8 @@ const faqs = rawFaqs.map((faq) => ({
         }
       });
     });
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-revealed");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 },
-    );
-
-    document
-      .querySelectorAll(".reveal-on-scroll")
-      .forEach((el) => observer.observe(el));
   }
 
   initFAQ();
   document.addEventListener("astro:page-load", initFAQ);
 </script>
-

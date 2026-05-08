@@ -183,7 +183,7 @@ const defaultBackgrounds = [
   .cpn-coupon--featured::before {
     opacity: 1;
     background: linear-gradient(135deg, var(--brand-highlight), rgba(255,255,255,0.5), var(--brand-highlight));
-    animation: borderRotate 4s linear infinite;
+    animation: borderPulse 2s ease-in-out infinite;
   }
   .cpn-coupon--featured::after {
     content: '';
@@ -196,10 +196,9 @@ const defaultBackgrounds = [
     opacity: 0.3;
   }
   
-  @keyframes borderRotate {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  @keyframes borderPulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
   }
 
   /* ─── Responsive ─── */

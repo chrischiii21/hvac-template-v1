@@ -13,11 +13,11 @@ const { badge, title, images = [] } = Astro.props;
 const displayImages = images.slice(0, 8);
 ---
 
-<section class="pf-section relative bg-white py-24 lg:py-32">
+<section class="pf-section relative bg-white py-24 lg:py-32" data-animate="fade-up">
   <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
     
     <!-- Stable Balanced Header -->
-    <div class="max-w-4xl mb-16 lg:mb-20 reveal-on-scroll">
+    <div class="max-w-4xl mb-16 lg:mb-20" data-animate="fade-right">
       {badge && (
         <div class="inline-flex items-center gap-3 px-4 py-1.5 bg-[var(--brand-primary)]/5 rounded-none border border-[var(--brand-primary)]/10 mb-8">
           <span class="w-2.5 h-2.5 rounded-none bg-[var(--brand-highlight)] animate-pulse"></span>
@@ -31,7 +31,7 @@ const displayImages = images.slice(0, 8);
 
     <!-- Maximized Symmetrical Bento (Diagram Match) -->
     {images.length > 0 ? (
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 lg:gap-6 reveal-on-scroll auto-rows-fr">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 lg:gap-6 auto-rows-fr" data-animate-stagger>
         
         {/* --- Top Cluster --- */}
         
@@ -117,45 +117,23 @@ const displayImages = images.slice(0, 8);
   </div>
 </section>
 
-<style>
-  .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 1s cubic-bezier(0.25, 1, 0.3, 1);
-  }
-  
-  .reveal-on-scroll.is-revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>
+
 
 <script>
-  function initPortfolioAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
-
+  function initPortfolioSpotlight() {
     // Mouse Spotlight on the large featured squares
     document.querySelectorAll('.md\\:col-span-2.md\\:row-span-2').forEach(card => {
       card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
+        const rect = (card as HTMLElement).getBoundingClientRect();
         const x = ((e.clientX - rect.left) / rect.width) * 100;
         const y = ((e.clientY - rect.top) / rect.height) * 100;
-        card.style.setProperty('--mouse-x', `${x}%`);
-        card.style.setProperty('--mouse-y', `${y}%`);
+        (card as HTMLElement).style.setProperty('--mouse-x', `${x}%`);
+        (card as HTMLElement).style.setProperty('--mouse-y', `${y}%`);
       });
     });
   }
 
-  initPortfolioAnimations();
-  document.addEventListener('astro:page-load', initPortfolioAnimations);
+  initPortfolioSpotlight();
+  document.addEventListener('astro:page-load', initPortfolioSpotlight);
 </script>
 

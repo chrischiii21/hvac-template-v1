@@ -13,5 +13,14 @@ if (!page) throw new Error("index.json not found in src/content/pages/")
   keywords={page.data.keywords}
   ogImage={page.data.ogImage}
 >
+  <link 
+    rel="preload" 
+    as="image" 
+    href="https://www.superiorcomforthvac.com/wp-content/uploads/2024/05/ac-repair-brownstown-mi.jpg" 
+    imagesrcset="https://www.superiorcomforthvac.com/wp-content/uploads/2024/05/ac-repair-brownstown-mi.jpg?w=390 390w, https://www.superiorcomforthvac.com/wp-content/uploads/2024/05/ac-repair-brownstown-mi.jpg?w=640 640w, https://www.superiorcomforthvac.com/wp-content/uploads/2024/05/ac-repair-brownstown-mi.jpg?w=800 800w"
+    imagesizes="(max-width: 768px) 100vw, 100vw"
+    fetchpriority="high"
+    slot="head"
+  />
   <SectionRenderer sections={page.data.sections} />
 </BaseLayout>

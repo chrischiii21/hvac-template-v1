@@ -101,14 +101,16 @@ const canonical = new URL(Astro.url.pathname, siteConfig.seo.siteUrl).href
       }
     })} />
     
+    <!-- DNS Prefetch for Remote Assets -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://www.superiorcomforthvac.com" />
+    <link rel="dns-prefetch" href="https://healthinnovation-kss.com" />
+    <link rel="dns-prefetch" href="https://ultimateheatingandair.com" />
+    
     <!-- Optimized Google Fonts loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link 
-      rel="preload" 
-      as="style" 
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" 
-    />
     <link 
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" 
       rel="stylesheet" 
@@ -148,7 +150,9 @@ const canonical = new URL(Astro.url.pathname, siteConfig.seo.siteUrl).href
           return;
         }
 
-        var isMobile = window.innerWidth < 768;
+        // Use matchMedia instead of innerWidth to avoid reflow
+        var isMobile = window.matchMedia('(max-width: 767px)').matches;
+        
         scrollObserver = new IntersectionObserver(
           function(entries) {
             entries.forEach(function(entry) {
@@ -158,7 +162,7 @@ const canonical = new URL(Astro.url.pathname, siteConfig.seo.siteUrl).href
               }
             });
           },
-          { threshold: isMobile ? 0.05 : 0.1, rootMargin: '0px 0px -30px 0px' }
+          { threshold: isMobile ? 0.02 : 0.1, rootMargin: '0px 0px -20px 0px' }
         );
 
         document.querySelectorAll('[data-animate], [data-animate-stagger]').forEach(function(el) {
@@ -166,7 +170,13 @@ const canonical = new URL(Astro.url.pathname, siteConfig.seo.siteUrl).href
         });
       }
 
-      initScrollAnimations();
+      // Defer initialization to avoid main thread contention on first paint
+      if (window.requestIdleCallback) {
+        requestIdleCallback(function() { initScrollAnimations(); });
+      } else {
+        setTimeout(initScrollAnimations, 200);
+      }
+      
       document.addEventListener('astro:page-load', initScrollAnimations);
     </script>
   </body>

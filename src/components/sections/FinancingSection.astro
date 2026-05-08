@@ -44,9 +44,9 @@ const {
 
   <div class="container mx-auto px-6 md:px-12 lg:px-16 relative z-10">
     <!-- Balanced Dark Header -->
-    <div class="max-w-4xl mb-16 lg:mb-20" data-animate="fade-up">
+    <div class="mb-16 lg:mb-20" data-animate="fade-up">
       <div
-        class="inline-flex items-center gap-3 px-4 py-1.5 bg-white/5 rounded-none border border-white/10 mb-6"
+        class="inline-flex items-center gap-3 px-4 py-1.5 bg-white/5 rounded-none border border-white/10 mb-10"
       >
         <span
           class="w-2.5 h-2.5 rounded-none bg-[var(--brand-highlight)] animate-pulse"
@@ -57,15 +57,21 @@ const {
         >
       </div>
 
-      <h2
-        class="text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tight leading-[1.0] mb-8"
-      >
-        {title}
-      </h2>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+        <div class="lg:col-span-6">
+          <h2
+            class="text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tight leading-[1.0] mb-0"
+          >
+            {title}
+          </h2>
+        </div>
 
-      <div class="relative">
-        <div class="absolute -left-8 top-0 bottom-0 w-1 bg-[var(--brand-highlight)] rounded-none hidden lg:block"></div>
-        <p class="text-[1.05rem] text-white/70 lg:text-lg leading-relaxed font-medium max-w-2xl" set:html={description} />
+        <div class="lg:col-span-6">
+          <div class="relative">
+            <div class="absolute -left-8 top-0 bottom-0 w-1 bg-[var(--brand-highlight)] rounded-none hidden lg:block"></div>
+            <p class="text-[1.05rem] text-white/70 lg:text-lg leading-relaxed font-medium max-w-2xl" set:html={description} />
+          </div>
+        </div>
       </div>
     </div>
 
