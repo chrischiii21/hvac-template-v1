@@ -123,11 +123,11 @@ const firstSlideImage = isSlider
             loading={i === 0 ? "eager" : "lazy"}
             fetchpriority={i === 0 ? "high" : "auto"}
             decoding={i === 0 ? "sync" : "async"}
-            widths={[390, 640, 800, 1200, 1920]}
+            widths={[390, 640, 800, 1200, 1600]}
             sizes="(max-width: 768px) 100vw, 100vw"
             inferSize={true}
             format="avif"
-            quality={i === 0 ? 75 : 60}
+            quality={i === 0 ? 60 : 50}
           />
         ) : (
           <img
