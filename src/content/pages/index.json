@@ -25,7 +25,7 @@
       "component": "CouponsSection",
       "props": {
         "title": "Specials and Offers",
-        "backgroundImage": "/images/bg2.jpg",
+        "backgroundImage": "https://johnh967.sg-host.com/wp-content/uploads/2024/11/Quality-HVAC-Service.webp",
         "coupons": [
           { "label": "First-Time Customers", "discount": "$100 OFF", "description": "Air Duct Cleaning for first-time customers only", "buttonText": "GET OFFER" },
           { "label": "Repair Special", "discount": "$150 OFF", "description": "Save $150 on Any Repair. Valid for repairs over $500", "buttonText": "BOOK NOW" },

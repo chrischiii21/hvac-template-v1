@@ -11,11 +11,11 @@ if (!page) throw new Error("index.json not found in src/content/pages/")
 const heroImageSrc = "https://www.superiorcomforthvac.com/wp-content/uploads/2024/05/ac-repair-brownstown-mi.jpg";
 const optimizedHero = await getImage({
   src: heroImageSrc,
-  widths: [390, 640, 800],
+  widths: [390, 640, 800, 1200, 1600],
   sizes: "(max-width: 768px) 100vw, 100vw",
   inferSize: true,
   format: 'avif',
-  quality: 50
+  quality: 60
 });
 ---
 
